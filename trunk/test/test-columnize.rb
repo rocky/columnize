@@ -8,11 +8,13 @@ class TestColumnize < Test::Unit::TestCase
   require File.join(@@TOP_SRC_DIR, 'columnize.rb')
   include Columnize
   
-  # test current_context
+  # test columnize
   def test_basic
     # Try at least one test where we give the module name explicitely.
-    assert_equal("one  two  three\n", 
-                 Columnize::columnize(["one", "two", "three"]))
+    assert_equal("1, 2, 3\n", 
+                 Columnize::columnize([1, 2, 3], 10, ', '))
+    assert_equal("", columnize(5))
+    assert_equal("<empty>\n", columnize([]))
     assert_equal("oneitem\n", columnize(["oneitem"]))
     assert_equal(
 "one    6hree  11o    16e    21ree  26o    31e    36ree  41o    46e    three\n" +

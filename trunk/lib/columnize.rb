@@ -27,47 +27,45 @@
 #  Adapted from the routine of the same name in cmd.py
 
 module Columnize
-  def columnize(list, displaywidth=80)
+
+  # Return a string with embedded newlines (\n) arranging +list+ in 
+  # column-order so that each line is no larger than +displaywidth+.
+  # If +list+ is not an array, the empty string, '', is returned.
+  # +colsep+ contains the string to use to separate entries.
+  def columnize(list, displaywidth=80, colsep = '  ')
     if not list.is_a?(Array)
-      print("Expecting an Array, got #{list.class}\n")
-      return
+      return ''
     end
     if list.size == 0
       return  "<empty>\n"
     end
-    nonstrings = []
-    for str in list do
-      nonstrings << str unless str.is_a?(String)
-    end
-    if nonstrings.size > 0
-      return "Nonstrings: %s\n" % nonstrings.map {|non| non.to_s}.join(', ')
-    end
-    if 1 == list.size
-      return "#{list[0]}\n"
+    l = list.map{|l| l.to_s}
+    if 1 == l.size
+      return "#{l[0]}\n"
     end
     # Consider arranging list in 1 rows total, then 2 rows...
     # Stop when at the smallest number of rows which
     # can be arranged less than the display width.
     nrows = ncols = 0
     colwidths = []
-    1.upto(list.size) do 
+    1.upto(l.size) do 
       colwidths = []
       nrows += 1
       
-      ncols = (list.size + nrows-1) / nrows
-      totwidth = -2
+      ncols = (l.size + nrows-1) / nrows
+      totwidth = -colsep.length
       0.upto(ncols-1) do |col|
         # get max column width for this column
         colwidth = 0
         0.upto(nrows-1) do |row|
           i = row + nrows*col  # [rows, cols]
-          if i >= list.size
+          if i >= l.size
             break
           end
-          colwidth = [colwidth, list[i].size].max
+          colwidth = [colwidth, l[i].size].max
         end
         colwidths << colwidth
-        totwidth += colwidth + 2
+        totwidth += colwidth + colsep.length
         if totwidth > displaywidth
           break
         end
@@ -85,10 +83,10 @@ module Columnize
       texts = []
       0.upto(ncols-1) do |col|
         i = row + nrows*col
-        if i >= list.size
+        if i >= l.size
           x = ""
         else
-          x = list[i]
+          x = l[i]
       end
       texts << x
       end
@@ -98,7 +96,7 @@ module Columnize
       0.upto(texts.size-1) do |col|
         texts[col] = texts[col].ljust(colwidths[col])
       end
-      s += "%s\n" % texts.join("  ")
+      s += "%s\n" % texts.join(colsep)
     end
     return s
   end
@@ -110,7 +108,7 @@ if __FILE__ == $0 or
   puts Columnize::columnize(5)
   include Columnize
   puts columnize([])
-  puts columnize(["a", 2, "c"])
+  puts columnize(["a", 2, "c"], 10, ', ')
   puts columnize(["oneitem"])
   puts columnize(["one", "two", "three"])
   puts columnize([
