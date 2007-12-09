@@ -1,6 +1,10 @@
-= Columnize - Module to print an Array in column-sorted order
+= Columnize - Module to print an Array in column order.
 
 == Summary
+
+  In showing a long lists, sometimes one would prefer to see the 
+  in sorted column order. Some examples include listing methods of an object
+  or debugger commands.
 
   require 'columnize'
   columnize([1, 2, 3])
@@ -19,7 +23,7 @@
 
 == Credits
 
-  This is a port of the module of the same name from the Python distribution.
+  This is adapted from a method of the same name from Python's cmd module.
 
 == Other stuff
 
