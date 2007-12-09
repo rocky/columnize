@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require "test/unit"
 
-# Test of C extension ruby_debug.so
+# Test of Columnize module
 class TestColumnize < Test::Unit::TestCase
   @@TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), 
                             '..', 'lib')
