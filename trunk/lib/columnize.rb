@@ -39,7 +39,7 @@ module Columnize
     if list.size == 0
       return  "<empty>\n"
     end
-    l = list.map{|l| l.to_s}
+    l = list.map{|li| li.to_s}
     if 1 == l.size
       return "#{l[0]}\n"
     end
