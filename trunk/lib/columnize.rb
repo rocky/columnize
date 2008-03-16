@@ -102,8 +102,7 @@ module Columnize
   end
   module_function :columnize
 end
-if __FILE__ == $0 or
-    ($DEBUG and ['rdebug', 'rcov'].include?(File.basename($0)))
+if __FILE__ == $0
   #
   puts Columnize::columnize(5)
   include Columnize
