@@ -1,0 +1,39 @@
+2008-09-22 19:48  rockyb
+
+	* VERSION, lib/columnize.rb: Get rid of hacky $0 test.
+
+2007-12-10 16:25  rockyb
+
+	* : release 0.1
+
+2007-12-09 17:33  rockyb
+
+	* : Fix up doc a little. Make the default rake task "test".
+
+2007-12-09 16:49  rockyb
+
+	* : Doc fix.
+
+2007-12-09 16:47  rockyb
+
+	* : columnize.rb: Allow one to specify a separator string. Remove
+	  restriction that
+	  all entries in the array have to be a string.
+	  test-columnize.rb: more tests - invalid list, empty list, with
+	  separator
+	  string parameter.
+
+2007-12-09 14:51  rockyb
+
+	* : Typo.
+
+2007-12-09 14:48  rockyb
+
+	* : Property changes for Id lines and to make test-columnize.rb
+	  executable.
+
+2007-12-09 14:40  rockyb
+
+	* : Initial release of Columnize, a module to print an Array in
+	  column-sorted order.
+
