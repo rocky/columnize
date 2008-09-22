@@ -1,6 +1,6 @@
 # $Id$
 # 
-#   Copyright (C) 2007 Rocky Bernstein <rockyb@rubyforge.net>
+#   Copyright (C) 2007, 2008 Rocky Bernstein <rockyb@rubyforge.net>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -102,8 +102,7 @@ module Columnize
   end
   module_function :columnize
 end
-if __FILE__ == $0 or
-    ($DEBUG and ['rdebug', 'rcov'].include?(File.basename($0)))
+if __FILE__ == $0 
   #
   puts Columnize::columnize(5)
   include Columnize
