@@ -1,9 +1,0 @@
-0.2
-- Minor - get rid of hacky $0 test
-
-0.1
-
-- Initial release of Columnize, a module to print an Array in
-  column-sorted order
-
-$Id$
