@@ -33,8 +33,8 @@
 
 2007-12-09 14:40  rockyb
 
-	* columnize, ., AUTHORS, COPYING, ChangeLog, NEWS, README,
-	  Rakefile, VERSION, lib, lib/columnize.rb, test,
-	  test/test-columnize.rb: Initial release of Columnize, a module to
-	  print an Array in column-sorted order.
+	* ., AUTHORS, COPYING, ChangeLog, NEWS, README, Rakefile, VERSION,
+	  lib, lib/columnize.rb, test, test/test-columnize.rb: Initial
+	  release of Columnize, a module to print an Array in column-sorted
+	  order.
 
