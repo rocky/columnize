@@ -22,17 +22,30 @@
 #
 # Display a list of strings as a compact set of columns.
 #
-# Each column is only as wide as necessary.
-# By default, columns are separated by two spaces (one was not legible enough).
-# Adapted from the routine of the same name in cmd.py
+#   For example, for a line width of 4 characters (arranged vertically):
+#        ['1', '2,', '3', '4'] => '1  3\n2  4\n'
+#   
+#    or arranged horizontally:
+#        ['1', '2,', '3', '4'] => '1  2\n3  4\n'
+#        
+# Each column is only as wide as necessary.  By default, columns are
+# separated by two spaces (one was not legible enough).  
+
+
+# Adapted from
+# the routine of the same name in cmd.py
 
 module Columnize
 
-  # Return a string with embedded newlines (\n) arranging +list+ in 
+  # Return a string with embedded newlines (\n) arranging +list+ in
   # column-order so that each line is no larger than +displaywidth+.
   # If +list+ is not an array, the empty string, '', is returned.
-  # +colsep+ contains the string to use to separate entries.
-  def columnize(list, displaywidth=80, colsep = '  ')
+  # +colsep+ contains the string to use to separate entries. Normally,
+  # consecutive items go down from the top to bottom from the
+  # left-most column to the right-most. If +arrange_vertical+ is set
+  # false, consecutive items will go across, left to right, top to
+  # bottom.
+  def columnize(list, displaywidth=80, colsep = '  ', arrange_vertical=true)
     if not list.is_a?(Array)
       return ''
     end
@@ -46,19 +59,25 @@ module Columnize
     # Consider arranging list in 1 rows total, then 2 rows...
     # Stop when at the smallest number of rows which
     # can be arranged less than the display width.
-    nrows = ncols = 0
+    nrows = 0; ncols = l.size
+    
+    if arrange_vertical
+      array_index = lambda {|nrows, row, col| nrows*col + row }
+    else
+      array_index = lambda {|nrows, row, col| nrows*row + col }
+    end
+
     colwidths = []
     1.upto(l.size) do 
       colwidths = []
       nrows += 1
-      
-      ncols = (l.size + nrows-1) / nrows
       totwidth = -colsep.length
+      col = 0
       0.upto(ncols-1) do |col|
         # get max column width for this column
         colwidth = 0
         0.upto(nrows-1) do |row|
-          i = row + nrows*col  # [rows, cols]
+          i = array_index.call(nrows, row, col)
           if i >= l.size
             break
           end
@@ -67,6 +86,7 @@ module Columnize
         colwidths << colwidth
         totwidth += colwidth + colsep.length
         if totwidth > displaywidth
+          ncols = col
           break
         end
       end
@@ -82,21 +102,28 @@ module Columnize
     0.upto(nrows-1) do |row| 
       texts = []
       0.upto(ncols-1) do |col|
-        i = row + nrows*col
+        i = array_index.call(nrows, row, col)
         if i >= l.size
-          x = ""
+          if arrange_vertical:
+              x = ""
+          else 
+            break
+          end
         else
           x = l[i]
-      end
-      texts << x
+        end
+        texts << x
       end
       while texts and texts[-1] == ''
-      texts = texts[0..-2]
+        texts = texts[0..-2]
       end
-      0.upto(texts.size-1) do |col|
-        texts[col] = texts[col].ljust(colwidths[col])
+      if texts.size > 0
+        0.upto(texts.size-1) do |col|
+          texts[col] = texts[col].ljust(colwidths[col]) if 
+            colwidths[col]
+        end
+        s += "%s\n" % texts.join(colsep)
       end
-      s += "%s\n" % texts.join(colsep)
     end
     return s
   end
@@ -110,22 +137,16 @@ if __FILE__ == $0
   puts columnize(["a", 2, "c"], 10, ', ')
   puts columnize(["oneitem"])
   puts columnize(["one", "two", "three"])
-  puts columnize([
-                  "one", "two", "three",
-                  "4ne", "5wo", "6hree",
-                  "7ne", "8wo", "9hree",
-                  "10e", "11o", "12ree",
-                  "13e", "14o", "15ree",
-                  "16e", "17o", "18ree",
-                  "19e", "20o", "21ree",
-                  "22e", "23o", "24ree",
-                  "25e", "26o", "27ree",
-                  "28e", "29o", "30ree",
-                  "31e", "32o", "33ree",
-                  "34e", "35o", "36ree",
-                  "37e", "38o", "39ree",
-                  "40e", "41o", "42ree",
-                  "43e", "44o", "45ree",
-                  "46e", "47o", "48ree",
-                  "one", "two", "three"])
+  data = ["one",       "two",         "three",
+          "for",       "five",        "six",
+          "seven",     "eight",       "nine",
+          "ten",       "eleven",      "twelve",
+          "thirteen",  "fourteen",    "fifteen",
+          "sixteen",   "seventeen",   "eightteen",
+          "nineteen",  "twenty",      "twentyone",
+          "twentytwo", "twentythree", "twentyfour",
+          "twentyfive","twentysix",   "twentyseven"]
+  
+  puts columnize(data)
+  puts columnize(data, 80, '  ', false)
 end

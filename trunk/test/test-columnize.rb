@@ -14,32 +14,34 @@ class TestColumnize < Test::Unit::TestCase
     assert_equal("1, 2, 3\n", 
                  Columnize::columnize([1, 2, 3], 10, ', '))
     assert_equal("", columnize(5))
+    assert_equal("1  3\n2  4\n", 
+                 columnize(['1', '2', '3', '4'], 4))
+    assert_equal("1  2\n3  4\n", 
+                 columnize(['1', '2', '3', '4'], 4, '  ', false))
     assert_equal("<empty>\n", columnize([]))
     assert_equal("oneitem\n", columnize(["oneitem"]))
+    data = ["one",       "two",         "three",
+            "for",       "five",        "six",
+            "seven",     "eight",       "nine",
+            "ten",       "eleven",      "twelve",
+            "thirteen",  "fourteen",    "fifteen",
+            "sixteen",   "seventeen",   "eightteen",
+            "nineteen",  "twenty",      "twentyone",
+            "twentytwo", "twentythree", "twentyfour",
+            "twentyfive","twentysix",   "twentyseven"]
+
+     assert_equal(
+ "one         two        three        for        five         six       \n" +
+ "seven       eight      nine         ten        eleven       twelve    \n" +
+ "thirteen    fourteen   fifteen      sixteen    seventeen    eightteen \n" +
+ "nineteen    twenty     twentyone    twentytwo  twentythree  twentyfour\n" +
+ "twentyfive  twentysix  twentyseven\n", columnize(data, 80, '  ', false))
+
     assert_equal(
-"one    6hree  11o    16e    21ree  26o    31e    36ree  41o    46e    three\n" +
-"two    7ne    12ree  17o    22e    27ree  32o    37e    42ree  47o  \n" +
-"three  8wo    13e    18ree  23o    28e    33ree  38o    43e    48ree\n" +
-"4ne    9hree  14o    19e    24ree  29o    34e    39ree  44o    one  \n" +
-"5wo    10e    15ree  20o    25e    30ree  35o    40e    45ree  two  \n",
-                 columnize([
-                            "one", "two", "three",
-                            "4ne", "5wo", "6hree",
-                            "7ne", "8wo", "9hree",
-                            "10e", "11o", "12ree",
-                            "13e", "14o", "15ree",
-                            "16e", "17o", "18ree",
-                            "19e", "20o", "21ree",
-                            "22e", "23o", "24ree",
-                            "25e", "26o", "27ree",
-                            "28e", "29o", "30ree",
-                            "31e", "32o", "33ree",
-                            "34e", "35o", "36ree",
-                            "37e", "38o", "39ree",
-                            "40e", "41o", "42ree",
-                            "43e", "44o", "45ree",
-                            "46e", "47o", "48ree",
-                            "one", "two", "three"]))
+"one    five   nine    thirteen  seventeen  twentyone    twentyfive \n" +
+"two    six    ten     fourteen  eightteen  twentytwo    twentysix  \n" +
+"three  seven  eleven  fifteen   nineteen   twentythree  twentyseven\n" +
+"for    eight  twelve  sixteen   twenty     twentyfour \n", columnize(data))
 
   end
 end
