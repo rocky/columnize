@@ -1,3 +1,21 @@
+2009-01-01 03:55  rockyb
+
+	* ChangeLog: Get ready for release 0.2
+
+2009-01-01 03:52  rockyb
+
+	* ChangeLog, NEWS, VERSION, lib/columnize.rb,
+	  test/test-columnize.rb: Get ready for release 0.2
+
+2008-03-16 21:14  rockyb
+
+	* lib/columnize.rb: *** empty log message ***
+
+2008-03-16 21:13  rockyb
+
+	* lib/columnize.rb: Simplify __FILE__ == $0. (rdebug now changes $0
+	  and rcov has an option)
+
 2008-02-11 19:25  rockyb
 
 	* lib/columnize.rb: Remove 1.9's shadow warning
