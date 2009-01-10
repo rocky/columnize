@@ -1,3 +1,16 @@
+2009-01-08 09:27  rockyb
+
+	* ChangeLog, NEWS, VERSION, lib/columnize.rb,
+	  test/test-columnize.rb: Fix bad bug in arranging horizontally
+
+2009-01-01 04:15  rockyb
+
+	* NEWS: Merge NEWS
+
+2009-01-01 03:59  rockyb
+
+	* NEWS, VERSION: Ooops 0.2 release done. Go for 0.2.1
+
 2009-01-01 03:55  rockyb
 
 	* ChangeLog: Get ready for release 0.2
