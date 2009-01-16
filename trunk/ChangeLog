@@ -1,3 +1,7 @@
+2009-01-10 19:02  rockyb
+
+	* ChangeLog, NEWS: Get ready for release
+
 2009-01-08 09:27  rockyb
 
 	* ChangeLog, NEWS, VERSION, lib/columnize.rb,
