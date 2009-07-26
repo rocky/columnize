@@ -1,3 +1,9 @@
+0.3.1  (01-07-26) 
+
+- Correct for Ruby 1.9 (Mark Mosely)
+
+- add optional lineprefix parameter
+
 0.3.0  (01-10-09) - Sam Woodward Release
 
 - Fix bad bug in arranging horizontally

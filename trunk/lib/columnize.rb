@@ -54,7 +54,7 @@ module Columnize
   # will go across, left to right, top to bottom.
 
   def columnize(list, displaywidth=80, colsep = '  ', 
-                arrange_vertical=true, ljust=true)
+                arrange_vertical=true, ljust=true, lineprefix='')
 
     # Some degenerate cases
     if not list.is_a?(Array)
@@ -70,6 +70,7 @@ module Columnize
 
     nrows = ncols = 0  # Make nrows, ncols have more global scope
     colwidths = []     # Same for colwidths
+    displaywidth = [4, displaywidth - lineprefix.length].max
     if arrange_vertical
       array_index = lambda {|nrows, row, col| nrows*col + row }
       # Try every row count from 1 upwards
@@ -132,7 +133,7 @@ module Columnize
                 texts[col] = texts[col].rjust(colwidths[col])
             end
           end
-          s += "%s\n" % texts.join(colsep)
+          s += "%s%s\n" % [lineprefix, texts.join(colsep)]
         end
       end
       return s
@@ -205,7 +206,7 @@ module Columnize
             texts[col] = texts[col].rjust(colwidths[col])
           end
         end
-        s += "%s\n" % texts.join(colsep)
+        s += "%s%s\n" % [lineprefix, texts.join(colsep)]
       end
       return s
     end
