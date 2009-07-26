@@ -73,15 +73,18 @@ module Columnize
     if arrange_vertical
       array_index = lambda {|nrows, row, col| nrows*col + row }
       # Try every row count from 1 upwards
-      1.upto(l.size-1) do |nrows|
+      1.upto(l.size-1) do |_nrows|
+        nrows = _nrows
         ncols = (l.size + nrows-1) / nrows
         colwidths = []
         totwidth = -colsep.length
 
-        0.upto(ncols-1) do |col|
+        0.upto(ncols-1) do |_col|
+          col = _col
           # get max column width for this column
           colwidth = 0
-          0.upto(nrows-1) do |row|
+          0.upto(nrows-1) do |_row|
+            row = _row
             i = array_index.call(nrows, row, col)
             if i >= l.size
               break
@@ -104,9 +107,11 @@ module Columnize
       # Now we just have to format each of the
       # rows.
       s = ''
-      0.upto(nrows-1) do |row| 
+      0.upto(nrows-1) do |_row| 
+        row = _row
         texts = []
-        0.upto(ncols-1) do |col|
+        0.upto(ncols-1) do |_col|
+          col = _col
           i = array_index.call(nrows, row, col)
           if i >= l.size
             x = ""
@@ -119,7 +124,8 @@ module Columnize
           texts = texts[0..-2]
         end
         if texts.size > 0
-          0.upto(texts.size-1) do |col|
+          0.upto(texts.size-1) do |_col|
+            col = _col
             if ljust
                 texts[col] = texts[col].ljust(colwidths[col])
             else
@@ -135,17 +141,21 @@ module Columnize
       # Try every column count from size downwards
       # Assign to make enlarge scope of loop variables 
       totwidth = i = rounded_size = 0  
-      l.size.downto(0) do |ncols|
+      l.size.downto(0) do |_ncols|
+        ncols = _ncols
         # Try every row count from 1 upwards
         min_rows = (l.size+ncols-1) / ncols
-        min_rows.upto(l.size) do |nrows|
+        min_rows.upto(l.size) do |_nrows|
+          nrows = _nrows
           rounded_size = nrows * ncols
           colwidths = []
           totwidth = -colsep.length
           colwidth = row = 0
-          0.upto(ncols-1) do |col|
+          0.upto(ncols-1) do |_col|
+            col = _col
             # get max column width for this column
-            1.upto(nrows) do |row|
+            1.upto(nrows) do |_row|
+              row = _row
               i = array_index.call(nrows, row, col)
               if i >= rounded_size 
                 break
