@@ -37,7 +37,7 @@
 
 module Columnize
 
-  # Return a list of strings with embeeded newlines (\n) as a compact
+  # Return a list of strings with embedded newlines (\n) as a compact
   # set of columns arranged horizontally or vertically.
   #
   # For example, for a line width of 4 characters (arranged vertically):
