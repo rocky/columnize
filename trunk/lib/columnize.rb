@@ -72,7 +72,7 @@ module Columnize
     colwidths = []     # Same for colwidths
     displaywidth = [4, displaywidth - lineprefix.length].max
     if arrange_vertical
-      array_index = lambda {|nrows, row, col| nrows*col + row }
+      array_index = lambda {|num_rows, row, col| num_rows*col + row }
       # Try every row count from 1 upwards
       1.upto(l.size-1) do |_nrows|
         nrows = _nrows
@@ -138,7 +138,7 @@ module Columnize
       end
       return s
     else
-      array_index = lambda {|nrows, row, col| ncols*(row-1) + col }
+      array_index = lambda {|num_rows, row, col| ncols*(row-1) + col }
       # Try every column count from size downwards
       # Assign to make enlarge scope of loop variables 
       totwidth = i = rounded_size = 0  
