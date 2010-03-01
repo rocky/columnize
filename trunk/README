@@ -1,10 +1,10 @@
-= Columnize - Module to print an Array in column order.
+= Columnize - Module to show an Array in aligned in columns. 
 
 == Summary
 
-  In showing a long lists, sometimes one would prefer to see the 
-  in sorted column order. Some examples include listing methods of an object
-  or debugger commands.
+  In showing a long lists, sometimes one would prefer to see the value
+  arranged aligned in columns. Some examples include listing methods
+  of an object or debugger commands.
 
   require 'columnize'
   columnize([1, 2, 3])
