@@ -1,6 +1,5 @@
 #!/usr/bin/env rake
 # -*- Ruby -*-
-require 'rake'
 require 'rake/rdoctask'
 require 'rake/testtask'
 require 'fileutils'
