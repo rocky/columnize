@@ -1,6 +1,14 @@
+0.3.2  
+
+- Mostly Administrivia. 
+  * Add .gemspec, correct description field and add a summary. 
+  * Add Columnize::VERSION 
+  * Simplify Rakefile
+  * Add stub Makefiles
+
 0.3.1  (01-07-26) 
 
-- Correct for Ruby 1.9 (Mark Mosely)
+- Correct for Ruby 1.9 (Mark Moseley)
 
 - add optional lineprefix parameter
 
