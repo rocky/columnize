@@ -16,9 +16,11 @@ end
 desc "Build the gem"
 task :package=>:gem
 task :gem=>:gemspec do
-  sh "gem build .gemspec"
-  FileUtils.mkdir_p 'pkg'
-  FileUtils.mv "#{gemspec.name}-#{gemspec.version}.gem", 'pkg'
+  Dir.chdir(ROOT_DIR) do
+    sh "gem build .gemspec"
+    FileUtils.mkdir_p 'pkg'
+    FileUtils.mv "#{gemspec.name}-#{gemspec.version}.gem", 'pkg'
+  end
 end
 
 desc "Install the gem locally"
