@@ -1,5 +1,3 @@
-# $Id$
-# 
 #   Copyright (C) 2007, 2008, 2009, 2010 Rocky Bernstein <rockyb@rubyforge.net>
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -20,6 +18,10 @@
 
 # Author::    Rocky Bernstein  (mailto:rockyb@rubyforge.net)
 #
+# = Columnize
+# Module to format an Array as an Array of String aligned in columns.
+#
+# == SYNOPSIS
 # Display a list of strings as a compact set of columns.
 #
 #   For example, for a line width of 4 characters (arranged vertically):

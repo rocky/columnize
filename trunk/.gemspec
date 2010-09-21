@@ -53,9 +53,6 @@ require "columnize"
   spec.has_rdoc     = true
   spec.extra_rdoc_files = %w(README lib/columnize.rb COPYING)
 
-  # Show source inline with line numbers
-  spec.rdoc_options += %w(--inline-source --line-numbers)
-
   # Make the readme file the start page for the generated html
   spec.rdoc_options += %w(--main README)
   spec.rdoc_options += ['--title', "Columnize #{Columnize::VERSION} Documentation"]

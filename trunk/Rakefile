@@ -1,9 +1,10 @@
 #!/usr/bin/env rake
 # -*- Ruby -*-
+require 'rubygems'
+require 'rake/gempackagetask'
 require 'rake/rdoctask'
 require 'rake/testtask'
 require 'fileutils'
-require 'rubygems'
 
 ROOT_DIR = File.dirname(__FILE__)
 require File.join(ROOT_DIR, '/lib/version')
@@ -22,7 +23,9 @@ end
 
 desc "Install the gem locally"
 task :install => :gem do
-  sh %{gem install --local pkg/#{gemspec.name}-#{gemspec.version}}
+  Dir.chdir(ROOT_DIR) do
+    sh %{gem install --local pkg/#{gemspec.name}-#{gemspec.version}}
+  end
 end
 
 desc "Test everything."
@@ -34,12 +37,12 @@ test_task = task :test => :lib do
   end
 end
 
-desc "Test everything - same as test."
+desc "same as test"
 task :check => :test
 
 desc "Create a GNU-style ChangeLog via svn2cl"
 task :ChangeLog do
-  system("svn2cl")
+  system("svn2cl --authors=svn2cl_usermap")
 end
 
 task :default => [:test]
@@ -63,14 +66,13 @@ Rake::RDocTask.new("rdoc") do |rdoc|
   rdoc.rdoc_dir = 'doc'
   rdoc.title    = "Columnize #{Columnize::VERSION} Documentation"
 
-  # Show source inline with line numbers
-  rdoc.options += %w(--inline-source --line-numbers)
-
   # Make the README file the start page for the generated html
   rdoc.options += %w(--main README)
 
   rdoc.rdoc_files.include('lib/*.rb', 'README', 'COPYING')
 end
+desc "Same as rdoc"
+task :doc => :rdoc
 
 task :clobber_package do
   FileUtils.rm_rf File.join(ROOT_DIR, 'pkg')
