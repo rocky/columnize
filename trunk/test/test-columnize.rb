@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require "test/unit"
+require 'test/unit'
 
 # Test of Columnize module
 class TestColumnize < Test::Unit::TestCase

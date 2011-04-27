@@ -1,4 +1,5 @@
-#   Copyright (C) 2007, 2008, 2009, 2010 Rocky Bernstein <rockyb@rubyforge.net>
+#   Copyright (C) 2007, 2008, 2009, 2010, 2011 Rocky Bernstein
+#   <rockyb@rubyforge.net>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -39,6 +40,29 @@
 
 module Columnize
 
+  DEFAULT_OPTS = {
+    :displaywidth      => 80,
+    :colsep            => '  ',
+    :ljust             => true,
+    :lineprefix        => '',
+    :arrange_vertical  => true
+  }
+
+  module_function
+  def parse_columnize_options(args)
+    list = args.shift
+    if 1 == args.size && args[0].kind_of?(Hash)
+      return list, DEFAULT_OPTS.merge(args[0])
+    else      
+      opts = DEFAULT_OPTS.dup
+      %w(displaywidth colsep arrange_vertical ljust lineprefix).each do |field|
+        break if args.empty?
+        opts[field.to_sym] = args.shift
+      end
+      return list, opts
+    end
+  end
+
   # Return a list of strings with embedded newlines (\n) as a compact
   # set of columns arranged horizontally or vertically.
   #
@@ -55,9 +79,9 @@ module Columnize
   # columns. If +arrange_vertical+ is set false, consecutive items
   # will go across, left to right, top to bottom.
 
-  def columnize(list, displaywidth=80, colsep = '  ', 
-                arrange_vertical=true, ljust=true, lineprefix='')
+  def columnize(*args)
 
+    list, opts = parse_columnize_options(args)
     # Some degenerate cases
     if not list.is_a?(Array)
       return ''
@@ -72,15 +96,15 @@ module Columnize
 
     nrows = ncols = 0  # Make nrows, ncols have more global scope
     colwidths = []     # Same for colwidths
-    displaywidth = [4, displaywidth - lineprefix.length].max
-    if arrange_vertical
+    opts[:displaywidth] = [4, opts[:displaywidth] - opts[:lineprefix].length].max
+    if opts[:arrange_vertical]
       array_index = lambda {|num_rows, row, col| num_rows*col + row }
       # Try every row count from 1 upwards
       1.upto(l.size-1) do |_nrows|
         nrows = _nrows
         ncols = (l.size + nrows-1) / nrows
         colwidths = []
-        totwidth = -colsep.length
+        totwidth = -opts[:colsep].length
 
         0.upto(ncols-1) do |_col|
           col = _col
@@ -95,13 +119,13 @@ module Columnize
             colwidth = [colwidth, l[i].size].max
           end
           colwidths << colwidth
-          totwidth += colwidth + colsep.length
-          if totwidth > displaywidth
+          totwidth += colwidth + opts[:colsep].length
+          if totwidth > opts[:displaywidth]
             ncols = col
             break
           end
         end
-        if totwidth <= displaywidth
+        if totwidth <= opts[:displaywidth]
           break
         end
       end
@@ -129,13 +153,13 @@ module Columnize
         if texts.size > 0
           0.upto(texts.size-1) do |_col|
             col = _col
-            if ljust
+            if opts[:ljust]
                 texts[col] = texts[col].ljust(colwidths[col])
             else
                 texts[col] = texts[col].rjust(colwidths[col])
             end
           end
-          s += "%s%s\n" % [lineprefix, texts.join(colsep)]
+          s += "%s%s\n" % [opts[:lineprefix], texts.join(opts[:colsep])]
         end
       end
       return s
@@ -152,7 +176,7 @@ module Columnize
           nrows = _nrows
           rounded_size = nrows * ncols
           colwidths = []
-          totwidth = -colsep.length
+          totwidth = -opts[:colsep].length
           colwidth = row = 0
           0.upto(ncols-1) do |_col|
             col = _col
@@ -167,21 +191,21 @@ module Columnize
               end
             end
             colwidths << colwidth
-            totwidth += colwidth + colsep.length
-            if totwidth > displaywidth
+            totwidth += colwidth + opts[:colsep].length
+            if totwidth > opts[:displaywidth]
               break
             end
           end
-          if totwidth <= displaywidth
+          if totwidth <= opts[:displaywidth]
             # Found the right nrows and ncols
             nrows  = row
             break
-          elsif totwidth >= displaywidth
+          elsif totwidth >= opts[:displaywidth]
             # Need to reduce ncols
             break
           end
         end
-        if totwidth <= displaywidth and i >= rounded_size-1
+        if totwidth <= opts[:displaywidth] and i >= rounded_size-1
             break
         end
       end
@@ -202,18 +226,17 @@ module Columnize
           texts << x
         end
         0.upto(texts.size-1) do |col|
-          if ljust
+          if opts[:ljust]
             texts[col] = texts[col].ljust(colwidths[col])
           else
             texts[col] = texts[col].rjust(colwidths[col])
           end
         end
-        s += "%s%s\n" % [lineprefix, texts.join(colsep)]
+        s += "%s%s\n" % [opts[:lineprefix], texts.join(opts[:colsep])]
       end
       return s
     end
   end
-  module_function :columnize
 end
 if __FILE__ == $0
   #
