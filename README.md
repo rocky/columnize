@@ -6,6 +6,7 @@
   arranged aligned in columns. Some examples include listing methods
   of an object or debugger commands.
 
+```
   require 'columnize'
   columnize([1, 2, 3])
    1 2 3 
@@ -19,7 +20,7 @@
    5  12  19  26  33  40  47  54  61  68  75  82  89  96
    6  13  20  27  34  41  48  55  62  69  76  83  90  97
    7  14  21  28  35  42  49  56  63  70  77  84  91  98
-
+```
 
 ## Credits
 
@@ -28,7 +29,7 @@
 ## Other stuff
 
 Author::   Rocky Bernstein <rockyb@rubyforge.net>
-License::  Copyright (c) 2007 Rocky Bernstein
+License::  Copyright (c) 2007, 2011 Rocky Bernstein
            Released under the GNU GPL 2 license
 
 ## Warranty
