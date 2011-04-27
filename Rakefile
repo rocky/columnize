@@ -68,9 +68,9 @@ Rake::RDocTask.new("rdoc") do |rdoc|
   rdoc.title    = "Columnize #{Columnize::VERSION} Documentation"
 
   # Make the README file the start page for the generated html
-  rdoc.options += %w(--main README)
+  rdoc.options += %w(--main README.md)
 
-  rdoc.rdoc_files.include('lib/*.rb', 'README', 'COPYING')
+  rdoc.rdoc_files.include('lib/*.rb', 'README.md', 'COPYING')
 end
 desc "Same as rdoc"
 task :doc => :rdoc

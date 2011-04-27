@@ -1,6 +1,6 @@
-= Columnize - Module to show an Array formatted as a String aligned in columns. 
+# Columnize - Module to show an Array formatted as a String aligned in columns. 
 
-== Summary
+## Summary
 
   In showing a long lists, sometimes one would prefer to see the value
   arranged aligned in columns. Some examples include listing methods
@@ -21,17 +21,17 @@
    7  14  21  28  35  42  49  56  63  70  77  84  91  98
 
 
-== Credits
+## Credits
 
   This is adapted from a method of the same name from Python's cmd module.
 
-== Other stuff
+## Other stuff
 
 Author::   Rocky Bernstein <rockyb@rubyforge.net>
 License::  Copyright (c) 2007 Rocky Bernstein
            Released under the GNU GPL 2 license
 
-== Warranty
+## Warranty
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
