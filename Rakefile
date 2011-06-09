@@ -41,15 +41,23 @@ task :test => :lib
 desc "same as test"
 task :check => :test
 
-desc "Create a GNU-style ChangeLog via svn2cl"
+desc 'Create a GNU-style ChangeLog via git2cl'
 task :ChangeLog do
-  system("svn2cl --authors=svn2cl_usermap")
+  system('git log --pretty --numstat --summary | git2cl > ChangeLog')
 end
 
 task :default => [:test]
 
+task :clobber_rdoc do
+  FileUtils.rm_rf File.join(ROOT_DIR, 'doc')
+end
+
+task :rm_patch_residue do
+  FileUtils.rm_rf FileList['**/*.{rej,orig}'].to_a
+end
+
 desc "Remove built files"
-task :clean => [:clobber_package, :clobber_rdoc]
+task :clean => [:clobber_package, :clobber_rdoc, :rm_patch_residue]
 
 desc "Generate the gemspec"
 task :generate do

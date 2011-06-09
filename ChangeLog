@@ -1,141 +1,278 @@
-2010-09-22 16:55  Rocky Bernstein
+2011-04-27  r <rocky@gnu.org>
 
-	* Makefile, Rakefile: Rakefile: Remove bad test task
-	  Makefile: simplify.
+	* README.md: Fix code example.
 
-2010-09-21 04:42  Rocky Bernstein
+2011-04-27  r <rocky@gnu.org>
 
-	* Makefile, Rakefile: Makefile was a little off
+	* .gemspec, README, README.md, Rakefile: README->README.md
 
-2010-09-21 00:49  Rocky Bernstein
+2011-04-27  r <rocky@gnu.org>
 
-	* .gemspec, Rakefile, lib/columnize.rb: Small changes to Rakefile
-	  and rdoc and so on.
+	* .gemspec, AUTHORS, COPYING, ChangeLog, Makefile, NEWS, README,
+	Rakefile, lib/Makefile, lib/columnize.rb, lib/version.rb,
+	tags/release-0.2.1/AUTHORS, tags/release-0.2.1/COPYING,
+	tags/release-0.2.1/ChangeLog, tags/release-0.2.1/NEWS,
+	tags/release-0.2.1/README, tags/release-0.2.1/Rakefile,
+	tags/release-0.2.1/VERSION, tags/release-0.2.1/lib/columnize.rb,
+	tags/release-0.2.1/test/test-columnize.rb,
+	tags/release-0.3.0/AUTHORS, tags/release-0.3.0/COPYING,
+	tags/release-0.3.0/ChangeLog, tags/release-0.3.0/NEWS,
+	tags/release-0.3.0/README, tags/release-0.3.0/Rakefile,
+	tags/release-0.3.0/VERSION, tags/release-0.3.0/lib/columnize.rb,
+	tags/release-0.3.0/test/test-columnize.rb,
+	tags/release-0.3.1/AUTHORS, tags/release-0.3.1/COPYING,
+	tags/release-0.3.1/ChangeLog, tags/release-0.3.1/NEWS,
+	tags/release-0.3.1/README, tags/release-0.3.1/Rakefile,
+	tags/release-0.3.1/VERSION, tags/release-0.3.1/lib/columnize.rb,
+	tags/release-0.3.1/test/test-columnize.rb, test/test-columnize.rb,
+	test/test-hashparm.rb, trunk/.gemspec, trunk/AUTHORS,
+	trunk/COPYING, trunk/ChangeLog, trunk/Makefile, trunk/NEWS,
+	trunk/README, trunk/Rakefile, trunk/lib/Makefile,
+	trunk/lib/columnize.rb, trunk/lib/version.rb,
+	trunk/test/test-columnize.rb, trunk/test/test-hashparm.rb: Remove
+	trunk and tags.
 
-2010-09-20 22:30  Rocky Bernstein
+2011-04-27  rockyb <rockyb>
 
-	* .gemspec, Rakefile: Forgot to add .gemspec
+	* trunk/ChangeLog, trunk/lib/columnize.rb, trunk/lib/version.rb,
+	trunk/test/test-columnize.rb, trunk/test/test-hashparm.rb: Redo
+	columnize options processing to allow for a single hash of options
+	instead of the numerous optional arguments. This make future
+	expansion easier.
 
-2010-09-20 16:27  Rocky Bernstein
+2010-09-22  rockyb <rockyb>
 
-	* ChangeLog, Makefile, NEWS, README, Rakefile, VERSION,
-	  lib/Makefile, lib/columnize.rb, lib/version.rb: Add .gemspec,
-	  correct description field and add a summary.
-	  Add Columnize::VERSION
-	  Simplify Rakefile
-	  Add stub Makefiles
+	* trunk/Makefile, trunk/Rakefile: Rakefile: Remove bad test task
+	Makefile: simplify.
 
-2010-03-01 02:00  Rocky Bernstein
+2010-09-21  rockyb <rockyb>
 
-	* README: Better README description
+	* trunk/Makefile, trunk/Rakefile: Makefile was a little off
 
-2010-03-01 01:58  Rocky Bernstein
+2010-09-21  rockyb <rockyb>
 
-	* README: Update README
+	* trunk/.gemspec, trunk/Rakefile, trunk/lib/columnize.rb: Small
+	changes to Rakefile and rdoc and so on.
 
-2010-02-22 17:11  Rocky Bernstein
+2010-09-20  rockyb <rockyb>
 
-	* ChangeLog, VERSION, lib/columnize.rb: Remove shadow variable
-	  warnings. Bump version number
+	* trunk/.gemspec, trunk/Rakefile: Forgot to add .gemspec
 
-2009-07-26 23:24  Rocky Bernstein
+2010-09-20  rockyb <rockyb>
 
-	* lib/columnize.rb: Small comment spelling typo.
+	* trunk/ChangeLog, trunk/Makefile, trunk/NEWS, trunk/README,
+	trunk/Rakefile, trunk/VERSION, trunk/lib/Makefile,
+	trunk/lib/columnize.rb, trunk/lib/version.rb: Add .gemspec, correct
+	description field and add a summary. Add Columnize::VERSION Simplify
+	Rakefile Add stub Makefiles
 
-2009-07-26 23:16  Rocky Bernstein
+2010-03-01  rockyb <rockyb>
 
-	* ChangeLog: Get ready for 0.3.1 release
+	* trunk/README: Better README description
 
-2009-07-26 23:13  Rocky Bernstein
+2010-03-01  rockyb <rockyb>
 
-	* NEWS, lib/columnize.rb, test/test-columnize.rb: Add lineprefix.
-	  Get ready for release.
+	* trunk/README: Update README
 
-2009-07-26 21:59  mark-moseley
+2010-02-22  rockyb <rockyb>
 
-	* ChangeLog, lib/columnize.rb: Ruby 1.9 updates
+	* trunk/ChangeLog, trunk/VERSION, trunk/lib/columnize.rb: Remove
+	shadow variable warnings. Bump version number
 
-2009-03-30 08:54  Rocky Bernstein
+2009-07-26  rockyb <rockyb>
 
-	* Rakefile: Revise for 1.9 version of rake
+	* tags/release-0.3.1/AUTHORS, tags/release-0.3.1/COPYING,
+	tags/release-0.3.1/ChangeLog, tags/release-0.3.1/NEWS,
+	tags/release-0.3.1/README, tags/release-0.3.1/Rakefile,
+	tags/release-0.3.1/VERSION, tags/release-0.3.1/lib/columnize.rb,
+	tags/release-0.3.1/test/test-columnize.rb: Release 0.3.1
 
-2009-01-16 18:32  Rocky Bernstein
+2009-07-26  rockyb <rockyb>
 
-	* ChangeLog, Rakefile, VERSION: package readme was wonky. Looks
-	  like no one reads this stuff.
+	* trunk/lib/columnize.rb: Small comment spelling typo.
 
-2009-01-10 19:02  Rocky Bernstein
+2009-07-26  rockyb <rockyb>
 
-	* ChangeLog, NEWS: Get ready for release
+	* trunk/ChangeLog: Get ready for 0.3.1 release
 
-2009-01-08 09:27  Rocky Bernstein
+2009-07-26  rockyb <rockyb>
 
-	* ChangeLog, NEWS, VERSION, lib/columnize.rb,
-	  test/test-columnize.rb: Fix bad bug in arranging horizontally
+	* trunk/NEWS, trunk/lib/columnize.rb, trunk/test/test-columnize.rb: 
+	Add lineprefix. Get ready for release.
 
-2009-01-01 04:15  Rocky Bernstein
+2009-07-26  mark-moseley <mark-moseley>
 
-	* NEWS: Merge NEWS
+	* trunk/ChangeLog, trunk/lib/columnize.rb: Ruby 1.9 updates
 
-2009-01-01 03:59  Rocky Bernstein
+2009-03-30  rockyb <rockyb>
 
-	* NEWS, VERSION: Ooops 0.2 release done. Go for 0.2.1
+	* trunk/Rakefile: Revise for 1.9 version of rake
 
-2009-01-01 03:55  Rocky Bernstein
+2009-01-16  rockyb <rockyb>
 
-	* ChangeLog: Get ready for release 0.2
+	* trunk/ChangeLog, trunk/Rakefile, trunk/VERSION: package readme was
+	wonky. Looks like no one reads this stuff.
 
-2009-01-01 03:52  Rocky Bernstein
+2009-01-10  rockyb <rockyb>
 
-	* ChangeLog, NEWS, VERSION, lib/columnize.rb,
-	  test/test-columnize.rb: Get ready for release 0.2
+	* tags/release-0.3.0/AUTHORS, tags/release-0.3.0/COPYING,
+	tags/release-0.3.0/ChangeLog, tags/release-0.3.0/NEWS,
+	tags/release-0.3.0/README, tags/release-0.3.0/Rakefile,
+	tags/release-0.3.0/VERSION, tags/release-0.3.0/lib/columnize.rb,
+	tags/release-0.3.0/test/test-columnize.rb: Release 0.3.0
 
-2008-03-16 21:14  Rocky Bernstein
+2009-01-10  rockyb <rockyb>
 
-	* lib/columnize.rb: *** empty log message ***
+	* trunk/ChangeLog, trunk/NEWS: Get ready for release
 
-2008-03-16 21:13  Rocky Bernstein
+2009-01-08  rockyb <rockyb>
 
-	* lib/columnize.rb: Simplify __FILE__ == $0. (rdebug now changes $0
-	  and rcov has an option)
+	* trunk/ChangeLog, trunk/NEWS, trunk/VERSION,
+	trunk/lib/columnize.rb, trunk/test/test-columnize.rb: Fix bad bug in
+	arranging horizontally
 
-2008-02-11 19:25  Rocky Bernstein
+2009-01-01  rockyb <rockyb>
 
-	* lib/columnize.rb: Remove 1.9's shadow warning
+	* columnize/trunk/AUTHORS, columnize/trunk/COPYING,
+	columnize/trunk/ChangeLog, columnize/trunk/NEWS,
+	columnize/trunk/README, columnize/trunk/Rakefile,
+	columnize/trunk/VERSION, columnize/trunk/lib/columnize.rb,
+	columnize/trunk/test/test-columnize.rb: Remove hacky
+	columnize/columnize
 
-2007-12-09 17:33  Rocky Bernstein
+2009-01-01  rockyb <rockyb>
 
-	* README, Rakefile: Fix up doc a little. Make the default rake task
-	  "test".
+	* tags/columnize-0.2/AUTHORS, tags/columnize-0.2/COPYING,
+	tags/columnize-0.2/ChangeLog, tags/columnize-0.2/NEWS,
+	tags/columnize-0.2/README, tags/columnize-0.2/Rakefile,
+	tags/columnize-0.2/VERSION, tags/columnize-0.2/lib/columnize.rb,
+	tags/columnize-0.2/test/test-columnize.rb: Regularize tags names
+	better
 
-2007-12-09 16:49  Rocky Bernstein
+2009-01-01  rockyb <rockyb>
 
-	* lib/columnize.rb: Doc fix.
+	* tags/release-0.2.1/AUTHORS, tags/release-0.2.1/COPYING,
+	tags/release-0.2.1/ChangeLog, tags/release-0.2.1/NEWS,
+	tags/release-0.2.1/README, tags/release-0.2.1/Rakefile,
+	tags/release-0.2.1/VERSION, tags/release-0.2.1/lib/columnize.rb,
+	tags/release-0.2.1/test/test-columnize.rb: Release 0.2.1
 
-2007-12-09 16:47  Rocky Bernstein
+2009-01-01  rockyb <rockyb>
 
-	* ChangeLog, lib/columnize.rb, test/test-columnize.rb:
-	  columnize.rb: Allow one to specify a separator string. Remove
-	  restriction that
-	  all entries in the array have to be a string.
-	  test-columnize.rb: more tests - invalid list, empty list, with
-	  separator
-	  string parameter.
+	* trunk/NEWS: Merge NEWS
 
-2007-12-09 14:51  Rocky Bernstein
+2009-01-01  rockyb <rockyb>
 
-	* test/test-columnize.rb: Typo.
+	* columnize/tags/columnize-0.2/AUTHORS,
+	columnize/tags/columnize-0.2/COPYING,
+	columnize/tags/columnize-0.2/ChangeLog,
+	columnize/tags/columnize-0.2/NEWS,
+	columnize/tags/columnize-0.2/README,
+	columnize/tags/columnize-0.2/Rakefile,
+	columnize/tags/columnize-0.2/VERSION,
+	columnize/tags/columnize-0.2/lib/columnize.rb,
+	columnize/tags/columnize-0.2/test/test-columnize.rb,
+	tags/columnize-0.2/AUTHORS, tags/columnize-0.2/COPYING,
+	tags/columnize-0.2/ChangeLog, tags/columnize-0.2/NEWS,
+	tags/columnize-0.2/README, tags/columnize-0.2/Rakefile,
+	tags/columnize-0.2/VERSION, tags/columnize-0.2/lib/columnize.rb,
+	tags/columnize-0.2/test/test-columnize.rb: Cleanup of
+	columnize/columnize crap
 
-2007-12-09 14:48  Rocky Bernstein
+2009-01-01  rockyb <rockyb>
 
-	* ., NEWS, README, lib/columnize.rb, test/test-columnize.rb:
-	  Property changes for Id lines and to make test-columnize.rb
-	  executable.
+	* : Add directory for releases
 
-2007-12-09 14:40  Rocky Bernstein
+2009-01-01  rockyb <rockyb>
 
-	* ., AUTHORS, COPYING, ChangeLog, NEWS, README, Rakefile, VERSION,
-	  lib, lib/columnize.rb, test, test/test-columnize.rb: Initial
-	  release of Columnize, a module to print an Array in column-sorted
-	  order.
+	* trunk/NEWS, trunk/VERSION: Ooops 0.2 release done. Go for 0.2.1
+
+2009-01-01  rockyb <rockyb>
+
+	* trunk/ChangeLog: Get ready for release 0.2
+
+2009-01-01  rockyb <rockyb>
+
+	* trunk/ChangeLog, trunk/NEWS, trunk/VERSION,
+	trunk/lib/columnize.rb, trunk/test/test-columnize.rb: Get ready for
+	release 0.2
+
+2008-09-22  rockyb <rockyb>
+
+	* columnize/tags/columnize-0.2/AUTHORS,
+	columnize/tags/columnize-0.2/COPYING,
+	columnize/tags/columnize-0.2/ChangeLog,
+	columnize/tags/columnize-0.2/NEWS,
+	columnize/tags/columnize-0.2/README,
+	columnize/tags/columnize-0.2/Rakefile,
+	columnize/tags/columnize-0.2/VERSION,
+	columnize/tags/columnize-0.2/lib/columnize.rb,
+	columnize/tags/columnize-0.2/test/test-columnize.rb: Tag 0.2
+	release.
+
+2008-09-22  rockyb <rockyb>
+
+	* : Add tags directory for release
+
+2008-09-22  rockyb <rockyb>
+
+	* columnize/trunk/ChangeLog, columnize/trunk/NEWS: Add directory for
+	tagging releases. Other Administrivia.
+
+2008-09-22  rockyb <rockyb>
+
+	* columnize/trunk/VERSION, columnize/trunk/lib/columnize.rb: Get rid
+	of hacky $0 test.
+
+2008-03-16  rockyb <rockyb>
+
+	* trunk/lib/columnize.rb: [no log message]
+
+2008-03-16  rockyb <rockyb>
+
+	* trunk/lib/columnize.rb: Simplify __FILE__ == $0. (rdebug now
+	changes $0 and rcov has an option)
+
+2008-02-11  rockyb <rockyb>
+
+	* trunk/lib/columnize.rb: Remove 1.9's shadow warning
+
+2007-12-10  rockyb <rockyb>
+
+	* columnize/trunk/AUTHORS, columnize/trunk/COPYING,
+	columnize/trunk/ChangeLog, columnize/trunk/NEWS,
+	columnize/trunk/README, columnize/trunk/Rakefile,
+	columnize/trunk/VERSION, columnize/trunk/lib/columnize.rb,
+	columnize/trunk/test/test-columnize.rb: release 0.1
+
+2007-12-09  rockyb <rockyb>
+
+	* trunk/README, trunk/Rakefile: Fix up doc a little. Make the
+	default rake task "test".
+
+2007-12-09  rockyb <rockyb>
+
+	* trunk/lib/columnize.rb: Doc fix.
+
+2007-12-09  rockyb <rockyb>
+
+	* trunk/ChangeLog, trunk/lib/columnize.rb,
+	trunk/test/test-columnize.rb: columnize.rb: Allow one to specify a
+	separator string. Remove restriction that all entries in the array
+	have to be a string. test-columnize.rb: more tests - invalid list,
+	empty list, with separator   string parameter.
+
+2007-12-09  rockyb <rockyb>
+
+	* trunk/test/test-columnize.rb: Typo.
+
+2007-12-09  rockyb <rockyb>
+
+	* : Property changes for Id lines and to make test-columnize.rb
+	executable.
+
+2007-12-09  rockyb <rockyb>
+
+	* Initial release of Columnize, a module to print an Array in
+	column-sorted order.
 
