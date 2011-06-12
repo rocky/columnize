@@ -1,3 +1,3 @@
 module Columnize
-  VERSION = '0.3.3dev'
+  VERSION = '0.3.3'
 end

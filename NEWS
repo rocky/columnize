@@ -1,4 +1,4 @@
-0.3.3
+0.3.3 June 12, 2011 Fleetwood release
 
 - More general but simpler inteface using an options
   hash. Compatibility is maintaind though.

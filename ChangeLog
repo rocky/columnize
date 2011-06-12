@@ -1,3 +1,7 @@
+2011-06-09  rocky <rockyb@rubyforge.org>
+
+	* ChangeLog, NEWS, Rakefile: Get ready for new release.
+
 2011-04-27  r <rocky@gnu.org>
 
 	* README.md: Fix code example.
