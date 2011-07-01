@@ -1,20 +1,9 @@
 #   Copyright (C) 2007, 2008, 2009, 2010, 2011 Rocky Bernstein
 #   <rockyb@rubyforge.net>
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# All rights reserved.  You can redistribute and/or modify it under
+# the same terms as Ruby.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program; if not, write to the Free Software
-#    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-#    02110-1301 USA.
 #
 
 # Author::    Rocky Bernstein  (mailto:rockyb@rubyforge.net)
@@ -32,8 +21,12 @@
 #        ['1', '2,', '3', '4'] => '1  2\n3  4\n'
 #        
 # Each column is only as wide as necessary.  By default, columns are
-# separated by two spaces (one was not legible enough).  
-
+# separated by two spaces. Options are avalable for setting
+#   * the display width
+#   * the column separator
+#   * the line prefix
+#   * whether to ignore terminal codes in text size calculation
+#   * whether to left justify text instead of right justify
 
 # Adapted from
 # the routine of the same name in cmd.py
@@ -44,6 +37,7 @@ module Columnize
     :displaywidth      => 80,
     :colsep            => '  ',
     :ljust             => true,
+    :term_adjust       => false,
     :lineprefix        => '',
     :arrange_vertical  => true
   }
@@ -61,6 +55,14 @@ module Columnize
       end
       return list, opts
     end
+  end
+
+  def cell_size(cell, term_adjust)
+    if term_adjust
+      cell.gsub(/\e\[.*?m/, '')
+    else
+      cell
+    end.size
   end
 
   # Return a list of strings with embedded newlines (\n) as a compact
@@ -116,7 +118,7 @@ module Columnize
             if i >= l.size
               break
             end
-            colwidth = [colwidth, l[i].size].max
+            colwidth = [colwidth, cell_size(l[i], opts[:term_adjust])].max
           end
           colwidths << colwidth
           totwidth += colwidth + opts[:colsep].length
@@ -141,7 +143,7 @@ module Columnize
           col = _col
           i = array_index.call(nrows, row, col)
           if i >= l.size
-            x = ""
+            x = ''
           else
             x = l[i]
           end

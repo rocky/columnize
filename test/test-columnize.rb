@@ -8,6 +8,13 @@ class TestColumnize < Test::Unit::TestCase
   require File.join(@@TOP_SRC_DIR, 'columnize.rb')
   include Columnize
   
+  def test_cell_size
+    assert_equal(3, cell_size('abc', false))
+    assert_equal(3, cell_size('abc', true))
+    assert_equal(6, cell_size("\e[0;31mObject\e[0;4m", true))
+    assert_equal(19, cell_size("\e[0;31mObject\e[0;4m", false))
+  end
+
   # test columnize
   def test_basic
     # Try at least one test where we give the module name explicitely.
