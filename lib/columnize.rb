@@ -34,15 +34,24 @@
 module Columnize
 
   DEFAULT_OPTS = {
-    :displaywidth      => 80,
+    :arrange_vertical  => true,
     :colsep            => '  ',
-    :ljust             => true,
-    :term_adjust       => false,
+    :displaywidth      => 80,
     :lineprefix        => '',
-    :arrange_vertical  => true
+    :ljust             => true,
+    :term_adjust       => false
   }
 
   module_function
+
+  # Options parsing routine for Columnize::columnize. In the preferred
+  # newer style, +args+ is either a hash where each key is one of the option
+  # names: 
+  #  * displaywidth
+  #  * colsep
+  #  * ljust
+  #  * lineprefix
+  #  * arrange_vertical
   def parse_columnize_options(args)
     list = args.shift
     if 1 == args.size && args[0].kind_of?(Hash)
