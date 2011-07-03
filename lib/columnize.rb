@@ -49,7 +49,8 @@ module Columnize
       return list, DEFAULT_OPTS.merge(args[0])
     else      
       opts = DEFAULT_OPTS.dup
-      %w(displaywidth colsep arrange_vertical ljust lineprefix).each do |field|
+      %w(displaywidth colsep arrange_vertical ljust lineprefix term_adjust
+        ).each do |field|
         break if args.empty?
         opts[field.to_sym] = args.shift
       end
@@ -189,7 +190,7 @@ module Columnize
               if i >= rounded_size 
                 break
               elsif i < l.size
-                colwidth = [colwidth, l[i].size].max
+                colwidth = [colwidth, cell_size(l[i], opts[:term_adjust])].max
               end
             end
             colwidths << colwidth

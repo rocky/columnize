@@ -6,19 +6,6 @@ require 'rubygems' unless
 require File.dirname(__FILE__) + "/lib/version" unless 
   Object.const_defined?(:'Columnize')
 
-FILES = FileList[
-  'AUTHORS',
-  'COPYING',
-  'ChangeLog',
-  'Makefile',                 
-  'NEWS',
-  'README.md',
-  'Rakefile',
-  'lib/*.rb',
-  'lib/Makefile',
-  'test/*.rb'
-]                        
-
 Gem::Specification.new do |spec|
   spec.authors      = ['R. Bernstein']
   spec.date         = Time.now
@@ -28,8 +15,11 @@ arranged aligned in columns. Some examples include listing methods
 of an object or debugger commands. 
 
 An Example:
+```
 require "columnize"
-  print columnize((1..100).to_a.map{|x| "%2d" % x}, 60)
+  columnize([1, 2, 3])
+   1 2 3 
+   print columnize((1..100).to_a.map{|x| "%2d" % x}, 60)
 
    1   8  15  22  29  36  43  50  57  64  71  78  85  92  99 
    2   9  16  23  30  37  44  51  58  65  72  79  86  93  100
@@ -38,12 +28,13 @@ require "columnize"
    5  12  19  26  33  40  47  54  61  68  75  82  89  96
    6  13  20  27  34  41  48  55  62  69  76  83  90  97
    7  14  21  28  35  42  49  56  63  70  77  84  91  98
+```
 '
   spec.email        = 'rockyb@rubyforge.net'
-  spec.files        = FILES.to_a  
-  spec.homepage     = 'http://rubyforge.org/projects/rocky-hacks/columnize'
+  spec.files        = `git ls-files`.split("\n")
+  spec.homepage     = 'https://github.com/rocky/columnize'
   spec.name         = 'columnize'
-  spec.license      = 'GPL2'
+  spec.licenses     = ['Ruby', 'GPL2']
   spec.platform     = Gem::Platform::RUBY
   spec.require_path = 'lib'
   spec.required_ruby_version = '>= 1.8.2'

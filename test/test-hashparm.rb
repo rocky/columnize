@@ -17,6 +17,21 @@ class TestHashFormat < Test::Unit::TestCase
     assert_equal 70, opts[:displaywidth]
     assert_equal '|', opts[:colsep]
   end
+
+  def test_new_hash
+    list, opts = parse_columnize_options([[], {:displaywidth => 40,
+                                          :colsep => ', ',
+                                          :term_adjust => true,
+                                          }])
+    [[:displaywidth, 40], [:colsep, ', '], [:term_adjust, true]].each do 
+       |field, value|
+       assert_equal(value , opts[field])
+     end
+    list, opts = parse_columnize_options([[], {:displaywidth => 40,
+                                          :colsep => ', ',
+                                          }])
+    assert_equal(false , opts[:term_adjust])
+  end
   
   def basic
     opts = {:xxx => 10, :yyy => ', '}

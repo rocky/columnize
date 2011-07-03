@@ -1,3 +1,8 @@
+0.3.4 July 4, 2011 
+
+- Change to Ruby License
+- Add option 'term_adjust' to ignore terminal sequences in text
+
 0.3.3 June 12, 2011 Fleetwood release
 
 - More general but simpler inteface using an options
