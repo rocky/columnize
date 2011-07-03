@@ -10,14 +10,15 @@ ROOT_DIR = File.dirname(__FILE__)
 require File.join(ROOT_DIR, '/lib/version')
 
 def gemspec
-  @gemspec ||= eval(File.read('.gemspec'), binding, '.gemspec')
+  @gemspec ||= eval(File.read('columnize.gemspec'), 
+                    binding, 'columnize.gemspec')
 end
 
 desc "Build the gem"
 task :package=>:gem
 task :gem=>:gemspec do
   Dir.chdir(ROOT_DIR) do
-    sh "gem build .gemspec"
+    sh "gem build columnize.gemspec"
     FileUtils.mkdir_p 'pkg'
     FileUtils.mv "#{gemspec.name}-#{gemspec.version}.gem", 'pkg'
   end

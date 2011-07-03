@@ -22,11 +22,11 @@
 #        
 # Each column is only as wide as necessary.  By default, columns are
 # separated by two spaces. Options are avalable for setting
-#   * the display width
-#   * the column separator
-#   * the line prefix
-#   * whether to ignore terminal codes in text size calculation
-#   * whether to left justify text instead of right justify
+# * the display width
+# * the column separator
+# * the line prefix
+# * whether to ignore terminal codes in text size calculation
+# * whether to left justify text instead of right justify
 
 # Adapted from
 # the routine of the same name in cmd.py
@@ -47,18 +47,23 @@ module Columnize
   # Options parsing routine for Columnize::columnize. In the preferred
   # newer style, +args+ is either a hash where each key is one of the option
   # names: 
-  #  * displaywidth
-  #  * colsep
-  #  * ljust
-  #  * lineprefix
-  #  * arrange_vertical
+  #
+  # [arrange_vertical] Arrange list vertically rather than horizontally. This is the default
+  # [colsep] String used to separate columns
+  # [displaywidth] Maximum width of each line
+  # [ljust] Boolean: Left-justify fields in a column? The default is +true+.
+  # [lineprefix] String: string to prepend to each line. The default is ''.
+  # 
+  # In the older style positional arguments are used and the positions
+  # are in the order: +displaywidth+, +colsep+, +arrange_vertical+,
+  # +ljust+, and +lineprefix+.
   def parse_columnize_options(args)
     list = args.shift
     if 1 == args.size && args[0].kind_of?(Hash)
       return list, DEFAULT_OPTS.merge(args[0])
     else      
       opts = DEFAULT_OPTS.dup
-      %w(displaywidth colsep arrange_vertical ljust lineprefix term_adjust
+      %w(displaywidth colsep arrange_vertical ljust lineprefix
         ).each do |field|
         break if args.empty?
         opts[field.to_sym] = args.shift
@@ -67,6 +72,8 @@ module Columnize
     end
   end
 
+  # Return the length of String +cell+. If Boolean +term_adjust+ is true,
+  # ignore terminal sequences in +cell+.
   def cell_size(cell, term_adjust)
     if term_adjust
       cell.gsub(/\e\[.*?m/, '')
