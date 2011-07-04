@@ -1,17 +1,8 @@
-#   Copyright (C) 2007, 2008, 2009, 2010, 2011 Rocky Bernstein
-#   <rockyb@rubyforge.net>
-#
-# All rights reserved.  You can redistribute and/or modify it under
-# the same terms as Ruby.
-#
-#
-
-# Author::    Rocky Bernstein  (mailto:rockyb@rubyforge.net)
-#
-# = Columnize
 # Module to format an Array as an Array of String aligned in columns.
 #
-# == SYNOPSIS
+# :main:README.md
+#
+# == Summary
 # Display a list of strings as a compact set of columns.
 #
 #   For example, for a line width of 4 characters (arranged vertically):
@@ -27,14 +18,26 @@
 # * the line prefix
 # * whether to ignore terminal codes in text size calculation
 # * whether to left justify text instead of right justify
-
-# Adapted from
-# the routine of the same name in cmd.py
+#
+# == License 
+#
+# Columnize is copyright (C) 2007, 2008, 2009, 2010, 2011 Rocky Bernstein
+# <rockyb@rubyforge.net>
+#
+# All rights reserved.  You can redistribute and/or modify it under
+# the same terms as Ruby.
+#
+# Adapted from the routine of the same name in Python +cmd.py+.
 
 module Columnize
 
+  # When an option is not specified for the below keys, these
+  # are the defaults.
   DEFAULT_OPTS = {
+    :arrange_array     => false,
     :arrange_vertical  => true,
+    :array_prefix      => false,
+    :array_suffix      => '',
     :colsep            => '  ',
     :displaywidth      => 80,
     :lineprefix        => '',
@@ -60,7 +63,15 @@ module Columnize
   def parse_columnize_options(args)
     list = args.shift
     if 1 == args.size && args[0].kind_of?(Hash)
-      return list, DEFAULT_OPTS.merge(args[0])
+      opts = DEFAULT_OPTS.merge(args[0])
+      if opts[:arrange_array]
+        opts[:array_prefix] = '['
+        opts[:lineprefix]   = ' '
+        opts[:array_suffix] = "]\n"
+        opts[:colsep]       = ', '
+        opts[:arrange_vertical] = false
+      end
+      return list, opts
     else      
       opts = DEFAULT_OPTS.dup
       %w(displaywidth colsep arrange_vertical ljust lineprefix
@@ -115,7 +126,8 @@ module Columnize
 
     nrows = ncols = 0  # Make nrows, ncols have more global scope
     colwidths = []     # Same for colwidths
-    opts[:displaywidth] = [4, opts[:displaywidth] - opts[:lineprefix].length].max
+    opts[:displaywidth] = [4, 
+                           opts[:displaywidth] - opts[:lineprefix].length].max
     if opts[:arrange_vertical]
       array_index = lambda {|num_rows, row, col| num_rows*col + row }
       # Try every row count from 1 upwards
@@ -233,6 +245,7 @@ module Columnize
       # Now we just have to format each of the
       # rows.
       s = ''
+      prefix = opts[:array_prefix] || opts[:lineprefix]
       1.upto(nrows) do |row| 
         texts = []
         0.upto(ncols-1) do |col|
@@ -251,8 +264,10 @@ module Columnize
             texts[col] = texts[col].rjust(colwidths[col])
           end
         end
-        s += "%s%s\n" % [opts[:lineprefix], texts.join(opts[:colsep])]
+        s += "%s%s\n" % [prefix, texts.join(opts[:colsep])]
+        prefix = opts[:lineprefix]
       end
+      s += opts[:array_suffix]
       return s
     end
   end
