@@ -41,7 +41,7 @@ module Columnize
     :colsep            => '  ',
     :displaywidth      => 80,
     :lineprefix        => '',
-    :ljust             => true,
+    :ljust             => :auto,
     :term_adjust       => false
   }
 
@@ -54,7 +54,8 @@ module Columnize
   # [arrange_vertical] Arrange list vertically rather than horizontally. This is the default
   # [colsep] String used to separate columns
   # [displaywidth] Maximum width of each line
-  # [ljust] Boolean: Left-justify fields in a column? The default is +true+.
+  # [ljust] Boolean or +:auto+: Left-justify fields in a column? The default is +true+. If
+  # the :auto, then right-justify if every element of the data is a kind of Numeric.
   # [lineprefix] String: string to prepend to each line. The default is ''.
   # 
   # In the older style positional arguments are used and the positions
@@ -71,6 +72,8 @@ module Columnize
         opts[:colsep]       = ', '
         opts[:arrange_vertical] = false
       end
+      opts[:ljust] = not(list.all?{|datum| datum.kind_of?(Numeric)}) if 
+        opts[:ljust] == :auto
       return list, opts
     else      
       opts = DEFAULT_OPTS.dup

@@ -2,6 +2,9 @@
 
 - Change to Ruby License
 - Add option 'term_adjust' to ignore terminal sequences in text
+- Add :ljust => :auto to decide whether or not to automatically
+  left or right justify. When passing a hash parameter, the default
+  is :auto.
 
 0.3.3 June 12, 2011 Fleetwood release
 
@@ -38,5 +41,3 @@
 
 - Initial release of Columnize, a module to print an Array in
   column-sorted order
-
-$Id$

@@ -18,6 +18,17 @@ class TestHashFormat < Test::Unit::TestCase
     assert_equal '|', opts[:colsep]
   end
 
+  def test_parse_columnize_ljust
+    list, opts = parse_columnize_options([[1.5, 2, 3], :ljust => :auto])
+    assert_equal false, opts[:ljust]
+    list, opts = parse_columnize_options([[1.5, 2, 3], :ljust => false])
+    assert_equal false, opts[:ljust]
+    list, opts = parse_columnize_options([[1.5, 2, 3], :ljust => true])
+    assert_equal true, opts[:ljust]
+    list, opts = parse_columnize_options([[1, 2, 'b'], :ljust => :auto])
+    assert_equal true, opts[:ljust]
+  end
+
   def test_new_hash
     list, opts = parse_columnize_options([[], {:displaywidth => 40,
                                           :colsep => ', ',
@@ -37,7 +48,7 @@ class TestHashFormat < Test::Unit::TestCase
   end
   
   def test_array
-    data = (0..54).map{|i| i.to_s}
+    data = (0..54).to_a
     assert_equal(
             "[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9\n" +
             " 10, 11, 12, 13, 14, 15, 16, 17, 18, 19\n" +
@@ -48,6 +59,21 @@ class TestHashFormat < Test::Unit::TestCase
              "]\n",
             columnize(data, 
                       :arrange_array => true, :ljust => false,
+                      :displaywidth  => 39))
+  end
+
+  def test_justify
+    data = (0..54).to_a
+    assert_equal(
+            "[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9\n" +
+            " 10, 11, 12, 13, 14, 15, 16, 17, 18, 19\n" +
+            " 20, 21, 22, 23, 24, 25, 26, 27, 28, 29\n" +
+            " 30, 31, 32, 33, 34, 35, 36, 37, 38, 39\n" +
+            " 40, 41, 42, 43, 44, 45, 46, 47, 48, 49\n" +
+            " 50, 51, 52, 53, 54\n" + 
+             "]\n",
+            columnize(data, 
+                      :arrange_array => true,
                       :displaywidth  => 39))
   end
 
