@@ -1,7 +1,5 @@
 # Module to format an Array as an Array of String aligned in columns.
 #
-# :main:README.md
-#
 # == Summary
 # Display a list of strings as a compact set of columns.
 #
