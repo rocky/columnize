@@ -72,7 +72,7 @@ module Columnize
         opts[:colsep]       = ', '
         opts[:arrange_vertical] = false
       end
-      opts[:ljust] = not(list.all?{|datum| datum.kind_of?(Numeric)}) if 
+      opts[:ljust] = !(list.all?{|datum| datum.kind_of?(Numeric)}) if 
         opts[:ljust] == :auto
       return list, opts
     else      

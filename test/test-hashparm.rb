@@ -19,13 +19,13 @@ class TestHashFormat < Test::Unit::TestCase
   end
 
   def test_parse_columnize_ljust
-    list, opts = parse_columnize_options([[1.5, 2, 3], :ljust => :auto])
+    list, opts = parse_columnize_options([[1.5, 2, 3], {:ljust => :auto}])
     assert_equal false, opts[:ljust]
-    list, opts = parse_columnize_options([[1.5, 2, 3], :ljust => false])
+    list, opts = parse_columnize_options([[1.5, 2, 3], {:ljust => false}])
     assert_equal false, opts[:ljust]
-    list, opts = parse_columnize_options([[1.5, 2, 3], :ljust => true])
+    list, opts = parse_columnize_options([[1.5, 2, 3], {:ljust => true}])
     assert_equal true, opts[:ljust]
-    list, opts = parse_columnize_options([[1, 2, 'b'], :ljust => :auto])
+    list, opts = parse_columnize_options([[1, 2, 'b'], {:ljust => :auto}])
     assert_equal true, opts[:ljust]
   end
 
