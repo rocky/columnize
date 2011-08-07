@@ -42,7 +42,7 @@ require "columnize"
   spec.summary      = 'Module to format an Array as an Array of String aligned in columns'
   spec.version      = Columnize::VERSION
   spec.has_rdoc     = true
-  spec.extra_rdoc_files = %w(README lib/columnize.rb COPYING)
+  spec.extra_rdoc_files = %w(README.md lib/columnize.rb COPYING)
 
   # Make the readme file the start page for the generated html
   spec.rdoc_options += %w(--verbose --main README)
