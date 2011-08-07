@@ -34,7 +34,7 @@ module Columnize
   DEFAULT_OPTS = {
     :arrange_array     => false,
     :arrange_vertical  => true,
-    :array_prefix      => false,
+    :array_prefix      => '',
     :array_suffix      => '',
     :colsep            => '  ',
     :displaywidth      => 80,
@@ -113,17 +113,13 @@ module Columnize
   def columnize(*args)
 
     list, opts = parse_columnize_options(args)
+
     # Some degenerate cases
-    if not list.is_a?(Array)
-      return ''
-    end
-    if list.size == 0
-      return  "<empty>\n"
-    end
+    return '' if not list.is_a?(Array)
+    return  "<empty>\n" if list.empty?
     l = list.map{|li| li.to_s}
-    if 1 == l.size
-      return "#{l[0]}\n"
-    end
+    return "%s%s%s%s\n" % [opts[:array_prefix], opts[:lineprefix],
+                           l[0], opts[:array_suffix]] if 1 == l.size
 
     nrows = ncols = 0  # Make nrows, ncols have more global scope
     colwidths = []     # Same for colwidths
@@ -141,8 +137,7 @@ module Columnize
         colwidths = []
         totwidth = -opts[:colsep].length
 
-        0.upto(ncols-1) do |_col|
-          col = _col
+        0.upto(ncols-1) do |col|
           # get max column width for this column
           colwidth = 0
           0.upto(nrows-1) do |_row|
@@ -160,16 +155,14 @@ module Columnize
         end
         break if totwidth <= opts[:displaywidth]
       end
-      # The smallest number of rows computed and the
-      # max widths for each column has been obtained.
-      # Now we just have to format each of the
-      # rows.
+      # The smallest number of rows computed and the max widths for
+      # each column has been obtained.  Now we just have to format
+      # each of the rows.
       s = ''
       0.upto(nrows-1) do |_row| 
         row = _row
         texts = []
-        0.upto(ncols-1) do |_col|
-          col = _col
+        0.upto(ncols-1) do |col|
           i = array_index.call(nrows, row, col)
           if i >= l.size
             x = ''
@@ -180,8 +173,7 @@ module Columnize
         end
         texts.pop while !texts.empty? and texts[-1] == ''
         if texts.size > 0
-          0.upto(texts.size-1) do |_col|
-            col = _col
+          0.upto(texts.size-1) do |col|
             if opts[:ljust]
                 texts[col] = texts[col].ljust(colwidths[col])
             else
@@ -194,9 +186,9 @@ module Columnize
       return s
     else
       array_index = lambda {|num_rows, row, col| ncols*(row-1) + col }
-      # Try every column count from size downwards
-      # Assign to make enlarge scope of loop variables 
+      # Assign to make enlarge scope of loop variables.
       totwidth = i = rounded_size = 0  
+      # Try every column count from size downwards.
       l.size.downto(0) do |_ncols|
         ncols = _ncols
         # Try every row count from 1 upwards
@@ -207,8 +199,7 @@ module Columnize
           colwidths = []
           totwidth = -opts[:colsep].length
           colwidth = row = 0
-          0.upto(ncols-1) do |_col|
-            col = _col
+          0.upto(ncols-1) do |col|
             # get max column width for this column
             1.upto(nrows) do |_row|
               row = _row
@@ -221,9 +212,7 @@ module Columnize
             end
             colwidths.push(colwidth)
             totwidth += colwidth + opts[:colsep].length
-            if totwidth > opts[:displaywidth]
-              break
-            end
+            break if totwidth > opts[:displaywidth];
           end
           if totwidth <= opts[:displaywidth]
             # Found the right nrows and ncols
@@ -234,16 +223,17 @@ module Columnize
             break
           end
         end
-        if totwidth <= opts[:displaywidth] and i >= rounded_size-1
-            break
-        end
+        break if totwidth <= opts[:displaywidth] and i >= rounded_size-1
       end
-      # The smallest number of rows computed and the
-      # max widths for each column has been obtained.
-      # Now we just have to format each of the
-      # rows.
+      # The smallest number of rows computed and the max widths for
+      # each column has been obtained.  Now we just have to format
+      # each of the rows.
       s = ''
-      prefix = opts[:array_prefix] || opts[:lineprefix]
+      prefix = if opts[:array_prefix].empty?
+                 opts[:lineprefix] 
+               else 
+                 opts[:array_prefix]
+               end
       1.upto(nrows) do |row| 
         texts = []
         0.upto(ncols-1) do |col|
