@@ -118,8 +118,8 @@ module Columnize
     return '' if not list.is_a?(Array)
     return  "<empty>\n" if list.empty?
     l = list.map{|li| li.to_s}
-    return "%s%s%s%s\n" % [opts[:array_prefix], opts[:lineprefix],
-                           l[0], opts[:array_suffix]] if 1 == l.size
+    return "%s%s%s\n" % [opts[:array_prefix], l[0], 
+                         opts[:array_suffix]] if 1 == l.size
 
     nrows = ncols = 0  # Make nrows, ncols have more global scope
     colwidths = []     # Same for colwidths
@@ -268,7 +268,7 @@ if __FILE__ == $0
   puts cell_size(line, true);
   puts cell_size(line, false);
 
-  [[4, 4], [4, 7], [100, 180]].each do |width, num|
+  [[4, 4], [4, 7], [100, 80]].each do |width, num|
     data = (1..num).map{|i| i}
     [[false, 'horizontal'], [true, 'vertical']].each do |bool, dir|
       puts "Width: #{width}, direction: #{dir}"
