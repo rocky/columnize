@@ -1,4 +1,4 @@
-Columnize - format an Array as a Column-aligned String
+Columnize - Format an Array as a Column-aligned String
 ============================================================================
 
 In showing a long lists, sometimes one would prefer to see the value
@@ -67,7 +67,8 @@ Credits
 
 This is adapted from a method of the same name from Python's cmd module.
 
-== Other stuff
+Other stuff
+-----------
 
 Author:   Rocky Bernstein <rocky@cpan.org>
 
