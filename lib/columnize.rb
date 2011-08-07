@@ -127,8 +127,11 @@ module Columnize
 
     nrows = ncols = 0  # Make nrows, ncols have more global scope
     colwidths = []     # Same for colwidths
-    opts[:displaywidth] = [4, 
-                           opts[:displaywidth] - opts[:lineprefix].length].max
+    if opts[:displaywidth] - opts[:lineprefix].length < 4
+      opts[:displaywidth] = opts[:lineprefix].length + 4
+    else
+      opts[:displaywidth] -= opts[:lineprefix].length
+    end
     if opts[:arrange_vertical]
       array_index = lambda {|num_rows, row, col| num_rows*col + row }
       # Try every row count from 1 upwards
@@ -145,21 +148,17 @@ module Columnize
           0.upto(nrows-1) do |_row|
             row = _row
             i = array_index.call(nrows, row, col)
-            if i >= l.size
-              break
-            end
+            break if i >= l.size
             colwidth = [colwidth, cell_size(l[i], opts[:term_adjust])].max
           end
-          colwidths << colwidth
+          colwidths.push(colwidth)
           totwidth += colwidth + opts[:colsep].length
           if totwidth > opts[:displaywidth]
             ncols = col
             break
           end
         end
-        if totwidth <= opts[:displaywidth]
-          break
-        end
+        break if totwidth <= opts[:displaywidth]
       end
       # The smallest number of rows computed and the
       # max widths for each column has been obtained.
@@ -177,11 +176,9 @@ module Columnize
           else
             x = l[i]
           end
-          texts << x
+          texts.push(x)
         end
-        while texts and texts[-1] == ''
-          texts = texts[0..-2]
-        end
+        texts.pop while !texts.empty? and texts[-1] == ''
         if texts.size > 0
           0.upto(texts.size-1) do |_col|
             col = _col
@@ -222,7 +219,7 @@ module Columnize
                 colwidth = [colwidth, cell_size(l[i], opts[:term_adjust])].max
               end
             end
-            colwidths << colwidth
+            colwidths.push(colwidth)
             totwidth += colwidth + opts[:colsep].length
             if totwidth > opts[:displaywidth]
               break
@@ -256,7 +253,7 @@ module Columnize
           else
             x = l[i]
           end
-          texts << x
+          texts.push(x)
         end
         0.upto(texts.size-1) do |col|
           if opts[:ljust]
