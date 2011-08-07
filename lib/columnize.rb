@@ -264,11 +264,16 @@ if __FILE__ == $0
   #
   include Columnize
   
-  [[4, 4], [4, 7], [100, 80]].each do |width, num|
-    data = (1..num).map{|i| i.to_s}
+  line = 'require [1;29m"[0m[1;37mirb[0m[1;29m"[0m';
+  puts cell_size(line, true);
+  puts cell_size(line, false);
+
+  [[4, 4], [4, 7], [100, 180]].each do |width, num|
+    data = (1..num).map{|i| i}
     [[false, 'horizontal'], [true, 'vertical']].each do |bool, dir|
       puts "Width: #{width}, direction: #{dir}"
-      print columnize(data, width, '  ', arrange_vertical=bool)
+      print columnize(data, :displaywidth => width, :colsep => '  ', 
+                      :arrange_vertical => bool, :ljust => :auto)
       end
   end
 
