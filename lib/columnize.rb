@@ -204,11 +204,8 @@ module Columnize
             1.upto(nrows) do |_row|
               row = _row
               i = array_index.call(nrows, row, col)
-              if i >= rounded_size 
-                break
-              elsif i < l.size
-                colwidth = [colwidth, cell_size(l[i], opts[:term_adjust])].max
-              end
+              break if i >= l.size
+              colwidth = [colwidth, cell_size(l[i], opts[:term_adjust])].max
             end
             colwidths.push(colwidth)
             totwidth += colwidth + opts[:colsep].length
@@ -279,7 +276,7 @@ if __FILE__ == $0
 
   puts Columnize::columnize(5)
   puts columnize([])
-  puts columnize(["a", 2, "c"], 10, ', ')
+  puts columnize(["a", 2, "c"], :displaywidth =>10, :colsep => ', ')
   puts columnize(["oneitem"])
   puts columnize(["one", "two", "three"])
   data = ["one",       "two",         "three",

@@ -48,7 +48,7 @@ With String data
     mourning
     => nil
 
-    >> puts columnize g, {:displaywidth => 18, :colsep => ' | '}
+    >> puts columnize g, {:displaywidth => 19, :colsep => ' | '}
     bibrons  | suras
     golden   | tokay
     madascar
@@ -57,10 +57,11 @@ With String data
     => nil
 
     >> puts columnize g, {:displaywidth => 18, :colsep => ' | ', :ljust=>false}
-    bibrons | suras
-    golden  | tokay
-    madascar
-    leopard
+
+    bibrons  | mourning
+    golden   | suras   
+    madascar | tokay   
+    leopard 
 
 Credits
 -------
