@@ -71,7 +71,7 @@ This is adapted from a method of the same name from Python's cmd module.
 Other stuff
 -----------
 
-Author:   Rocky Bernstein <rocky@cpan.org>
+Author:   Rocky Bernstein <rockyb@rubyforge.org>
 
 License:  Copyright (c) 2011 Rocky Bernstein
 
