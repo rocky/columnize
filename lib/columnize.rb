@@ -189,7 +189,7 @@ module Columnize
       # Assign to make enlarge scope of loop variables.
       totwidth = i = rounded_size = 0  
       # Try every column count from size downwards.
-      l.size.downto(0) do |_ncols|
+      l.size.downto(1) do |_ncols|
         ncols = _ncols
         # Try every row count from 1 upwards
         min_rows = (l.size+ncols-1) / ncols
@@ -222,6 +222,7 @@ module Columnize
         end
         break if totwidth <= opts[:displaywidth] and i >= rounded_size-1
       end
+      nrows = l.size if ncols == 1
       # The smallest number of rows computed and the max widths for
       # each column has been obtained.  Now we just have to format
       # each of the rows.
@@ -244,7 +245,7 @@ module Columnize
         end
         0.upto(texts.size-1) do |col|
           if opts[:ljust]
-            texts[col] = texts[col].ljust(colwidths[col])
+            texts[col] = texts[col].ljust(colwidths[col]) if ncols != 1
           else
             texts[col] = texts[col].rjust(colwidths[col])
           end
