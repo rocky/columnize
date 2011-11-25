@@ -14,5 +14,24 @@ class TestIssue3 < Test::Unit::TestCase
     assert_equal("what's\nupppppppppppppppppp\n", 
                  Columnize::columnize(data, :arrange_vertical => false,
                                       :displaywidth => 7))
+    assert_equal("what's\nupppppppppppppppppp\n", 
+                 Columnize::columnize(data, :arrange_vertical => true,
+                                      :displaywidth => 7))
+    data = ["whaaaaaat's", "up"]
+    assert_equal("whaaaaaat's\n         up\n",
+                 Columnize::columnize(data, 
+                                      :arrange_vertical => false,
+                                      :ljust => false,
+                                      :displaywidth => 7))
+    assert_equal("whaaaaaat's\nup\n",
+                 Columnize::columnize(data, 
+                                      :arrange_vertical => false,
+                                      :ljust => true,
+                                      :displaywidth => 7))
+    assert_equal("whaaaaaat's\nup\n",
+                 Columnize::columnize(data, 
+                                      :arrange_vertical => true,
+                                      :ljust => true,
+                                      :displaywidth => 7))
   end
 end

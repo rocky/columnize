@@ -155,6 +155,8 @@ module Columnize
         end
         break if totwidth <= opts[:displaywidth]
       end
+      ncols = 1 if ncols < 1
+      nrows = l.size if ncols == 1
       # The smallest number of rows computed and the max widths for
       # each column has been obtained.  Now we just have to format
       # each of the rows.
@@ -174,10 +176,12 @@ module Columnize
         texts.pop while !texts.empty? and texts[-1] == ''
         if texts.size > 0
           0.upto(texts.size-1) do |col|
-            if opts[:ljust]
+            unless ncols == 1 && opts[:ljust]
+              if opts[:ljust]
                 texts[col] = texts[col].ljust(colwidths[col])
-            else
+              else
                 texts[col] = texts[col].rjust(colwidths[col])
+              end
             end
           end
           s += "%s%s\n" % [opts[:lineprefix], texts.join(opts[:colsep])]
@@ -222,6 +226,7 @@ module Columnize
         end
         break if totwidth <= opts[:displaywidth] and i >= rounded_size-1
       end
+      ncols = 1 if ncols < 1
       nrows = l.size if ncols == 1
       # The smallest number of rows computed and the max widths for
       # each column has been obtained.  Now we just have to format
@@ -244,10 +249,12 @@ module Columnize
           texts.push(x)
         end
         0.upto(texts.size-1) do |col|
-          if opts[:ljust]
-            texts[col] = texts[col].ljust(colwidths[col]) if ncols != 1
-          else
-            texts[col] = texts[col].rjust(colwidths[col])
+          unless ncols == 1 && opts[:ljust]
+            if opts[:ljust]
+              texts[col] = texts[col].ljust(colwidths[col]) if ncols != 1
+            else
+              texts[col] = texts[col].rjust(colwidths[col])
+            end
           end
         end
         s += "%s%s\n" % [prefix, texts.join(opts[:colsep])]
