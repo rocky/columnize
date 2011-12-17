@@ -7,7 +7,7 @@ require 'rake/testtask'
 require 'fileutils'
 
 ROOT_DIR = File.dirname(__FILE__)
-require File.join(ROOT_DIR, '/lib/version')
+require File.join(ROOT_DIR, '/lib/columnize/version')
 
 def gemspec
   @gemspec ||= eval(File.read('columnize.gemspec'), 

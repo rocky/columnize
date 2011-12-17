@@ -2,7 +2,7 @@
 # learning new tricks.
 test: check
 
-#: Same as "make check"
+#: Default target; same as "make check"
 all: check
 	true
 
