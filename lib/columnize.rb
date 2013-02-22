@@ -1,4 +1,5 @@
-# Module to format an Array as an Array of String aligned in columns.
+# Module to format an Array into a single string with embedded
+# newlines, On printing the string, the columns are aligned.
 #
 # == Summary
 # Display a list of strings as a compact set of columns.
@@ -103,7 +104,7 @@ module Columnize
   # or arranged horizontally:
   #     ['1', '2,', '3', '4'] => '1  2\n3  4\n'
   #     
-  # Each column is only as wide possible, no larger than
+  # Each column is only as wide necessary, no larger than
   # +displaywidth'.  If +list+ is not an array, the empty string, '',
   # is returned. By default, columns are separated by two spaces - one
   # was not legible enough. Set +colsep+ to adjust the string separate
