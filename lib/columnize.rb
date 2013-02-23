@@ -122,13 +122,13 @@ module Columnize
     return "%s%s%s\n" % [opts[:array_prefix], l[0], 
                          opts[:array_suffix]] if 1 == l.size
 
-    nrows = ncols = 0  # Make nrows, ncols have more global scope
-    colwidths = []     # Same for colwidths
     if opts[:displaywidth] - opts[:lineprefix].length < 4
       opts[:displaywidth] = opts[:lineprefix].length + 4
     else
       opts[:displaywidth] -= opts[:lineprefix].length
     end
+    nrows = ncols = 0  # Make nrows, ncols have more global scope
+    colwidths = []     # Same for colwidths
     if opts[:arrange_vertical]
       array_index = lambda {|num_rows, row, col| num_rows*col + row }
       # Try every row count from 1 upwards
