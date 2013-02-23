@@ -190,7 +190,7 @@ module Columnize
       end
       return s
     else
-      array_index = lambda {|num_rows, row, col| ncols*(row-1) + col }
+      array_index = lambda {|ncols, row, col| ncols*(row-1) + col }
       # Assign to make enlarge scope of loop variables.
       totwidth = i = rounded_size = 0  
       # Try every column count from size downwards.
@@ -208,7 +208,7 @@ module Columnize
             # get max column width for this column
             1.upto(nrows) do |_row|
               row = _row
-              i = array_index.call(nrows, row, col)
+              i = array_index.call(ncols, row, col)
               break if i >= l.size
               colwidth = [colwidth, cell_size(l[i], opts[:term_adjust])].max
             end
@@ -220,7 +220,7 @@ module Columnize
             # Found the right nrows and ncols
             nrows  = row
             break
-          elsif totwidth >= opts[:displaywidth]
+          elsif totwidth > opts[:displaywidth]
             # Need to reduce ncols
             break
           end
@@ -241,7 +241,7 @@ module Columnize
       1.upto(nrows) do |row| 
         texts = []
         0.upto(ncols-1) do |col|
-          i = array_index.call(nrows, row, col)
+          i = array_index.call(ncols, row, col)
           if i >= l.size
             break
           else
