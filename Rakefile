@@ -1,36 +1,35 @@
 #!/usr/bin/env rake
 # -*- Ruby -*-
 require 'rubygems'
-require 'rake/gempackagetask'
-require 'rake/rdoctask'
-require 'rake/testtask'
 require 'fileutils'
 
 ROOT_DIR = File.dirname(__FILE__)
-require File.join(ROOT_DIR, '/lib/columnize/version')
+Gemspec_filename = 'columnize-trepanning.gemspec'
+require File.join %W(#{ROOT_DIR} lib columnize version)
 
 def gemspec
-  @gemspec ||= eval(File.read('columnize.gemspec'), 
-                    binding, 'columnize.gemspec')
+  @gemspec ||= eval(File.read(Gemspec_filename), binding, Gemspec_filename)
 end
 
+require 'rubygems/package_task'
 desc "Build the gem"
 task :package=>:gem
 task :gem=>:gemspec do
   Dir.chdir(ROOT_DIR) do
     sh "gem build columnize.gemspec"
     FileUtils.mkdir_p 'pkg'
-    FileUtils.mv "#{gemspec.name}-#{gemspec.version}.gem", 'pkg'
+    FileUtils.mv gemspec.file_name, 'pkg'
   end
 end
 
 desc "Install the gem locally"
 task :install => :gem do
   Dir.chdir(ROOT_DIR) do
-    sh %{gem install --local pkg/#{gemspec.name}-#{gemspec.version}}
+    sh %{gem install --local pkg/#{gemspec.file_name}}
   end
 end
 
+require 'rake/testtask'
 desc "Test everything."
 Rake::TestTask.new(:test) do |t|
   t.libs << './lib'
@@ -49,16 +48,10 @@ end
 
 task :default => [:test]
 
-task :clobber_rdoc do
-  FileUtils.rm_rf File.join(ROOT_DIR, 'doc')
+desc 'Create a GNU-style ChangeLog via git2cl'
+task :ChangeLog do
+  system('git log --pretty --numstat --summary | git2cl > ChangeLog')
 end
-
-task :rm_patch_residue do
-  FileUtils.rm_rf FileList['**/*.{rej,orig}'].to_a
-end
-
-desc "Remove built files"
-task :clean => [:clobber_package, :clobber_rdoc, :rm_patch_residue]
 
 desc "Generate the gemspec"
 task :generate do
@@ -71,6 +64,7 @@ task :gemspec do
 end
 
 # ---------  RDoc Documentation ------
+require 'rdoc/task'
 desc "Generate rdoc documentation"
 Rake::RDocTask.new("rdoc") do |rdoc|
   rdoc.rdoc_dir = 'doc'
@@ -81,6 +75,7 @@ Rake::RDocTask.new("rdoc") do |rdoc|
 
   rdoc.rdoc_files.include('lib/*.rb', 'README.md', 'COPYING')
 end
+
 desc "Same as rdoc"
 task :doc => :rdoc
 
@@ -91,3 +86,17 @@ end
 task :clobber_rdoc do
   FileUtils.rm_rf File.join(ROOT_DIR, 'doc')
 end
+
+desc 'Remove residue from running patch'
+task :rm_patch_residue do
+  FileUtils.rm_rf Dir.glob('**/*.{rej,orig}'), :verbose => true
+end
+
+desc 'Remove ~ backup files'
+task :rm_tilde_backups do
+  FileUtils.rm_rf Dir.glob('**/*~'), :verbose => true
+end
+
+desc 'Remove built files'
+task :clean => [:clobber_package, :clobber_rdoc, :rm_patch_residue, 
+                :rm_tilde_backups]
