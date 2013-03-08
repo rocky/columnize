@@ -3,9 +3,11 @@ require 'test/unit'
 
 # Test of Columnize module
 class TestColumnize < Test::Unit::TestCase
-  @@TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), 
+
+  # Ruby 1.8 form of require_relative
+  TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), 
                             '..', 'lib')
-  require File.join(@@TOP_SRC_DIR, 'columnize.rb')
+  require File.join(TOP_SRC_DIR, 'columnize.rb')
   include Columnize
   
   def test_cell_size

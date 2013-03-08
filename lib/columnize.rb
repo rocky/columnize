@@ -5,9 +5,14 @@
 # Display a list of strings as a compact set of columns.
 #
 #   For example, for a line width of 4 characters (arranged vertically):
-#        ['1', '2,', '3', '4'] => '1  3\n2  4\n'
+#      a = (1..4).to_a
+#      Columnize.columnize(a) => '1  3\n2  4\n'
+#
+#   alternatively: 
+#      a.columnize => '1  3\n2  4\n'
 #   
-#    or arranged horizontally:
+#    Arranged horizontally:
+#      a.columnize(:arrange_vertical => false) => 
 #        ['1', '2,', '3', '4'] => '1  2\n3  4\n'
 #        
 # Each column is only as wide as necessary.  By default, columns are
@@ -20,13 +25,25 @@
 #
 # == License 
 #
-# Columnize is copyright (C) 2007, 2008, 2009, 2010, 2011 Rocky Bernstein
+# Columnize is copyright (C) 2007-2011, 2013 Rocky Bernstein
 # <rockyb@rubyforge.net>
 #
 # All rights reserved.  You can redistribute and/or modify it under
 # the same terms as Ruby.
 #
-# Adapted from the routine of the same name in Python +cmd.py+.
+# Also available in Python (columnize), and Perl (Array::Columnize)
+
+class Array
+  # returns data arranged in columns
+  attr_accessor :columnize_opts
+  def columnize(*args)
+    if args.empty? and self.columnize_opts
+      Columnize.columnize(self, self.columnize_opts)
+    else
+      Columnize.columnize(self, *args)
+    end
+  end
+end
 
 module Columnize
 
@@ -270,6 +287,14 @@ if __FILE__ == $0
   #
   include Columnize
   
+  a = (1..80).to_a
+  a.columnize_opts = {:arrange_array => true}
+  puts a.columnize
+  puts '=' * 50
+
+  b = (1..10).to_a
+  puts b.columnize(:displaywidth => 10)
+
   line = 'require [1;29m"[0m[1;37mirb[0m[1;29m"[0m';
   puts cell_size(line, true);
   puts cell_size(line, false);
@@ -300,4 +325,5 @@ if __FILE__ == $0
   
   puts columnize(data)
   puts columnize(data, 80, '  ', false)
+
 end
