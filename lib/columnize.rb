@@ -110,18 +110,23 @@ module Columnize
     end.size
   end
 
-  #   For example, for a line width of 4 characters (arranged vertically):
+  #  columize([args]) => String
+  # 
+  #  Return a string from an array with embedded newlines formatted so
+  #  that when printed the columns are aligned.
+  # 
+  #  For example, for a line width of 4 characters (arranged vertically):
   #      a = (1..4).to_a
   #      Columnize.columnize(a) => '1  3\n2  4\n'
   #
-  #   Alternatively: 
+  #  Alternatively: 
   #      a.columnize => '1  3\n2  4\n'
   #   
-  #   Arranged horizontally:
+  #  Arranged horizontally:
   #      a.columnize(:arrange_vertical => false) => 
   #        ['1', '2,', '3', '4'] => '1  2\n3  4\n'
   # 
-  #   Formatted as an array using format specifier '%02d':
+  #  Formatted as an array using format specifier '%02d':
   #      puts (1..10).to_a.columnize(:arrange_array => true, :colfmt => '%02d',
   #                                  :displaywidth => 10) =>
   #      [01, 02,
