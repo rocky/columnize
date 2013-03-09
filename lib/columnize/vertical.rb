@@ -1,7 +1,7 @@
 # Copyright (C) 2007-2011, 2013 Rocky Bernstein
-#
-# Sub Module to columnize in the vertical direction
 # <rockyb@rubyforge.net>
+#
+# Part of Columnize to format in the vertical direction
 module Columnize
   module_function
   def columnize_vertical(l, opts)

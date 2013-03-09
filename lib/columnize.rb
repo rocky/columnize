@@ -20,8 +20,9 @@
 
 module Columnize
 
+  # Pull in the rest of my pieces
   ROOT_DIR = File.dirname(__FILE__)
-  %w(opts horizontal vertical).each do |submod| 
+  %w(opts horizontal vertical version).each do |submod| 
     require File.join %W(#{ROOT_DIR} columnize #{submod})
   end
 
@@ -125,8 +126,8 @@ class Array
 end
 
 
+# Demo this sucker
 if __FILE__ == $0
-  #
   include Columnize
   
   a = (1..80).to_a
