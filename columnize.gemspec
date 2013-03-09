@@ -7,7 +7,7 @@ require File.dirname(__FILE__) + "/lib/columnize/version" unless
   Object.const_defined?(:'Columnize')
 
 Gem::Specification.new do |spec|
-  spec.authors      = ['R. Bernstein']
+  spec.authors      = ['Rocky Bernstein']
   spec.date         = Time.now
   spec.description  = '
 In showing a long lists, sometimes one would prefer to see the value

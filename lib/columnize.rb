@@ -20,85 +20,12 @@
 
 module Columnize
 
-  # When an option is not specified for the below keys, these
-  # are the defaults.
-  DEFAULT_OPTS = {
-    :arrange_array     => false,
-    :arrange_vertical  => true,
-    :array_prefix      => '',
-    :array_suffix      => '',
-    :colfmt            => nil,
-    :colsep            => '  ',
-    :displaywidth      => 80,
-    :lineprefix        => '',
-    :linesuffix        => "\n",
-    :ljust             => :auto,
-    :term_adjust       => false
-  }
-
-  # Add +columnize_opts+ instance variable to classes that mix in this
-  # module. The type should be a kind of hash as above.
-  attr_accessor :columnize_opts  
-
-  # Adds class variable into any class mixes in this module.
-  def self.included(base)
-    base.class_variable_set :@@columnize_opts, DEFAULT_OPTS.dup if 
-      base.respond_to?(:class_variable_set)
+  ROOT_DIR = File.dirname(__FILE__)
+  %w(opts horizontal vertical).each do |submod| 
+    require File.join %W(#{ROOT_DIR} columnize #{submod})
   end
 
   module_function
-
-  # Options parsing routine for Columnize::columnize. In the preferred
-  # newer style, +args+ is either a hash where each key is one of the option
-  # names: 
-  #
-  # 
-  # In the older style positional arguments are used and the positions
-  # are in the order: +displaywidth+, +colsep+, +arrange_vertical+,
-  # +ljust+, and +lineprefix+.
-  #
-  # Thanks to ideas from Martin Davis, failing any explicit setting on
-  # the columnize method call, we also now allow options to be picked
-  # up from a columnize_opts instance variable or columnize_opts class
-  # variable.
-  def parse_columnize_options(args)
-    list = args.shift
-
-    if 1 == args.size && args[0].kind_of?(Hash)
-      # Options were explicitly passed as a hash. Use that
-      opts = DEFAULT_OPTS.merge(args[0])
-      if opts[:arrange_array]
-        opts[:array_prefix] = '['
-        opts[:lineprefix]   = ' '
-        opts[:linesuffix]   = ",\n"
-        opts[:array_suffix] = "]\n"
-        opts[:colsep]       = ', '
-        opts[:arrange_vertical] = false
-      end
-      opts[:ljust] = !(list.all?{|datum| datum.kind_of?(Numeric)}) if 
-        opts[:ljust] == :auto
-      return list, opts
-    elsif !args.empty?
-      # Options were explicitly passes as ugly positional parameters.
-      # Next priority
-      opts = DEFAULT_OPTS.dup
-      %w(displaywidth colsep arrange_vertical ljust lineprefix
-        ).each do |field|
-        break if args.empty?
-        opts[field.to_sym] = args.shift
-      end
-    elsif defined?(@columnize_opts)
-      # class has an option set as an instance variable.
-      opts = @columnize_opts
-    elsif defined?(@@columnize_opts)
-      # class has an option set as a class variable.
-      opts = @@columnize_opts.dup
-    else
-      # When all else fails, just use the default options.
-      opts = DEFAULT_OPTS.dup
-    end
-    return list, opts
-  end
 
   # Return the length of String +cell+. If Boolean +term_adjust+ is true,
   # ignore terminal sequences in +cell+.
@@ -172,144 +99,10 @@ module Columnize
     else
       opts[:displaywidth] -= opts[:lineprefix].length
     end
-    nrows = ncols = 0  # Make nrows, ncols have more global scope
-    colwidths = []     # Same for colwidths
     if opts[:arrange_vertical]
-      array_index = lambda {|num_rows, row, col| num_rows*col + row }
-      # Try every row count from 1 upwards
-      1.upto(l.size-1) do |_nrows|
-        nrows = _nrows
-        ncols = (l.size + nrows-1) / nrows
-        colwidths = []
-        totwidth = -opts[:colsep].length
-
-        0.upto(ncols-1) do |col|
-          # get max column width for this column
-          colwidth = 0
-          0.upto(nrows-1) do |_row|
-            row = _row
-            i = array_index.call(nrows, row, col)
-            break if i >= l.size
-            colwidth = [colwidth, cell_size(l[i], opts[:term_adjust])].max
-          end
-          colwidths.push(colwidth)
-          totwidth += colwidth + opts[:colsep].length
-          if totwidth > opts[:displaywidth]
-            ncols = col
-            break
-          end
-        end
-        break if totwidth <= opts[:displaywidth]
-      end
-      ncols = 1 if ncols < 1
-      nrows = l.size if ncols == 1
-      # The smallest number of rows computed and the max widths for
-      # each column has been obtained.  Now we just have to format
-      # each of the rows.
-      s = ''
-      0.upto(nrows-1) do |_row| 
-        row = _row
-        texts = []
-        0.upto(ncols-1) do |col|
-          i = array_index.call(nrows, row, col)
-          if i >= l.size
-            x = ''
-          else
-            x = l[i]
-          end
-          texts.push(x)
-        end
-        texts.pop while !texts.empty? and texts[-1] == ''
-        if texts.size > 0
-          0.upto(texts.size-1) do |col|
-            unless ncols == 1 && opts[:ljust]
-              if opts[:ljust]
-                texts[col] = texts[col].ljust(colwidths[col])
-              else
-                texts[col] = texts[col].rjust(colwidths[col])
-              end
-            end
-          end
-          s += "%s%s%s" % [opts[:lineprefix], texts.join(opts[:colsep]),
-                           opts[:linesuffix]]
-        end
-      end
-      return s
+      return columnize_vertical(l, opts)
     else
-      array_index = lambda {|ncols, row, col| ncols*(row-1) + col }
-      # Assign to make enlarge scope of loop variables.
-      totwidth = i = rounded_size = 0  
-      # Try every column count from size downwards.
-      l.size.downto(1) do |_ncols|
-        ncols = _ncols
-        # Try every row count from 1 upwards
-        min_rows = (l.size+ncols-1) / ncols
-        min_rows.upto(l.size) do |_nrows|
-          nrows = _nrows
-          rounded_size = nrows * ncols
-          colwidths = []
-          totwidth = -opts[:colsep].length
-          colwidth = row = 0
-          0.upto(ncols-1) do |col|
-            # get max column width for this column
-            1.upto(nrows) do |_row|
-              row = _row
-              i = array_index.call(ncols, row, col)
-              break if i >= l.size
-              colwidth = [colwidth, cell_size(l[i], opts[:term_adjust])].max
-            end
-            colwidths.push(colwidth)
-            totwidth += colwidth + opts[:colsep].length
-            break if totwidth > opts[:displaywidth];
-          end
-          if totwidth <= opts[:displaywidth]
-            # Found the right nrows and ncols
-            nrows  = row
-            break
-          elsif totwidth > opts[:displaywidth]
-            # Need to reduce ncols
-            break
-          end
-        end
-        break if totwidth <= opts[:displaywidth] and i >= rounded_size-1
-      end
-      ncols = 1 if ncols < 1
-      nrows = l.size if ncols == 1
-      # The smallest number of rows computed and the max widths for
-      # each column has been obtained.  Now we just have to format
-      # each of the rows.
-      s = ''
-      prefix = if opts[:array_prefix].empty?
-                 opts[:lineprefix] 
-               else 
-                 opts[:array_prefix]
-               end
-      1.upto(nrows) do |row| 
-        texts = []
-        0.upto(ncols-1) do |col|
-          i = array_index.call(ncols, row, col)
-          if i >= l.size
-            break
-          else
-            x = l[i]
-          end
-          texts.push(x)
-        end
-        0.upto(texts.size-1) do |col|
-          unless ncols == 1 && opts[:ljust]
-            if opts[:ljust]
-              texts[col] = texts[col].ljust(colwidths[col]) if ncols != 1
-            else
-              texts[col] = texts[col].rjust(colwidths[col])
-            end
-          end
-        end
-        s += "%s%s%s" % [prefix, texts.join(opts[:colsep]),
-                         opts[:linesuffix]]
-        prefix = opts[:lineprefix]
-      end
-      s += opts[:array_suffix]
-      return s
+      return columnize_horizontal(l, opts)
     end
   end
 end
