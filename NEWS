@@ -1,5 +1,9 @@
-0.3.7
-- Add columnize method to Array classand a place to set its default options
+0.4.0
+- Add columnize method to Array class and a place to set its default options
+- Add option :colfmt to allow a format specifier to use (e.g. '%02d') in stringifying
+  list items
+- Add option linesuffix (default is "\n")
+- When using arrange_array each line now has trailing ","
 
 0.3.6 Dec 17, 2011 
 - rename version.rb columnize/version.rb so as not to conflict with 

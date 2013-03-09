@@ -2,26 +2,11 @@
 # newlines, On printing the string, the columns are aligned.
 #
 # == Summary
-# Display a list of strings as a compact set of columns.
 #
-#   For example, for a line width of 4 characters (arranged vertically):
-#      a = (1..4).to_a
-#      Columnize.columnize(a) => '1  3\n2  4\n'
+#  Return a string from an array with embedded newlines formatted so
+#  that when printed the columns are aligned.
+#  See below for examples and options to the main method +columnize+.
 #
-#   alternatively: 
-#      a.columnize => '1  3\n2  4\n'
-#   
-#    Arranged horizontally:
-#      a.columnize(:arrange_vertical => false) => 
-#        ['1', '2,', '3', '4'] => '1  2\n3  4\n'
-#        
-# Each column is only as wide as necessary.  By default, columns are
-# separated by two spaces. Options are avalable for setting
-# * the display width
-# * the column separator
-# * the line prefix
-# * whether to ignore terminal codes in text size calculation
-# * whether to left justify text instead of right justify
 #
 # == License 
 #
@@ -33,18 +18,6 @@
 #
 # Also available in Python (columnize), and Perl (Array::Columnize)
 
-class Array
-  # returns data arranged in columns
-  attr_accessor :columnize_opts
-  def columnize(*args)
-    if args.empty? and self.columnize_opts
-      Columnize.columnize(self, self.columnize_opts)
-    else
-      Columnize.columnize(self, *args)
-    end
-  end
-end
-
 module Columnize
 
   # When an option is not specified for the below keys, these
@@ -54,12 +27,24 @@ module Columnize
     :arrange_vertical  => true,
     :array_prefix      => '',
     :array_suffix      => '',
+    :colfmt            => nil,
     :colsep            => '  ',
     :displaywidth      => 80,
     :lineprefix        => '',
+    :linesuffix        => "\n",
     :ljust             => :auto,
     :term_adjust       => false
   }
+
+  # Add +columnize_opts+ instance variable to classes that mix in this
+  # module. The type should be a kind of hash as above.
+  attr_accessor :columnize_opts  
+
+  # Adds class variable into any class mixes in this module.
+  def self.included(base)
+    base.class_variable_set :@@columnize_opts, DEFAULT_OPTS.dup if 
+      base.respond_to?(:class_variable_set)
+  end
 
   module_function
 
@@ -67,23 +52,25 @@ module Columnize
   # newer style, +args+ is either a hash where each key is one of the option
   # names: 
   #
-  # [arrange_vertical] Arrange list vertically rather than horizontally. This is the default
-  # [colsep] String used to separate columns
-  # [displaywidth] Maximum width of each line
-  # [ljust] Boolean or +:auto+: Left-justify fields in a column? The default is +true+. If
-  # the :auto, then right-justify if every element of the data is a kind of Numeric.
-  # [lineprefix] String: string to prepend to each line. The default is ''.
   # 
   # In the older style positional arguments are used and the positions
   # are in the order: +displaywidth+, +colsep+, +arrange_vertical+,
   # +ljust+, and +lineprefix+.
+  #
+  # Thanks to ideas from Martin Davis, failing any explicit setting on
+  # the columnize method call, we also now allow options to be picked
+  # up from a columnize_opts instance variable or columnize_opts class
+  # variable.
   def parse_columnize_options(args)
     list = args.shift
+
     if 1 == args.size && args[0].kind_of?(Hash)
+      # Options were explicitly passed as a hash. Use that
       opts = DEFAULT_OPTS.merge(args[0])
       if opts[:arrange_array]
         opts[:array_prefix] = '['
         opts[:lineprefix]   = ' '
+        opts[:linesuffix]   = ",\n"
         opts[:array_suffix] = "]\n"
         opts[:colsep]       = ', '
         opts[:arrange_vertical] = false
@@ -91,15 +78,26 @@ module Columnize
       opts[:ljust] = !(list.all?{|datum| datum.kind_of?(Numeric)}) if 
         opts[:ljust] == :auto
       return list, opts
-    else      
+    elsif !args.empty?
+      # Options were explicitly passes as ugly positional parameters.
+      # Next priority
       opts = DEFAULT_OPTS.dup
       %w(displaywidth colsep arrange_vertical ljust lineprefix
         ).each do |field|
         break if args.empty?
         opts[field.to_sym] = args.shift
       end
-      return list, opts
+    elsif defined?(@columnize_opts)
+      # class has an option set as an instance variable.
+      opts = @columnize_opts
+    elsif defined?(@@columnize_opts)
+      # class has an option set as a class variable.
+      opts = @@columnize_opts.dup
+    else
+      # When all else fails, just use the default options.
+      opts = DEFAULT_OPTS.dup
     end
+    return list, opts
   end
 
   # Return the length of String +cell+. If Boolean +term_adjust+ is true,
@@ -112,21 +110,38 @@ module Columnize
     end.size
   end
 
-  # Return a list of strings with embedded newlines (\n) as a compact
-  # set of columns arranged horizontally or vertically.
+  #   For example, for a line width of 4 characters (arranged vertically):
+  #      a = (1..4).to_a
+  #      Columnize.columnize(a) => '1  3\n2  4\n'
   #
-  # For example, for a line width of 4 characters (arranged vertically):
-  #     ['1', '2,', '3', '4'] => '1  3\n2  4\n'
-   
-  # or arranged horizontally:
-  #     ['1', '2,', '3', '4'] => '1  2\n3  4\n'
-  #     
-  # Each column is only as wide necessary, no larger than
-  # +displaywidth'.  If +list+ is not an array, the empty string, '',
-  # is returned. By default, columns are separated by two spaces - one
-  # was not legible enough. Set +colsep+ to adjust the string separate
-  # columns. If +arrange_vertical+ is set false, consecutive items
-  # will go across, left to right, top to bottom.
+  #   Alternatively: 
+  #      a.columnize => '1  3\n2  4\n'
+  #   
+  #   Arranged horizontally:
+  #      a.columnize(:arrange_vertical => false) => 
+  #        ['1', '2,', '3', '4'] => '1  2\n3  4\n'
+  # 
+  #   Formatted as an array using format specifier '%02d':
+  #      puts (1..10).to_a.columnize(:arrange_array => true, :colfmt => '%02d',
+  #                                  :displaywidth => 10) =>
+  #      [01, 02,
+  #       03, 04,
+  #       05, 06,
+  #       07, 08,
+  #       09, 10,
+  #      ]
+  #        
+  # Each column is only as wide as necessary.  By default, columns are
+  # separated by two spaces. Options are available for setting
+  # * the line display width
+  # * a column separator
+  # * a line prefix
+  # * a line suffix
+  # * A format specify for formatting each item each array item to a string
+  # * whether to ignore terminal codes in text size calculation
+  # * whether to left justify text instead of right justify
+  # * whether to format as an array - with surrounding [] and 
+  #   separating ', '
 
   def columnize(*args)
 
@@ -135,7 +150,15 @@ module Columnize
     # Some degenerate cases
     return '' if not list.is_a?(Array)
     return  "<empty>\n" if list.empty?
-    l = list.map{|li| li.to_s}
+
+    # Stringify array elements
+    l = 
+      if opts[:colfmt]
+        list.map{|li| opts[:colfmt] % li}
+      else
+        list.map{|li| li.to_s}
+      end
+
     return "%s%s%s\n" % [opts[:array_prefix], l[0], 
                          opts[:array_suffix]] if 1 == l.size
 
@@ -202,7 +225,8 @@ module Columnize
               end
             end
           end
-          s += "%s%s\n" % [opts[:lineprefix], texts.join(opts[:colsep])]
+          s += "%s%s%s" % [opts[:lineprefix], texts.join(opts[:colsep]),
+                           opts[:linesuffix]]
         end
       end
       return s
@@ -275,7 +299,8 @@ module Columnize
             end
           end
         end
-        s += "%s%s\n" % [prefix, texts.join(opts[:colsep])]
+        s += "%s%s%s" % [prefix, texts.join(opts[:colsep]),
+                         opts[:linesuffix]]
         prefix = opts[:lineprefix]
       end
       s += opts[:array_suffix]
@@ -283,6 +308,25 @@ module Columnize
     end
   end
 end
+
+# Mix in "Columnize" in the Array class and make the columnize method
+# public.
+## Array.send :include, Columnize
+## Array.send :public, :columnize
+
+class Array
+  # returns data arranged in columns
+  attr_accessor :columnize_opts
+  def columnize(*args)
+    if args.empty? and self.columnize_opts
+      Columnize.columnize(self, self.columnize_opts)
+    else
+      Columnize.columnize(self, *args)
+    end
+  end
+end
+
+
 if __FILE__ == $0
   #
   include Columnize
@@ -294,6 +338,10 @@ if __FILE__ == $0
 
   b = (1..10).to_a
   puts b.columnize(:displaywidth => 10)
+
+  puts '-' * 50
+  puts b.columnize(:arrange_array => true, :colfmt => '%02d',
+                   :displaywidth => 10)
 
   line = 'require [1;29m"[0m[1;37mirb[0m[1;29m"[0m';
   puts cell_size(line, true);
