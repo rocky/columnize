@@ -110,11 +110,10 @@ end
 
 # Mix in "Columnize" in the Array class and make the columnize method
 # public.
-## Array.send :include, Columnize
-## Array.send :public, :columnize
+# Array.send :include, Columnize
+# Array.send :public, :columnize
 
 class Array
-  # returns data arranged in columns
   attr_accessor :columnize_opts
   def columnize(*args)
     if args.empty? and self.columnize_opts
@@ -124,7 +123,6 @@ class Array
     end
   end
 end
-
 
 # Demo this sucker
 if __FILE__ == $0

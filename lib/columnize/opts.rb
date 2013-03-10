@@ -1,5 +1,8 @@
 module Columnize
 
+  computed_displaywidth = (ENV['COLUMNS'] || '80').to_i
+  computed_displaywidth = 80 unless computed_displaywidth >= 10
+
   # When an option is not specified for the below keys, these
   # are the defaults.
   DEFAULT_OPTS = {
@@ -9,7 +12,7 @@ module Columnize
     :array_suffix      => '',
     :colfmt            => nil,
     :colsep            => '  ',
-    :displaywidth      => 80,
+    :displaywidth      => computed_displaywidth,
     :lineprefix        => '',
     :linesuffix        => "\n",
     :ljust             => :auto,
