@@ -8,7 +8,7 @@
 #  See below for examples and options to the main method +columnize+.
 #
 #
-# == License 
+# == License
 #
 # Columnize is copyright (C) 2007-2011, 2013 Rocky Bernstein
 # <rockyb@rubyforge.net>
@@ -22,7 +22,7 @@ module Columnize
 
   # Pull in the rest of my pieces
   ROOT_DIR = File.dirname(__FILE__)
-  %w(opts horizontal vertical version).each do |submod| 
+  %w(opts horizontal vertical version).each do |submod|
     require File.join %W(#{ROOT_DIR} columnize #{submod})
   end
 
@@ -39,21 +39,21 @@ module Columnize
   end
 
   #  columize([args]) => String
-  # 
+  #
   #  Return a string from an array with embedded newlines formatted so
   #  that when printed the columns are aligned.
-  # 
+  #
   #  For example, for a line width of 4 characters (arranged vertically):
   #      a = (1..4).to_a
   #      Columnize.columnize(a) => '1  3\n2  4\n'
   #
-  #  Alternatively: 
+  #  Alternatively:
   #      a.columnize => '1  3\n2  4\n'
-  #   
+  #
   #  Arranged horizontally:
-  #      a.columnize(:arrange_vertical => false) => 
+  #      a.columnize(:arrange_vertical => false) =>
   #        ['1', '2,', '3', '4'] => '1  2\n3  4\n'
-  # 
+  #
   #  Formatted as an array using format specifier '%02d':
   #      puts (1..10).to_a.columnize(:arrange_array => true, :colfmt => '%02d',
   #                                  :displaywidth => 10) =>
@@ -63,7 +63,7 @@ module Columnize
   #       07, 08,
   #       09, 10,
   #      ]
-  #        
+  #
   # Each column is only as wide as necessary.  By default, columns are
   # separated by two spaces. Options are available for setting
   # * the line display width
@@ -73,11 +73,10 @@ module Columnize
   # * A format specify for formatting each item each array item to a string
   # * whether to ignore terminal codes in text size calculation
   # * whether to left justify text instead of right justify
-  # * whether to format as an array - with surrounding [] and 
+  # * whether to format as an array - with surrounding [] and
   #   separating ', '
 
   def columnize(*args)
-
     list, opts = parse_columnize_options(args)
 
     # Some degenerate cases
@@ -85,25 +84,29 @@ module Columnize
     return  "<empty>\n" if list.empty?
 
     # Stringify array elements
-    l = 
-      if opts[:colfmt]
-        list.map{|li| opts[:colfmt] % li}
-      else
-        list.map{|li| li.to_s}
-      end
+    l = stringify_array_elements list, opts[:colfmt]
+    return single_element_format(l[0], opts[:array_prefix], opts[:array_suffix]) if 1 == l.size
+    opts[:displaywidth] = set_display_width(opts)
+    opts[:arrange_vertical] ? columnize_vertical(l, opts) : columnize_horizontal(l, opts)
+  end
 
-    return "%s%s%s\n" % [opts[:array_prefix], l[0], 
-                         opts[:array_suffix]] if 1 == l.size
-
-    if opts[:displaywidth] - opts[:lineprefix].length < 4
-      opts[:displaywidth] = opts[:lineprefix].length + 4
+  def stringify_array_elements(list, colfmt)
+    if colfmt
+      list.map {|li| colfmt % li }
     else
-      opts[:displaywidth] -= opts[:lineprefix].length
+      list.map {|li| li.to_s }
     end
-    if opts[:arrange_vertical]
-      return columnize_vertical(l, opts)
+  end
+
+  def single_element_format(element, prefix, suffix)
+    "%s%s%s\n" % [prefix, element, suffix]
+  end
+
+  def set_display_width(opts)
+    if opts[:displaywidth] - opts[:lineprefix].length < 4
+      opts[:lineprefix].length + 4
     else
-      return columnize_horizontal(l, opts)
+      opts[:displaywidth] - opts[:lineprefix].length
     end
   end
 end
@@ -127,7 +130,7 @@ end
 # Demo this sucker
 if __FILE__ == $0
   include Columnize
-  
+
   a = (1..80).to_a
   a.columnize_opts = {:arrange_array => true}
   puts a.columnize
@@ -148,7 +151,7 @@ if __FILE__ == $0
     data = (1..num).map{|i| i}
     [[false, 'horizontal'], [true, 'vertical']].each do |bool, dir|
       puts "Width: #{width}, direction: #{dir}"
-      print columnize(data, :displaywidth => width, :colsep => '  ', 
+      print columnize(data, :displaywidth => width, :colsep => '  ',
                       :arrange_vertical => bool, :ljust => :auto)
       end
   end
@@ -167,7 +170,7 @@ if __FILE__ == $0
           "nineteen",  "twenty",      "twentyone",
           "twentytwo", "twentythree", "twentyfour",
           "twentyfive","twentysix",   "twentyseven"]
-  
+
   puts columnize(data)
   puts columnize(data, 80, '  ', false)
 
