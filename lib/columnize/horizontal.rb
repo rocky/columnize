@@ -6,16 +6,16 @@ module Columnize
   module_function
   def columnize_horizontal(list, opts)
     nrows, ncols, colwidths = compute_rows_cols_and_width list, opts
+    rows = rows_and_cols(list, nrows, ncols)[0]
     justify = lambda {|t, c| opts[:ljust] ? t.ljust(colwidths[c]) : t.rjust(colwidths[c]) }
-    # TODO: fix this logic
-    prefix = opts[:array_prefix].empty? ? opts[:lineprefix] : opts[:array_prefix]
-    (0...nrows).inject('') do |s, row|
-      texts = list[row*ncols, ncols]
-      texts.map!.with_index(&justify) unless ncols == 1 && opts[:ljust]
-      s += "#{prefix}#{texts.join(opts[:colsep])}#{opts[:linesuffix]}"
-      prefix = opts[:lineprefix]
-      s
-    end + opts[:array_suffix]
+    textify = lambda do |s, row|
+      row.map!.with_index(&justify) unless ncols == 1 && opts[:ljust]
+      s + "#{opts[:lineprefix]}#{row.join(opts[:colsep])}#{opts[:linesuffix]}"
+    end
+
+    text = rows.inject('', &textify)
+    text = text.sub(opts[:lineprefix], opts[:array_prefix]) + opts[:array_suffix] unless opts[:array_prefix].empty?
+    text
   end
 
   # compute the smallest number of rows and the max widths for each column
@@ -23,7 +23,7 @@ module Columnize
     cell_widths = list.map {|x| cell_size(x, opts[:term_adjust]) }
     # default to 1 atom per row (just in case any atom > opts[:displaywidth])
     rcw = [list.length, 1, [cell_widths.max]]
-    # return rcw if rcw[2][0] > opts[:displaywidth]
+    return rcw if rcw[2][0] > opts[:displaywidth]
 
     # Try every column count from size downwards.
     list.size.downto(1) do |ncols|
@@ -31,10 +31,7 @@ module Columnize
       nrows = (list.size + ncols - 1) / ncols
       colwidths = rows_and_cols(cell_widths, nrows, ncols)[1].map(&:max)
       totwidth = colwidths.inject(&:+) + ((ncols-1) * opts[:colsep].length)
-      if totwidth <= opts[:displaywidth]
-        rcw = [nrows, ncols, colwidths]
-        break
-      end
+      rcw = [nrows, ncols, colwidths] and break if totwidth <= opts[:displaywidth]
     end
     rcw
   end

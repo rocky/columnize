@@ -3,15 +3,12 @@ require 'test/unit'
 
 # Test of Columnize module
 class TestColumnizeArray < Test::Unit::TestCase
-
   # Ruby 1.8 form of require_relative
-  TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), 
-                            '..', 'lib')
+  TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
   require File.join(TOP_SRC_DIR, 'columnize.rb')
 
   # test columnize
-  def test_basic
-
+  def test_arrange_array
     a = (1..80).to_a
     a.columnize_opts = {:arrange_array => true}
     expect = <<EOF
@@ -22,7 +19,9 @@ class TestColumnizeArray < Test::Unit::TestCase
 ]
 EOF
     self.assert_equal(expect, a.columnize, "arrange_arrary => true (1..80)")
+  end
 
+  def test_displaywidth
     expect = <<EOF
 1  5   9
 2  6  10
@@ -31,7 +30,9 @@ EOF
 EOF
     test_str = "(1..10).to_a.columnize(:displaywidth=>10)"
     self.assert_equal(expect, eval(test_str), test_str)
+  end
 
+  def test_colfmt
     expect = <<EOF
 [01, 02,
  03, 04,
