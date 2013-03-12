@@ -5,11 +5,11 @@ require 'test/unit'
 class TestColumnize < Test::Unit::TestCase
 
   # Ruby 1.8 form of require_relative
-  TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), 
+  TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)),
                             '..', 'lib')
   require File.join(TOP_SRC_DIR, 'columnize.rb')
   include Columnize
-  
+
   def test_cell_size
     assert_equal(3, cell_size('abc', false))
     assert_equal(3, cell_size('abc', true))
@@ -20,21 +20,21 @@ class TestColumnize < Test::Unit::TestCase
   # test columnize
   def test_basic
     # Try at least one test where we give the module name explicitely.
-    assert_equal("1, 2, 3\n", 
+    assert_equal("1, 2, 3\n",
                  Columnize::columnize([1, 2, 3], 10, ', '))
     assert_equal("", columnize(5))
-    assert_equal("1  3\n2  4\n", 
+    assert_equal("1  3\n2  4\n",
                  columnize(['1', '2', '3', '4'], 4))
-    assert_equal("1  2\n3  4\n", 
+    assert_equal("1  2\n3  4\n",
                  columnize(['1', '2', '3', '4'], 4, '  ', false))
     assert_equal("<empty>\n", columnize([]))
-    
-    
+
+
     assert_equal("oneitem\n", columnize(["oneitem"]))
-    
+
     data = (0..54).map{|i| i.to_s}
     assert_equal(
-            "0,  6, 12, 18, 24, 30, 36, 42, 48, 54\n" + 
+            "0,  6, 12, 18, 24, 30, 36, 42, 48, 54\n" +
             "1,  7, 13, 19, 25, 31, 37, 43, 49\n" +
             "2,  8, 14, 20, 26, 32, 38, 44, 50\n" +
             "3,  9, 15, 21, 27, 33, 39, 45, 51\n" +
@@ -74,11 +74,11 @@ class TestColumnize < Test::Unit::TestCase
             "twentyfive","twentysix",   "twentyseven"]
 
      assert_equal(
-"one         two         three        for          five         six        \n" +
-"seven       eight       nine         ten          eleven       twelve     \n" +
-"thirteen    fourteen    fifteen      sixteen      seventeen    eightteen  \n" +
-"nineteen    twenty      twentyone    twentytwo    twentythree  twentyfour \n" +
-"twentyfive  twentysix   twentyseven\n", columnize(data, 80, '  ', false))
+"one         two        three        for        five         six       \n" +
+"seven       eight      nine         ten        eleven       twelve    \n" +
+"thirteen    fourteen   fifteen      sixteen    seventeen    eightteen \n" +
+"nineteen    twenty     twentyone    twentytwo  twentythree  twentyfour\n" +
+"twentyfive  twentysix  twentyseven\n", columnize(data, 80, '  ', false))
 
     assert_equal(
 "one    five   nine    thirteen  seventeen  twentyone    twentyfive \n" +
