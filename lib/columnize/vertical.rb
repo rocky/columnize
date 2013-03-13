@@ -41,44 +41,34 @@ module Columnize
 
   # vertical rows and columns differ from horizontal rows and columns!
   def compute_stuff(list, opts)
+    cell_widths = list.map {|x| cell_size(x, opts[:term_adjust]) }
     nrows = ncols = 0  # Make nrows, ncols have more global scope
     colwidths = []     # Same for colwidths
-    array_index = lambda {|num_rows, row, col| num_rows*col + row }
+
     # Try every row count from 1 upwards
-    1.upto(list.size-1) do |_nrows|
+    (1...list.size).each do |_nrows|
       nrows = _nrows
-      ncols = (list.size + nrows-1) / nrows
+      ncols = (list.size + nrows - 1) / nrows
       colwidths = []
       totwidth = -opts[:colsep].length
 
-      0.upto(ncols-1) do |col|
+      (0...ncols).each do |col|
         # get max column width for this column
         colwidth = 0
-        0.upto(nrows-1) do |_row|
+        (0...nrows).each do |_row|
           row = _row
-          i = array_index.call(nrows, row, col)
+          i = nrows*col + row
           break if i >= list.size
-          colwidth = [colwidth, cell_size(list[i], opts[:term_adjust])].max
+          colwidth = [colwidth, cell_widths[i]].max
         end
         colwidths.push(colwidth)
         totwidth += colwidth + opts[:colsep].length
-        if totwidth > opts[:displaywidth]
-          ncols = col
-          break
-        end
+        ncols = col and break if totwidth > opts[:displaywidth]
       end
       break if totwidth <= opts[:displaywidth]
     end
     ncols = 1 if ncols < 1
     nrows = list.size if ncols == 1
     [nrows, ncols, colwidths]
-  end
-
-  def v_rows_and_cols(list, nrows, ncols)
-    puts [list, nrows, ncols].inspect
-    cols = (0...ncols).map {|c| list[c*nrows, nrows] }.compact
-    puts "cols: #{cols.inspect}"
-    rows = cols[0].zip(*cols[1..-1]).map(&:compact)
-    [rows, cols]
   end
 end
