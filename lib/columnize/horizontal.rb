@@ -1,12 +1,12 @@
 # Copyright (C) 2007-2011, 2013 Rocky Bernstein
 # <rockyb@rubyforge.net>
 #
-# Part of Columnize to format in the horizontal direction
+# Part of Columnize to format in either direction
 module Columnize
   module_function
-  def columnize_horizontal(list, opts)
-    nrows, ncols, colwidths = compute_rows_cols_and_width list, opts
-    rows = rows_and_cols(list, nrows, ncols)[0]
+  def _columnize(list, opts)
+    rows, colwidths = compute_rows_and_colwidths list, opts
+    ncols = colwidths.length
     justify = lambda {|t, c| opts[:ljust] ? t.ljust(colwidths[c]) : t.rjust(colwidths[c]) }
     textify = lambda do |s, row|
       row.map!.with_index(&justify) unless ncols == 1 && opts[:ljust]
@@ -18,27 +18,29 @@ module Columnize
     text
   end
 
-  # TODO: change this to return [rows, ncols, and colwidths]
   # compute the smallest number of rows and the max widths for each column
-  def compute_rows_cols_and_width(list, opts)
+  def compute_rows_and_colwidths(list, opts)
     cell_widths = list.map {|x| cell_size(x, opts[:term_adjust]) }
-    # default to 1 atom per row (just in case any atom > opts[:displaywidth])
-    rcw = [list.length, 1, [cell_widths.max]]
-    return rcw if rcw[2][0] > opts[:displaywidth]
+    # default is 1 atom per row (just in case any atom > opts[:displaywidth])
+    rcw = [rows_and_cols(list, 1)[0], [cell_widths.max]]
+    return rcw if rcw[1][0] > opts[:displaywidth]
 
-    # Try every column count from size downwards.
-    list.size.downto(1) do |ncols|
-      # given list.size and ncols, calculate minimum number of rows needed. this is very cool.
-      nrows = (list.size + ncols - 1) / ncols
-      colwidths = rows_and_cols(cell_widths, nrows, ncols)[1].map(&:max)
-      totwidth = colwidths.inject(&:+) + ((ncols-1) * opts[:colsep].length)
-      rcw = [nrows, ncols, colwidths] and break if totwidth <= opts[:displaywidth]
+    # TODO: explain why
+    sizes, ri, ci = (1..list.length).to_a, 1, 0
+    sizes, ri, ci = sizes.reverse, 0, 1 unless opts[:arrange_vertical]
+
+    sizes.each do |size|
+      colwidths = rows_and_cols(cell_widths, size)[ci].map(&:max)
+      totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * opts[:colsep].length)
+      rcw = [rows_and_cols(list, size)[ri], colwidths] and break if totwidth <= opts[:displaywidth]
     end
     rcw
   end
 
-  # TODO: compute nrows in here from ncols
-  def rows_and_cols(list, nrows, ncols)
+  # TODO: find a better, more descriptive name for this function
+  def rows_and_cols(list, ncols)
+    # given list.size and ncols, calculate minimum number of rows needed. this is very cool.
+    nrows = (list.size + ncols - 1) / ncols
     rows = (0...nrows).map {|r| list[r*ncols, ncols] }
     cols = rows[0].zip(*rows[1..-1]).map(&:compact)
     [rows, cols]

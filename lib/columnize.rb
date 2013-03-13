@@ -22,7 +22,7 @@ module Columnize
 
   # Pull in the rest of my pieces
   ROOT_DIR = File.dirname(__FILE__)
-  %w(opts horizontal vertical version).each do |submod|
+  %w(opts horizontal version).each do |submod|
     require File.join %W(#{ROOT_DIR} columnize #{submod})
   end
 
@@ -87,7 +87,7 @@ module Columnize
     l = stringify_array_elements list, opts[:colfmt]
     return single_element_format(l[0], opts[:array_prefix], opts[:array_suffix]) if 1 == l.size
     opts[:displaywidth] = set_display_width(opts)
-    opts[:arrange_vertical] ? columnize_vertical(l, opts) : columnize_horizontal(l, opts)
+    _columnize(l, opts)
   end
 
   def stringify_array_elements(list, colfmt)

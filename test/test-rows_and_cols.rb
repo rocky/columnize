@@ -1,19 +1,19 @@
 #!/usr/bin/env ruby
 require 'test/unit'
 
-# Test of Columnize#compute_rows_cols_and_width
+# Test of Columnize#compute_rows_and_colwidths
 class TestRowsAndCols < Test::Unit::TestCase
   # Ruby 1.8 form of require_relative
-  TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)),
-                            '..', 'lib')
+  TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
   require File.join(TOP_SRC_DIR, 'columnize.rb')
   include Columnize
 
-  OPTS = Columnize::DEFAULT_OPTS.merge(:arrange_vertical => false)
+  VOPTS = Columnize::DEFAULT_OPTS
+  HOPTS = VOPTS.merge(:arrange_vertical => false)
 
   def test_base
-    assert_equal([1, 3, [8,8,8]], compute_rows_cols_and_width([1, 2, 3], OPTS))
-    assert_equal([1, 3, [8,8,8]], compute_stuff([1, 2, 3], OPTS))
+    assert_equal([[[1,2,3]], [8,8,8]], compute_rows_and_colwidths([1, 2, 3], HOPTS))
+    assert_equal([[[1,2,3]], [8,8,8]], compute_rows_and_colwidths([1, 2, 3], VOPTS))
   end
 
   def test_colwidths
@@ -27,15 +27,30 @@ class TestRowsAndCols < Test::Unit::TestCase
             "twentytwo", "twentythree", "twentyfour",
             "twentyfive","twentysix",   "twentyseven"]
 
-    assert_equal([5, 6, [10, 9, 11, 9, 11, 10]], compute_rows_cols_and_width(data, OPTS))
-    # assert_equal([5, 6, [10, 9, 11, 9, 11, 10]], compute_stuff(data, OPTS))
+    # horizontal
+    rows, colwidths = compute_rows_and_colwidths(data, HOPTS)
+    assert_equal([10, 9, 11, 9, 11, 10], colwidths, "colwidths")
+    assert_equal(5, rows.length, "number of rows")
+    assert_equal(6, rows.first.length, "number of cols")
+    # vertical
+    rows, colwidths = compute_rows_and_colwidths(data, VOPTS)
+    assert_equal([5, 5, 6, 8, 9, 11, 11], colwidths, "colwidths")
+    assert_equal(4, rows.length, "number of rows")
+    assert_equal(7, rows.first.length, "number of cols")
   end
 
   def test_horizontal_vs_vertical
     data = (0..54).map{|i| i.to_s}
-    opts = OPTS.merge(:displaywidth => 39)
-    assert_equal([6, 10, [2,2,2,2,2,2,2,2,2,2]], compute_rows_cols_and_width(data, opts))
-    assert_equal([6, 10, [1,2,2,2,2,2,2,2,2,2]], compute_stuff(data, opts))
+    # horizontal
+    rows, colwidths = compute_rows_and_colwidths(data, HOPTS.merge(:displaywidth => 39))
+    assert_equal([2,2,2,2,2,2,2,2,2,2], colwidths, "colwidths")
+    assert_equal(6, rows.length, "number of rows")
+    assert_equal(10, rows.first.length, "number of cols")
+    # vertical
+    rows, colwidths = compute_rows_and_colwidths(data, VOPTS.merge(:displaywidth => 39))
+    assert_equal([1,2,2,2,2,2,2,2,2,2], colwidths, "colwidths")
+    assert_equal(6, rows.length, "number of rows")
+    assert_equal(10, rows.first.length, "number of cols")
 
     # assert_equal(
     #         "0,  6, 12, 18, 24, 30, 36, 42, 48, 54\n" +
@@ -58,7 +73,15 @@ class TestRowsAndCols < Test::Unit::TestCase
 
   def test_displaywidth_smaller_than_largest_atom
     data = ['a' * 100, 'b', 'c', 'd', 'e']
-    assert_equal([5, 1, [100]], compute_rows_cols_and_width(data, OPTS))
-    assert_equal([5, 1, [100]], compute_stuff(data, OPTS))
+    # horizontal
+    rows, colwidths = compute_rows_and_colwidths(data, HOPTS)
+    assert_equal([100], colwidths, "colwidths")
+    assert_equal(5, rows.length, "number of rows")
+    assert_equal(1, rows.first.length, "number of cols")
+    # vertical
+    rows, colwidths = compute_rows_and_colwidths(data, VOPTS)
+    assert_equal([100], colwidths, "colwidths")
+    assert_equal(5, rows.length, "number of rows")
+    assert_equal(1, rows.first.length, "number of cols")
   end
 end
