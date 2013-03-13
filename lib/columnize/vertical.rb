@@ -42,33 +42,32 @@ module Columnize
   # vertical rows and columns differ from horizontal rows and columns!
   def compute_stuff(list, opts)
     cell_widths = list.map {|x| cell_size(x, opts[:term_adjust]) }
-    nrows = ncols = 0  # Make nrows, ncols have more global scope
-    colwidths = []     # Same for colwidths
+    # default to 1 atom per row (just in case any atom > opts[:displaywidth])
+    rcw = [list.length, 1, [cell_widths.max]]
+    return rcw if rcw[2][0] > opts[:displaywidth]
 
     # Try every row count from 1 upwards
-    (1...list.size).each do |_nrows|
-      nrows = _nrows
+    (1...list.size).each do |nrows|
       ncols = (list.size + nrows - 1) / nrows
       colwidths = []
       totwidth = -opts[:colsep].length
 
+      # test this (nrows, ncols) combo for suitability: i.e. totwidth <= displaywidth
       (0...ncols).each do |col|
         # get max column width for this column
         colwidth = 0
-        (0...nrows).each do |_row|
-          row = _row
+        (0...nrows).each do |row|
           i = nrows*col + row
           break if i >= list.size
           colwidth = [colwidth, cell_widths[i]].max
         end
         colwidths.push(colwidth)
         totwidth += colwidth + opts[:colsep].length
-        ncols = col and break if totwidth > opts[:displaywidth]
+        break if totwidth > opts[:displaywidth]
       end
-      break if totwidth <= opts[:displaywidth]
+      # return first suitable (nrows, ncols) combo
+      rcw = [nrows, ncols, colwidths] and break if totwidth <= opts[:displaywidth]
     end
-    ncols = 1 if ncols < 1
-    nrows = list.size if ncols == 1
-    [nrows, ncols, colwidths]
+    rcw
   end
 end

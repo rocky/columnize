@@ -18,6 +18,7 @@ module Columnize
     text
   end
 
+  # TODO: change this to return [rows, ncols, and colwidths]
   # compute the smallest number of rows and the max widths for each column
   def compute_rows_cols_and_width(list, opts)
     cell_widths = list.map {|x| cell_size(x, opts[:term_adjust]) }
@@ -36,6 +37,7 @@ module Columnize
     rcw
   end
 
+  # TODO: compute nrows in here from ncols
   def rows_and_cols(list, nrows, ncols)
     rows = (0...nrows).map {|r| list[r*ncols, ncols] }
     cols = rows[0].zip(*rows[1..-1]).map(&:compact)
