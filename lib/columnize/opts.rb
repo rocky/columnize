@@ -61,25 +61,15 @@ module Columnize
   end
 
   def opts_from_hash(hash, list)
+    aa_opts = {:array_prefix => '[', :lineprefix => ' ', :linesuffix => ",\n", :array_suffix => "]\n", :colsep => ', ', :arrange_vertical => false}
     opts = DEFAULT_OPTS.merge(hash)
-    if opts[:arrange_array]
-      opts[:array_prefix] = '['
-      opts[:lineprefix]   = ' '
-      opts[:linesuffix]   = ",\n"
-      opts[:array_suffix] = "]\n"
-      opts[:colsep]       = ', '
-      opts[:arrange_vertical] = false
-    end
+    opts = opts.merge(aa_opts) if opts[:arrange_array]
     opts[:ljust] = !(list.all?{|datum| datum.kind_of?(Numeric)}) if opts[:ljust] == :auto
     opts
   end
 
   def opts_from_params(params)
-    opts = DEFAULT_OPTS.dup
-    %w(displaywidth colsep arrange_vertical ljust lineprefix).each do |field|
-      break if params.empty?
-      opts[field.to_sym] = params.shift
-    end
-    opts
+    return DEFAULT_OPTS.dup if params.empty?
+    DEFAULT_OPTS.merge Hash[params.zip([:displaywidth, :colsep, :arrange_vertical, :ljust, :lineprefix]).map(&:reverse)]
   end
 end
