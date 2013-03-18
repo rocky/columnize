@@ -28,16 +28,6 @@ module Columnize
 
   module_function
 
-  # Return the length of String +cell+. If Boolean +term_adjust+ is true,
-  # ignore terminal sequences in +cell+.
-  def cell_size(cell, term_adjust)
-    if term_adjust
-      cell.gsub(/\e\[.*?m/, '')
-    else
-      cell
-    end.size
-  end
-
   #  columize([args]) => String
   #
   #  Return a string from an array with embedded newlines formatted so
@@ -83,11 +73,7 @@ module Columnize
     return '' if not list.is_a?(Array)
     return  "<empty>\n" if list.empty?
 
-    # Stringify array elements
-    l = stringify_array_elements list, opts[:colfmt]
-    return single_element_format(l[0], opts[:array_prefix], opts[:array_suffix]) if 1 == l.size
-    opts[:displaywidth] = set_display_width(opts)
-    _columnize(l, opts)
+    _columnize stringify_array_elements(list, opts[:colfmt]), opts
   end
 
   def stringify_array_elements(list, colfmt)
@@ -95,18 +81,6 @@ module Columnize
       list.map {|li| colfmt % li }
     else
       list.map {|li| li.to_s }
-    end
-  end
-
-  def single_element_format(element, prefix, suffix)
-    "%s%s%s\n" % [prefix, element, suffix]
-  end
-
-  def set_display_width(opts)
-    if opts[:displaywidth] - opts[:lineprefix].length < 4
-      opts[:lineprefix].length + 4
-    else
-      opts[:displaywidth] - opts[:lineprefix].length
     end
   end
 end

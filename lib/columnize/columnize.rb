@@ -45,4 +45,13 @@ module Columnize
     cols = rows[0].zip(*rows[1..-1]).map(&:compact)
     [rows, cols]
   end
+
+  # Return the length of String +cell+. If Boolean +term_adjust+ is true, ignore terminal sequences in +cell+.
+  def cell_size(cell, term_adjust)
+    if term_adjust
+      cell.gsub(/\e\[.*?m/, '')
+    else
+      cell
+    end.size
+  end
 end

@@ -44,6 +44,8 @@ module Columnize
   # variable.
   module_function
   def parse_columnize_options(args)
+    # TODO: make this work
+    # list = self.class.included_modules.include?(::Columnize) ? self : args.shift
     list = args.shift
 
     if 1 == args.size && args[0].kind_of?(Hash) # explicitly passed as a hash
@@ -57,6 +59,7 @@ module Columnize
     else  # When all else fails, just use the default options.
       opts = DEFAULT_OPTS.dup
     end
+    opts[:displaywidth] = working_displaywidth(opts[:displaywidth], opts[:lineprefix])
     return list, opts
   end
 
@@ -71,5 +74,13 @@ module Columnize
   def opts_from_params(params)
     return DEFAULT_OPTS.dup if params.empty?
     DEFAULT_OPTS.merge Hash[params.zip([:displaywidth, :colsep, :arrange_vertical, :ljust, :lineprefix]).map(&:reverse)]
+  end
+
+  def working_displaywidth(displaywidth, lineprefix)
+    if displaywidth - lineprefix.length < 4
+      lineprefix.length + 4
+    else
+      displaywidth - lineprefix.length
+    end
   end
 end
