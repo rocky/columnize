@@ -22,7 +22,7 @@ module Columnize
 
   # Pull in the rest of my pieces
   ROOT_DIR = File.dirname(__FILE__)
-  %w(opts horizontal version).each do |submod|
+  %w(opts columnize version).each do |submod|
     require File.join %W(#{ROOT_DIR} columnize #{submod})
   end
 
