@@ -5,6 +5,7 @@
 module Columnize
   module_function
   def _columnize(list, opts)
+    list = stringify_array_elements(list, opts[:colfmt])
     rows, colwidths = compute_rows_and_colwidths list, opts
     ncols = colwidths.length
     justify = lambda {|t, c| opts[:ljust] ? t.ljust(colwidths[c]) : t.rjust(colwidths[c]) }
@@ -53,5 +54,13 @@ module Columnize
     else
       cell
     end.size
+  end
+
+  def stringify_array_elements(list, colfmt)
+    if colfmt
+      list.map {|li| colfmt % li }
+    else
+      list.map {|li| li.to_s }
+    end
   end
 end

@@ -3,34 +3,27 @@ require 'test/unit'
 
 # Test of Columnize module
 class TestColumnize < Test::Unit::TestCase
-
   # Ruby 1.8 form of require_relative
-  TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)),
-                            '..', 'lib')
+  TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
   require File.join(TOP_SRC_DIR, 'columnize.rb')
-  include Columnize
 
   def test_cell_size
-    assert_equal(3, cell_size('abc', false))
-    assert_equal(3, cell_size('abc', true))
-    assert_equal(6, cell_size("\e[0;31mObject\e[0;4m", true))
-    assert_equal(19, cell_size("\e[0;31mObject\e[0;4m", false))
+    Columnize.send :module_function, :cell_size
+    assert_equal(3, Columnize::cell_size('abc', false))
+    assert_equal(3, Columnize::cell_size('abc', true))
+    assert_equal(6, Columnize::cell_size("\e[0;31mObject\e[0;4m", true))
+    assert_equal(19, Columnize::cell_size("\e[0;31mObject\e[0;4m", false))
   end
 
   # test columnize
   def test_basic
-    # Try at least one test where we give the module name explicitely.
-    assert_equal("1, 2, 3\n",
-                 Columnize::columnize([1, 2, 3], 10, ', '))
-    assert_equal("", columnize(5))
-    assert_equal("1  3\n2  4\n",
-                 columnize(['1', '2', '3', '4'], 4))
-    assert_equal("1  2\n3  4\n",
-                 columnize(['1', '2', '3', '4'], 4, '  ', false))
-    assert_equal("<empty>\n", columnize([]))
+    assert_equal("1, 2, 3\n", Columnize::columnize([1, 2, 3], 10, ', '))
+    assert_equal("", Columnize::columnize(5))
+    assert_equal("1  3\n2  4\n", Columnize::columnize(['1', '2', '3', '4'], 4))
+    assert_equal("1  2\n3  4\n", Columnize::columnize(['1', '2', '3', '4'], 4, '  ', false))
+    assert_equal("<empty>\n", Columnize::columnize([]))
 
-
-    assert_equal("oneitem\n", columnize(["oneitem"]))
+    assert_equal("oneitem\n", Columnize::columnize(["oneitem"]))
 
     data = (0..54).map{|i| i.to_s}
     assert_equal(
@@ -40,7 +33,7 @@ class TestColumnize < Test::Unit::TestCase
             "3,  9, 15, 21, 27, 33, 39, 45, 51\n" +
             "4, 10, 16, 22, 28, 34, 40, 46, 52\n" +
             "5, 11, 17, 23, 29, 35, 41, 47, 53\n",
-            columnize(data, 39, ', ', true, false))
+            Columnize::columnize(data, 39, ', ', true, false))
 
     assert_equal(
             " 0,  1,  2,  3,  4,  5,  6,  7,  8,  9\n" +
@@ -49,7 +42,7 @@ class TestColumnize < Test::Unit::TestCase
             "30, 31, 32, 33, 34, 35, 36, 37, 38, 39\n" +
             "40, 41, 42, 43, 44, 45, 46, 47, 48, 49\n" +
             "50, 51, 52, 53, 54\n",
-            columnize(data, 39, ', ', false, false))
+            Columnize::columnize(data, 39, ', ', false, false))
 
 
     assert_equal(
@@ -60,7 +53,7 @@ class TestColumnize < Test::Unit::TestCase
             "  36, 37, 38, 39, 40, 41, 42, 43, 44\n" +
             "  45, 46, 47, 48, 49, 50, 51, 52, 53\n" +
             "  54\n",
-            columnize(data, 39, ', ', false, false, '  '))
+            Columnize::columnize(data, 39, ', ', false, false, '  '))
 
 
     data = ["one",       "two",         "three",
@@ -78,13 +71,13 @@ class TestColumnize < Test::Unit::TestCase
 "seven       eight      nine         ten        eleven       twelve    \n" +
 "thirteen    fourteen   fifteen      sixteen    seventeen    eightteen \n" +
 "nineteen    twenty     twentyone    twentytwo  twentythree  twentyfour\n" +
-"twentyfive  twentysix  twentyseven\n", columnize(data, 80, '  ', false))
+"twentyfive  twentysix  twentyseven\n", Columnize::columnize(data, 80, '  ', false))
 
     assert_equal(
 "one    five   nine    thirteen  seventeen  twentyone    twentyfive \n" +
 "two    six    ten     fourteen  eightteen  twentytwo    twentysix  \n" +
 "three  seven  eleven  fifteen   nineteen   twentythree  twentyseven\n" +
-"for    eight  twelve  sixteen   twenty     twentyfour \n", columnize(data))
+"for    eight  twelve  sixteen   twenty     twentyfour \n", Columnize::columnize(data))
 
   end
 end

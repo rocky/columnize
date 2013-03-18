@@ -19,7 +19,6 @@
 # Also available in Python (columnize), and Perl (Array::Columnize)
 
 module Columnize
-
   # Pull in the rest of my pieces
   ROOT_DIR = File.dirname(__FILE__)
   %w(opts columnize version).each do |submod|
@@ -65,22 +64,36 @@ module Columnize
   # * whether to left justify text instead of right justify
   # * whether to format as an array - with surrounding [] and
   #   separating ', '
-
   def columnize(*args)
-    list, opts = parse_columnize_options(args)
+    # TODO: make this work
+    # list = self.class.included_modules.include?(::Columnize) ? self : args.shift
+    list = args.shift
 
     # Some degenerate cases
     return '' if not list.is_a?(Array)
     return  "<empty>\n" if list.empty?
 
-    _columnize stringify_array_elements(list, opts[:colfmt]), opts
+    opts = parse_columnize_options(args)
+    opts[:ljust] = !list.all? {|datum| datum.kind_of?(Numeric)} if opts[:ljust] == :auto
+    opts[:displaywidth] = working_displaywidth(opts[:displaywidth], opts[:lineprefix])
+    _columnize list, opts
   end
 
-  def stringify_array_elements(list, colfmt)
-    if colfmt
-      list.map {|li| colfmt % li }
-    else
-      list.map {|li| li.to_s }
+  class Columnizer
+    def initialize(list=[], *opts)
+      @list = list
+      @opts = opts
+    end
+
+    def columnize
+      # Some degenerate cases
+      return '' if not @list.is_a?(Array)
+      return  "<empty>\n" if @list.empty?
+
+      @opts = parse_columnize_options(@opts)
+      @opts[:ljust] = !@list.all? {|datum| datum.kind_of?(Numeric)} if @opts[:ljust] == :auto
+      @opts[:displaywidth] = working_displaywidth(@opts[:displaywidth], @opts[:lineprefix])
+      _columnize list, opts
     end
   end
 end
@@ -91,13 +104,12 @@ end
 # Array.send :public, :columnize
 
 class Array
+  include Columnize
   attr_accessor :columnize_opts
+  alias_method :base_columnize, :columnize
+
   def columnize(*args)
-    if args.empty? and self.columnize_opts
-      Columnize.columnize(self, self.columnize_opts)
-    else
-      Columnize.columnize(self, *args)
-    end
+    base_columnize(self, *args)
   end
 end
 
