@@ -76,25 +76,7 @@ module Columnize
     opts = parse_columnize_options(args)
     opts[:ljust] = !list.all? {|datum| datum.kind_of?(Numeric)} if opts[:ljust] == :auto
     opts[:displaywidth] = working_displaywidth(opts[:displaywidth], opts[:lineprefix])
-    _columnize list, opts
-  end
-
-  class Columnizer
-    def initialize(list=[], *opts)
-      @list = list
-      @opts = opts
-    end
-
-    def columnize
-      # Some degenerate cases
-      return '' if not @list.is_a?(Array)
-      return  "<empty>\n" if @list.empty?
-
-      @opts = parse_columnize_options(@opts)
-      @opts[:ljust] = !@list.all? {|datum| datum.kind_of?(Numeric)} if @opts[:ljust] == :auto
-      @opts[:displaywidth] = working_displaywidth(@opts[:displaywidth], @opts[:lineprefix])
-      _columnize list, opts
-    end
+    Columnizer.new(list, opts).columnize
   end
 end
 

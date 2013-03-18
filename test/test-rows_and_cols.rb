@@ -6,14 +6,17 @@ class TestRowsAndCols < Test::Unit::TestCase
   # Ruby 1.8 form of require_relative
   TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
   require File.join(TOP_SRC_DIR, 'columnize.rb')
-  include Columnize
 
   VOPTS = Columnize::DEFAULT_OPTS
   HOPTS = VOPTS.merge(:arrange_vertical => false)
 
+  def compute_rows_and_colwidths(list, opts)
+    Columnize::Columnizer.new(list, opts).compute_rows_and_colwidths
+  end
+
   def test_base
-    assert_equal([[[1,2,3]], [8,8,8]], compute_rows_and_colwidths([1, 2, 3], HOPTS))
-    assert_equal([[[1,2,3]], [8,8,8]], compute_rows_and_colwidths([1, 2, 3], VOPTS))
+    assert_equal([[['1','2','3']], [1,1,1]], compute_rows_and_colwidths([1, 2, 3], HOPTS))
+    assert_equal([[['1','2','3']], [1,1,1]], compute_rows_and_colwidths([1, 2, 3], VOPTS))
   end
 
   def test_colwidths
