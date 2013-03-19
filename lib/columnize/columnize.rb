@@ -4,10 +4,16 @@
 # Part of Columnize to format in either direction
 module Columnize
   class Columnizer
+    ARRANGE_ARRAY_OPTS = {:array_prefix => '[', :lineprefix => ' ', :linesuffix => ",\n", :array_suffix => "]\n", :colsep => ', ', :arrange_vertical => false}
+
     attr_reader :list, :opts
+
     def initialize(list=[], opts={})
       @list = list
-      @opts = opts
+      @opts = DEFAULT_OPTS.merge(opts)
+      @opts.merge!(ARRANGE_ARRAY_OPTS) if @opts[:arrange_array]
+      @opts[:ljust] = !@list.all? {|datum| datum.kind_of?(Numeric)} if @opts[:ljust] == :auto
+      adjust_displaywidth
       @stringify = @opts[:colfmt] ? lambda {|li| @opts[:colfmt] % li } : lambda {|li| li.to_s }
       if @list.is_a? Array
         @short_circuit = "<empty>\n" if @list.empty?
@@ -70,6 +76,17 @@ module Columnize
       else
         cell
       end.size
+    end
+
+    def adjust_displaywidth
+      if @opts[:displaywidth] - @opts[:lineprefix].length < 4
+        @opts[:displaywidth] = @opts[:lineprefix].length + 4
+      else
+        @opts[:displaywidth] -= @opts[:lineprefix].length
+      end
+    end
+
+    def set_attrs_from_opts
     end
   end
 end

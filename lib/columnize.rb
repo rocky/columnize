@@ -74,8 +74,6 @@ module Columnize
     return  "<empty>\n" if list.empty?
 
     opts = parse_columnize_options(args)
-    opts[:ljust] = !list.all? {|datum| datum.kind_of?(Numeric)} if opts[:ljust] == :auto
-    opts[:displaywidth] = working_displaywidth(opts[:displaywidth], opts[:lineprefix])
     Columnizer.new(list, opts).columnize
   end
 end

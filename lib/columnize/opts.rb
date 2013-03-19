@@ -42,35 +42,15 @@ module Columnize
   # variable.
   def parse_columnize_options(args)
     if 1 == args.size && args[0].kind_of?(Hash) # explicitly passed as a hash
-      opts_from_hash args[0]
+      args[0]
     elsif !args.empty? # passed as ugly positional parameters.
-      opts_from_params args
+      Hash[args.zip([:displaywidth, :colsep, :arrange_vertical, :ljust, :lineprefix]).map(&:reverse)]
     elsif defined?(@columnize_opts) # class has an option set as an instance variable.
-      opts_from_hash @columnize_opts
+      @columnize_opts
     elsif defined?(@@columnize_opts) # class has an option set as a class variable.
-      opts_from_hash @@columnize_opts.dup
+      @@columnize_opts
     else  # When all else fails, just use the default options.
-      opts_from_hash DEFAULT_OPTS.dup
-    end
-  end
-
-  def opts_from_hash(hash)
-    aa_opts = {:array_prefix => '[', :lineprefix => ' ', :linesuffix => ",\n", :array_suffix => "]\n", :colsep => ', ', :arrange_vertical => false}
-    opts = DEFAULT_OPTS.merge(hash)
-    opts.merge!(aa_opts) if opts[:arrange_array]
-    opts
-  end
-
-  def opts_from_params(params)
-    return DEFAULT_OPTS.dup if params.empty?
-    DEFAULT_OPTS.merge Hash[params.zip([:displaywidth, :colsep, :arrange_vertical, :ljust, :lineprefix]).map(&:reverse)]
-  end
-
-  def working_displaywidth(displaywidth, lineprefix)
-    if displaywidth - lineprefix.length < 4
-      lineprefix.length + 4
-    else
-      displaywidth - lineprefix.length
+      {}
     end
   end
 end
