@@ -11,12 +11,7 @@ module Columnize
 
     def initialize(list=[], opts={})
       self.list = list
-      @opts = DEFAULT_OPTS.merge(opts)
-      OLD_AND_NEW_KEYS.each {|old, new| @opts[new] = @opts.delete(old) if @opts.keys.include?(old) and !@opts.keys.include?(new) }
-      @opts.merge!(ARRANGE_ARRAY_OPTS) if @opts[:arrange_array]
-      @opts[:ljust] = !@list.all? {|datum| datum.kind_of?(Numeric)} if @opts[:ljust] == :auto
-      adjust_displaywidth
-      @stringify = @opts[:colfmt] ? lambda {|li| @opts[:colfmt] % li } : lambda {|li| li.to_s }
+      self.opts = DEFAULT_OPTS.merge(opts)
     end
 
     def list=(list)
@@ -30,6 +25,16 @@ module Columnize
     end
 
     def opts=(opts)
+      @opts = opts
+      OLD_AND_NEW_KEYS.each {|old, new| @opts[new] = @opts.delete(old) if @opts.keys.include?(old) and !@opts.keys.include?(new) }
+      @opts.merge!(ARRANGE_ARRAY_OPTS) if @opts[:arrange_array]
+      @opts[:ljust] = !@list.all? {|datum| datum.kind_of?(Numeric)} if @opts[:ljust] == :auto
+      adjust_displaywidth
+      @stringify = @opts[:colfmt] ? lambda {|li| @opts[:colfmt] % li } : lambda {|li| li.to_s }
+    end
+
+    def update_opts(opts)
+      self.opts = @opts.merge(opts)
     end
 
     def columnize

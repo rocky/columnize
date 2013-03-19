@@ -61,14 +61,14 @@ class TestColumnizer < Test::Unit::TestCase
   def test_columnize_applies_colsep_and_prefix_and_suffix
     c = Columnize::Columnizer.new [1,2,3]
     assert_equal "1  2  3\n", c.columnize
-    c.opts[:line_prefix], c.opts[:colsep], c.opts[:line_suffix] = ['>', '-', '<']
+    c.update_opts :line_prefix => '>', :colsep => '-', :line_suffix => '<'
     assert_equal ">1-2-3<", c.columnize
   end
 
   def test_columnize_applies_array_prefix_and_suffix
     c = Columnize::Columnizer.new [1,2,3]
     assert_equal "1  2  3\n", c.columnize
-    c.opts[:array_prefix], c.opts[:array_suffix] = ['>', '<']
+    c.update_opts :array_prefix => '>', :array_suffix => '<'
     assert_equal ">1  2  3\n<", c.columnize
   end
 
@@ -93,9 +93,7 @@ class TestColumnizer < Test::Unit::TestCase
   def test_adjust_display_width
     c = Columnize::Columnizer.new [], :displaywidth => 10, :line_prefix => '        '
     assert_equal 12, c.opts[:displaywidth], 'displaywidth within 4 of line_prefix.length'
-    c.opts[:displaywidth] = 10
-    c.opts[:line_prefix] = '  '
-    c.adjust_displaywidth
+    c.update_opts :displaywidth => 10, :line_prefix => '  '
     assert_equal 8, c.opts[:displaywidth], 'displaywidth not within 4 of line_prefix.length'
   end
 
