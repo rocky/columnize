@@ -2,7 +2,7 @@
 require 'test/unit'
 
 # Test of Columnize#compute_rows_and_colwidths
-class TestRowsAndCols < Test::Unit::TestCase
+class TestComputeRowsAndColwidths < Test::Unit::TestCase
   # Ruby 1.8 form of require_relative
   TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
   require File.join(TOP_SRC_DIR, 'columnize.rb')
@@ -12,11 +12,6 @@ class TestRowsAndCols < Test::Unit::TestCase
 
   def compute_rows_and_colwidths(list, opts)
     Columnize::Columnizer.new(list, opts).compute_rows_and_colwidths
-  end
-
-  def test_base
-    assert_equal([[['1','2','3']], [1,1,1]], compute_rows_and_colwidths([1, 2, 3], HOPTS))
-    assert_equal([[['1','2','3']], [1,1,1]], compute_rows_and_colwidths([1, 2, 3], VOPTS))
   end
 
   def test_colwidths
@@ -54,24 +49,6 @@ class TestRowsAndCols < Test::Unit::TestCase
     assert_equal([1,2,2,2,2,2,2,2,2,2], colwidths, "colwidths")
     assert_equal(6, rows.length, "number of rows")
     assert_equal(10, rows.first.length, "number of cols")
-
-    # assert_equal(
-    #         "0,  6, 12, 18, 24, 30, 36, 42, 48, 54\n" +
-    #         "1,  7, 13, 19, 25, 31, 37, 43, 49\n" +
-    #         "2,  8, 14, 20, 26, 32, 38, 44, 50\n" +
-    #         "3,  9, 15, 21, 27, 33, 39, 45, 51\n" +
-    #         "4, 10, 16, 22, 28, 34, 40, 46, 52\n" +
-    #         "5, 11, 17, 23, 29, 35, 41, 47, 53\n",
-    #         columnize(data, 39, ', ', true, false))
-
-    # assert_equal(
-    #         " 0,  1,  2,  3,  4,  5,  6,  7,  8,  9\n" +
-    #         "10, 11, 12, 13, 14, 15, 16, 17, 18, 19\n" +
-    #         "20, 21, 22, 23, 24, 25, 26, 27, 28, 29\n" +
-    #         "30, 31, 32, 33, 34, 35, 36, 37, 38, 39\n" +
-    #         "40, 41, 42, 43, 44, 45, 46, 47, 48, 49\n" +
-    #         "50, 51, 52, 53, 54\n",
-    #         columnize(data, 39, ', ', false, false))
   end
 
   def test_displaywidth_smaller_than_largest_atom

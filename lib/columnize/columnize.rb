@@ -4,24 +4,32 @@
 # Part of Columnize to format in either direction
 module Columnize
   class Columnizer
-    ARRANGE_ARRAY_OPTS = {:array_prefix => '[', :lineprefix => ' ', :linesuffix => ",\n", :array_suffix => "]\n", :colsep => ', ', :arrange_vertical => false}
+    ARRANGE_ARRAY_OPTS = {:array_prefix => '[', :line_prefix => ' ', :line_suffix => ",\n", :array_suffix => "]\n", :colsep => ', ', :arrange_vertical => false}
+    OLD_AND_NEW_KEYS = {:lineprefix => :line_prefix, :linesuffix => :line_suffix}
 
     attr_reader :list, :opts
 
     def initialize(list=[], opts={})
-      @list = list
+      self.list = list
       @opts = DEFAULT_OPTS.merge(opts)
+      OLD_AND_NEW_KEYS.each {|old, new| @opts[new] = @opts.delete(old) if @opts.keys.include?(old) and !@opts.keys.include?(new) }
       @opts.merge!(ARRANGE_ARRAY_OPTS) if @opts[:arrange_array]
       @opts[:ljust] = !@list.all? {|datum| datum.kind_of?(Numeric)} if @opts[:ljust] == :auto
       adjust_displaywidth
       @stringify = @opts[:colfmt] ? lambda {|li| @opts[:colfmt] % li } : lambda {|li| li.to_s }
+    end
+
+    def list=(list)
+      @list = list
       if @list.is_a? Array
-        @short_circuit = "<empty>\n" if @list.empty?
+        @short_circuit = @list.empty? ? "<empty>\n" : nil
       else
         @short_circuit = ''
         @list = []
       end
-      # TODO: START HERE: make everything that can be an attr, be an attr
+    end
+
+    def opts=(opts)
     end
 
     def columnize
@@ -32,14 +40,15 @@ module Columnize
       justify = lambda {|t, c| @opts[:ljust] ? t.ljust(colwidths[c]) : t.rjust(colwidths[c]) }
       textify = lambda do |s, row|
         row.map!.with_index(&justify) unless ncols == 1 && @opts[:ljust]
-        s + "#{@opts[:lineprefix]}#{row.join(@opts[:colsep])}#{@opts[:linesuffix]}"
+        s + "#{@opts[:line_prefix]}#{row.join(@opts[:colsep])}#{@opts[:line_suffix]}"
       end
 
       text = rows.inject('', &textify)
-      text = text.sub(@opts[:lineprefix], @opts[:array_prefix]) + @opts[:array_suffix] unless @opts[:array_prefix].empty?
+      text = text.sub(@opts[:line_prefix], @opts[:array_prefix]) + @opts[:array_suffix] unless @opts[:array_prefix].empty?
       text
     end
 
+    # TODO: make this a method, rather than a function (?)
     # compute the smallest number of rows and the max widths for each column
     def compute_rows_and_colwidths
       list = @list.map &@stringify
@@ -79,14 +88,15 @@ module Columnize
     end
 
     def adjust_displaywidth
-      if @opts[:displaywidth] - @opts[:lineprefix].length < 4
-        @opts[:displaywidth] = @opts[:lineprefix].length + 4
+      if @opts[:displaywidth] - @opts[:line_prefix].length < 4
+        @opts[:displaywidth] = @opts[:line_prefix].length + 4
       else
-        @opts[:displaywidth] -= @opts[:lineprefix].length
+        @opts[:displaywidth] -= @opts[:line_prefix].length
       end
     end
 
     def set_attrs_from_opts
+      # TODO: START HERE: make everything that can be an attr, be an attr
     end
   end
 end

@@ -7,17 +7,6 @@ class TestColumnize < Test::Unit::TestCase
   TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
   require File.join(TOP_SRC_DIR, 'columnize.rb')
 
-  # TODO: reorganize this someplace else
-  def test_cell_size
-    columnizer = Columnize::Columnizer.new
-    columnizer.opts[:term_adjust] = false
-    assert_equal(3, columnizer.cell_size('abc'))
-    assert_equal(19, columnizer.cell_size("\e[0;31mObject\e[0;4m"))
-    columnizer.opts[:term_adjust] = true
-    assert_equal(3, columnizer.cell_size('abc'))
-    assert_equal(6, columnizer.cell_size("\e[0;31mObject\e[0;4m"))
-  end
-
   # test columnize
   def test_basic
     assert_equal("1, 2, 3\n", Columnize::columnize([1, 2, 3], 10, ', '))
