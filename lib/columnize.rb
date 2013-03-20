@@ -25,9 +25,10 @@ module Columnize
     require File.join %W(#{ROOT_DIR} columnize #{submod})
   end
 
-  module_function
+  # Add +columnize_opts+ instance variable to classes that mix in this module. The type should be a kind of hash as above.
+  attr_accessor :columnize_opts
 
-  #  columize([args]) => String
+  #  Columnize.columize([args]) => String
   #
   #  Return a string from an array with embedded newlines formatted so
   #  that when printed the columns are aligned.
@@ -64,34 +65,40 @@ module Columnize
   # * whether to left justify text instead of right justify
   # * whether to format as an array - with surrounding [] and
   #   separating ', '
-  def columnize(*args)
-    # TODO: make this work
-    # list = self.class.included_modules.include?(::Columnize) ? self : args.shift
+  def self.columnize(*args)
     list = args.shift
-
-    # Some degenerate cases
-    return '' if not list.is_a?(Array)
-    return  "<empty>\n" if list.empty?
-
     opts = parse_columnize_options(args)
     Columnizer.new(list, opts).columnize
   end
-end
 
-# Mix in "Columnize" in the Array class and make the columnize method
-# public.
-# Array.send :include, Columnize
-# Array.send :public, :columnize
+  # Adds class variable into any class mixes in this module.
+  def self.included(base)
+    base.class_variable_set :@@columnize_opts, DEFAULT_OPTS.dup if base.respond_to?(:class_variable_set)
+  end
 
-class Array
-  include Columnize
-  attr_accessor :columnize_opts
-  alias_method :base_columnize, :columnize
-
-  def columnize(*args)
-    base_columnize(self, *args)
+  # TODO: START HERE: figure out the best way for a new array to have @columnize_opts pre-set; also, figure out why @@columnize_opts isn't initialized
+  def columnize
+    @columnize_opts ||= @@columnize_opts.dup
+    @columnizer ||= Columnizer.new(self, @columnize_opts)
+    # make sure that any changes to list or opts get passed to columnizer
+    @columnizer.list = self unless @columnizer.list == self
+    @columnizer.opts = @columnize_opts unless @columnizer.opts == @columnize_opts
+    @columnizer.columnize
   end
 end
+
+# Mix in "Columnize" in the Array class and make the columnize method public.
+Array.send :include, Columnize
+
+# class Array
+#   include Columnize
+#   attr_accessor :columnize_opts
+#   alias_method :base_columnize, :columnize
+
+#   def columnize(*args)
+#     base_columnize(self, *args)
+#   end
+# end
 
 # Demo this sucker
 if __FILE__ == $0

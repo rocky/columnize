@@ -17,16 +17,6 @@ module Columnize
     :term_adjust       => false
   }
 
-  # Add +columnize_opts+ instance variable to classes that mix in this module. The type should be a kind of hash as above.
-  attr_accessor :columnize_opts
-
-  # Adds class variable into any class mixes in this module.
-  def self.included(base)
-    base.class_variable_set :@@columnize_opts, DEFAULT_OPTS.dup if base.respond_to?(:class_variable_set)
-  end
-
-  module_function
-
   # Options parsing routine for Columnize::columnize. In the preferred
   # newer style, +args+ is either a hash where each key is one of the option
   # names:
@@ -40,7 +30,7 @@ module Columnize
   # the columnize method call, we also now allow options to be picked
   # up from a columnize_opts instance variable or columnize_opts class
   # variable.
-  def parse_columnize_options(args)
+  def self.parse_columnize_options(args)
     if 1 == args.size && args[0].kind_of?(Hash) # explicitly passed as a hash
       args[0]
     elsif !args.empty? # passed as ugly positional parameters.
@@ -49,7 +39,7 @@ module Columnize
       @columnize_opts
     elsif defined?(@@columnize_opts) # class has an option set as a class variable.
       @@columnize_opts
-    else  # When all else fails, just use the default options.
+    else
       {}
     end
   end
