@@ -98,7 +98,7 @@ Other stuff
 -----------
 
 Authors:   Rocky Bernstein <rockyb@rubyforge.org>
-           [https://github.com/waslogic](Martin Davis)
+           [Martin Davis](https://github.com/waslogic)
 
 License:   Copyright (c) 2011 Rocky Bernstein
 
