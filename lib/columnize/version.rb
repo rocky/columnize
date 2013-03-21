@@ -3,5 +3,5 @@
 # require'ing 'columnize'.
 module Columnize
   # The current version of this package
-  VERSION = '0.3.6_01'
+  VERSION = '1.0.0'
 end
