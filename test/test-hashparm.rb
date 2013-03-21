@@ -5,21 +5,18 @@ require 'test/unit'
 class TestHashFormat < Test::Unit::TestCase
   TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
   require File.join(TOP_SRC_DIR, 'columnize.rb')
-  include Columnize
-  # TODO: determine if we should delete nil values
+
   def test_parse_columnize_options
-    default_opts = parse_columnize_options([{}])
-    assert default_opts.kind_of?(Hash)
-    opts = parse_columnize_options([90])
-    assert_equal 90, opts[:displaywidth]
-    opts = parse_columnize_options([70, '|'])
+    assert Columnize.parse_columnize_options([{}]).kind_of?(Hash)
+    assert_equal 90, Columnize.parse_columnize_options([90])[:displaywidth]
+    opts = Columnize.parse_columnize_options([70, '|'])
     assert_equal 70, opts[:displaywidth]
     assert_equal '|', opts[:colsep]
   end
 
   def test_new_hash
     hash = {:displaywidth => 40, :colsep => ', ', :term_adjust => true,}
-    assert_equal(hash, parse_columnize_options([hash]), "parse_columnize_options returns same hash it was passed")
+    assert_equal(hash, Columnize.parse_columnize_options([hash]), "parse_columnize_options returns same hash it was passed")
   end
 
   def test_array
@@ -31,7 +28,7 @@ class TestHashFormat < Test::Unit::TestCase
                " 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,\n" +
                " 50, 51, 52, 53, 54,\n" +
                "]\n"
-    assert_equal(expected, columnize(data, :arrange_array => true, :ljust => false, :displaywidth  => 39))
+    assert_equal(expected, Columnize.columnize(data, :arrange_array => true, :ljust => false, :displaywidth  => 39))
   end
 
   def test_justify
@@ -43,6 +40,6 @@ class TestHashFormat < Test::Unit::TestCase
                " 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,\n" +
                " 50, 51, 52, 53, 54,\n" +
                "]\n"
-    assert_equal(expected, columnize(data, :arrange_array => true, :displaywidth  => 39))
+    assert_equal(expected, Columnize.columnize(data, :arrange_array => true, :displaywidth  => 39))
   end
 end

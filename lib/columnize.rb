@@ -71,34 +71,27 @@ module Columnize
     Columnizer.new(list, opts).columnize
   end
 
-  # Adds class variable into any class mixes in this module.
+  # Adds columnize_opts to the singleton level of included class
   def self.included(base)
-    base.class_variable_set :@@columnize_opts, DEFAULT_OPTS.dup if base.respond_to?(:class_variable_set)
+    # screw class variables, we'll use an instance variable on the class singleton
+    class << base
+      attr_accessor :columnize_opts
+    end
+    base.columnize_opts = DEFAULT_OPTS.dup
   end
 
-  # TODO: START HERE: figure out the best way for a new array to have @columnize_opts pre-set; also, figure out why @@columnize_opts isn't initialized
-  def columnize
-    @columnize_opts ||= @@columnize_opts.dup
+  def columnize(opts={})
+    @columnize_opts ||= self.class.columnize_opts.dup
     @columnizer ||= Columnizer.new(self, @columnize_opts)
     # make sure that any changes to list or opts get passed to columnizer
     @columnizer.list = self unless @columnizer.list == self
-    @columnizer.opts = @columnize_opts unless @columnizer.opts == @columnize_opts
+    @columnizer.opts = @columnize_opts.merge(opts) unless @columnizer.opts == @columnize_opts and opts.empty?
     @columnizer.columnize
   end
 end
 
-# Mix in "Columnize" in the Array class and make the columnize method public.
+# Mix Columnize into Array
 Array.send :include, Columnize
-
-# class Array
-#   include Columnize
-#   attr_accessor :columnize_opts
-#   alias_method :base_columnize, :columnize
-
-#   def columnize(*args)
-#     base_columnize(self, *args)
-#   end
-# end
 
 # Demo this sucker
 if __FILE__ == $0

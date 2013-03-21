@@ -85,7 +85,6 @@ module Columnize
     end
 
     def set_attrs_from_opts
-      # TODO: START HERE: make everything that can be an attr, be an attr
       ATTRS.each {|attr| self.instance_variable_set "@#{attr}", @opts[attr] }
 
       @ljust = !@list.all? {|datum| datum.kind_of?(Numeric)} if @ljust == :auto
