@@ -4,7 +4,7 @@
 # Part of Columnize to format in either direction
 module Columnize
   class Columnizer
-    ARRANGE_ARRAY_OPTS = {:array_prefix => '[', :line_prefix => ' ', :line_suffix => ",\n", :array_suffix => "]\n", :colsep => ', ', :arrange_vertical => false}
+    ARRANGE_ARRAY_OPTS = {:array_prefix => '[', :line_prefix => ' ', :line_suffix => ',', :array_suffix => ']', :colsep => ', ', :arrange_vertical => false}
     OLD_AND_NEW_KEYS = {:lineprefix => :line_prefix, :linesuffix => :line_suffix}
     # TODO: change colfmt to cell_format; change colsep to something else
     ATTRS = [:arrange_vertical, :array_prefix, :array_suffix, :line_prefix, :line_suffix, :colfmt, :colsep, :displaywidth, :ljust]
@@ -44,14 +44,15 @@ module Columnize
       rows, colwidths = compute_rows_and_colwidths
       ncols = colwidths.length
       justify = lambda {|t, c| @ljust ? t.ljust(colwidths[c]) : t.rjust(colwidths[c]) }
-      textify = lambda do |s, row|
+      textify = lambda do |row|
         row.map!.with_index(&justify) unless ncols == 1 && @ljust
-        s + "#{@line_prefix}#{row.join(@colsep)}#{@line_suffix}"
+        "#{@line_prefix}#{row.join(@colsep)}#{@line_suffix}"
       end
 
-      text = rows.inject('', &textify)
-      text = text.sub(@line_prefix, @array_prefix) + @array_suffix unless @array_prefix.empty?
-      text
+      text = rows.map(&textify)
+      text.first.sub!(/^#{@line_prefix}/, @array_prefix) unless @array_prefix.empty?
+      text.last.sub!(/#{@line_suffix}$/, @array_suffix) unless @array_suffix.empty?
+      text.join("\n") # + "\n" # if we want extra separation
     end
 
     # TODO: make this a method, rather than a function (?)

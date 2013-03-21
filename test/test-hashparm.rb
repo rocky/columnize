@@ -26,8 +26,7 @@ class TestHashFormat < Test::Unit::TestCase
                " 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,\n" +
                " 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,\n" +
                " 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,\n" +
-               " 50, 51, 52, 53, 54,\n" +
-               "]\n"
+               " 50, 51, 52, 53, 54]"
     assert_equal(expected, Columnize.columnize(data, :arrange_array => true, :ljust => false, :displaywidth  => 39))
   end
 
@@ -38,8 +37,7 @@ class TestHashFormat < Test::Unit::TestCase
                " 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,\n" +
                " 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,\n" +
                " 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,\n" +
-               " 50, 51, 52, 53, 54,\n" +
-               "]\n"
+               " 50, 51, 52, 53, 54]"
     assert_equal(expected, Columnize.columnize(data, :arrange_array => true, :displaywidth  => 39))
   end
 end

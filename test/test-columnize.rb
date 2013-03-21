@@ -9,13 +9,13 @@ class TestColumnize < Test::Unit::TestCase
 
   # test columnize
   def test_basic
-    assert_equal("1, 2, 3\n", Columnize::columnize([1, 2, 3], 10, ', '))
+    assert_equal("1, 2, 3", Columnize::columnize([1, 2, 3], 10, ', '))
     assert_equal("", Columnize::columnize(5))
-    assert_equal("1  3\n2  4\n", Columnize::columnize(['1', '2', '3', '4'], 4))
-    assert_equal("1  2\n3  4\n", Columnize::columnize(['1', '2', '3', '4'], 4, '  ', false))
+    assert_equal("1  3\n2  4", Columnize::columnize(['1', '2', '3', '4'], 4))
+    assert_equal("1  2\n3  4", Columnize::columnize(['1', '2', '3', '4'], 4, '  ', false))
     assert_equal("<empty>\n", Columnize::columnize([]))
 
-    assert_equal("oneitem\n", Columnize::columnize(["oneitem"]))
+    assert_equal("oneitem", Columnize::columnize(["oneitem"]))
 
     data = (0..54).map{|i| i.to_s}
     assert_equal(
@@ -24,7 +24,7 @@ class TestColumnize < Test::Unit::TestCase
             "2,  8, 14, 20, 26, 32, 38, 44, 50\n" +
             "3,  9, 15, 21, 27, 33, 39, 45, 51\n" +
             "4, 10, 16, 22, 28, 34, 40, 46, 52\n" +
-            "5, 11, 17, 23, 29, 35, 41, 47, 53\n",
+            "5, 11, 17, 23, 29, 35, 41, 47, 53",
             Columnize::columnize(data, 39, ', ', true, false))
 
     assert_equal(
@@ -33,7 +33,7 @@ class TestColumnize < Test::Unit::TestCase
             "20, 21, 22, 23, 24, 25, 26, 27, 28, 29\n" +
             "30, 31, 32, 33, 34, 35, 36, 37, 38, 39\n" +
             "40, 41, 42, 43, 44, 45, 46, 47, 48, 49\n" +
-            "50, 51, 52, 53, 54\n",
+            "50, 51, 52, 53, 54",
             Columnize::columnize(data, 39, ', ', false, false))
 
 
@@ -44,7 +44,7 @@ class TestColumnize < Test::Unit::TestCase
             "  27, 28, 29, 30, 31, 32, 33, 34, 35\n" +
             "  36, 37, 38, 39, 40, 41, 42, 43, 44\n" +
             "  45, 46, 47, 48, 49, 50, 51, 52, 53\n" +
-            "  54\n",
+            "  54",
             Columnize::columnize(data, 39, ', ', false, false, '  '))
 
 
@@ -63,13 +63,12 @@ class TestColumnize < Test::Unit::TestCase
 "seven       eight      nine         ten        eleven       twelve    \n" +
 "thirteen    fourteen   fifteen      sixteen    seventeen    eightteen \n" +
 "nineteen    twenty     twentyone    twentytwo  twentythree  twentyfour\n" +
-"twentyfive  twentysix  twentyseven\n", Columnize::columnize(data, 80, '  ', false))
+"twentyfive  twentysix  twentyseven", Columnize::columnize(data, 80, '  ', false))
 
     assert_equal(
 "one    five   nine    thirteen  seventeen  twentyone    twentyfive \n" +
 "two    six    ten     fourteen  eightteen  twentytwo    twentysix  \n" +
 "three  seven  eleven  fifteen   nineteen   twentythree  twentyseven\n" +
-"for    eight  twelve  sixteen   twenty     twentyfour \n", Columnize::columnize(data))
-
+"for    eight  twelve  sixteen   twenty     twentyfour ", Columnize::columnize(data))
   end
 end

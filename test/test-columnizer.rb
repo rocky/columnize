@@ -70,23 +70,23 @@ class TestColumnizer < Test::Unit::TestCase
 
   def test_columnize_applies_ljust
     c = Columnize::Columnizer.new [1,2,3,10,20,30], :displaywidth => 10, :ljust => false, :arrange_vertical => false
-    assert_equal " 1   2   3\n10  20  30\n", c.columnize, "ljust: #{c.ljust}"
+    assert_equal " 1   2   3\n10  20  30", c.columnize, "ljust: #{c.ljust}"
     c.update_opts :ljust => true
-    assert_equal "1   2   3 \n10  20  30\n", c.columnize, "ljust: #{c.ljust}"
+    assert_equal "1   2   3 \n10  20  30", c.columnize, "ljust: #{c.ljust}"
   end
 
   def test_columnize_applies_colsep_and_prefix_and_suffix
     c = Columnize::Columnizer.new [1,2,3]
-    assert_equal "1  2  3\n", c.columnize
+    assert_equal "1  2  3", c.columnize
     c.update_opts :line_prefix => '>', :colsep => '-', :line_suffix => '<'
     assert_equal ">1-2-3<", c.columnize
   end
 
   def test_columnize_applies_array_prefix_and_suffix
     c = Columnize::Columnizer.new [1,2,3]
-    assert_equal "1  2  3\n", c.columnize
+    assert_equal "1  2  3", c.columnize
     c.update_opts :array_prefix => '>', :array_suffix => '<'
-    assert_equal ">1  2  3\n<", c.columnize
+    assert_equal ">1  2  3<", c.columnize
   end
 
   # NOTE: compute_rows_and_colwidths tested in test-compute_rows_and_colwidths.rb

@@ -12,7 +12,7 @@ module Columnize
     :colsep            => '  ',
     :displaywidth      => computed_displaywidth,
     :line_prefix        => '',
-    :line_suffix        => "\n",
+    :line_suffix        => '',
     :ljust             => :auto,
     :term_adjust       => false
   }
