@@ -95,38 +95,31 @@ Array.send :include, Columnize
 
 # Demo this sucker
 if __FILE__ == $0
-  include Columnize
+  # include Columnize
 
   a = (1..80).to_a
-  a.columnize_opts = {:arrange_array => true}
-  puts a.columnize
+  puts a.columnize :arrange_array => true
   puts '=' * 50
 
   b = (1..10).to_a
   puts b.columnize(:displaywidth => 10)
 
   puts '-' * 50
-  puts b.columnize(:arrange_array => true, :colfmt => '%02d',
-                   :displaywidth => 10)
-
-  line = 'require [1;29m"[0m[1;37mirb[0m[1;29m"[0m';
-  puts cell_size(line, true);
-  puts cell_size(line, false);
+  puts b.columnize(:arrange_array => true, :colfmt => '%02d', :displaywidth => 10)
 
   [[4, 4], [4, 7], [100, 80]].each do |width, num|
-    data = (1..num).map{|i| i}
+    data = (1..num).map{|i| i }
     [[false, 'horizontal'], [true, 'vertical']].each do |bool, dir|
       puts "Width: #{width}, direction: #{dir}"
-      print columnize(data, :displaywidth => width, :colsep => '  ',
-                      :arrange_vertical => bool, :ljust => :auto)
+      print Columnize.columnize(data, :displaywidth => width, :colsep => '  ', :arrange_vertical => bool, :ljust => :auto)
       end
   end
 
-  puts Columnize::columnize(5)
-  puts columnize([])
-  puts columnize(["a", 2, "c"], :displaywidth =>10, :colsep => ', ')
-  puts columnize(["oneitem"])
-  puts columnize(["one", "two", "three"])
+  puts Columnize.columnize(5)
+  puts Columnize.columnize([])
+  puts Columnize.columnize(["a", 2, "c"], :displaywidth =>10, :colsep => ', ')
+  puts Columnize.columnize(["oneitem"])
+  puts Columnize.columnize(["one", "two", "three"])
   data = ["one",       "two",         "three",
           "for",       "five",        "six",
           "seven",     "eight",       "nine",
@@ -137,7 +130,6 @@ if __FILE__ == $0
           "twentytwo", "twentythree", "twentyfour",
           "twentyfive","twentysix",   "twentyseven"]
 
-  puts columnize(data)
-  puts columnize(data, 80, '  ', false)
-
+  puts Columnize.columnize(data)
+  puts Columnize.columnize(data, 80, '  ', false)
 end
