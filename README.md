@@ -97,8 +97,7 @@ This is adapted from a method of the same name from Python's cmd module.
 Other stuff
 -----------
 
-Authors:   Rocky Bernstein <rockyb@rubyforge.org>
-           [Martin Davis](https://github.com/waslogic)
+Authors:   Rocky Bernstein <rockyb@rubyforge.org> and [Martin Davis](https://github.com/waslogic)
 
 License:   Copyright (c) 2011 Rocky Bernstein
 
