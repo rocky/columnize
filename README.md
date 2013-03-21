@@ -20,20 +20,18 @@ With numeric data
     => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     >> a.columnize
-    => "1  2  3  4  5  6  7  8  9  10\n"
+    => "1  2  3  4  5  6  7  8  9  10"
 
     >> puts a.columnize :arrange_array => true, :displaywidth => 10
     [1, 2, 3,
      4, 5, 6,
      7, 8, 9,
-     10,
-    ]
+     10]
     => nil
 
     >> puts a.columnize :arrange_array => true, :displaywidth => 20
     [1, 2, 3,  4, 5,  6,
-     7, 8, 9, 10,
-    ]
+     7, 8, 9, 10]
     => nil
 
 With String data
@@ -69,7 +67,7 @@ Using Columnize.columnize
 -------------------------
 
     >> Columnize.columnize(a)
-    => "1  2  3  4  5  6  7  8  9  10\n"
+    => "1  2  3  4  5  6  7  8  9  10"
 
     >> puts Columnize.columnize(a, :displaywidth => 10)
     1  5   9
@@ -79,7 +77,7 @@ Using Columnize.columnize
     => nil
 
     >> Columnize.columnize(g)
-    => "bibrons  golden  madascar  leopard  mourning  suras  tokay\n"
+    => "bibrons  golden  madascar  leopard  mourning  suras  tokay"
 
     >> puts Columnize.columnize(g, :displaywidth => 19, :colsep => ' | ')
     bibrons  | mourning
