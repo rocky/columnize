@@ -69,6 +69,6 @@ class TestColumnize < Test::Unit::TestCase
 "one    five   nine    thirteen  seventeen  twentyone    twentyfive \n" +
 "two    six    ten     fourteen  eightteen  twentytwo    twentysix  \n" +
 "three  seven  eleven  fifteen   nineteen   twentythree  twentyseven\n" +
-"for    eight  twelve  sixteen   twenty     twentyfour ", Columnize::columnize(data))
+"for    eight  twelve  sixteen   twenty     twentyfour ", Columnize::columnize(data, 80))
   end
 end

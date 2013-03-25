@@ -7,7 +7,7 @@ class TestComputeRowsAndColwidths < Test::Unit::TestCase
   TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
   require File.join(TOP_SRC_DIR, 'columnize.rb')
 
-  VOPTS = Columnize::DEFAULT_OPTS
+  VOPTS = Columnize::DEFAULT_OPTS.merge(:displaywidth => 80)
   HOPTS = VOPTS.merge(:arrange_vertical => false)
 
   def compute_rows_and_colwidths(list, opts)

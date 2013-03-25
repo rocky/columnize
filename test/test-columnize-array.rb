@@ -5,6 +5,7 @@ require 'test/unit'
 class TestColumnizeArray < Test::Unit::TestCase
   # Ruby 1.8 form of require_relative
   TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
+  ENV['COLUMNS'] = '80'
   require File.join(TOP_SRC_DIR, 'columnize.rb')
 
   # test columnize
