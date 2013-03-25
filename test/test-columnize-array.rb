@@ -3,45 +3,37 @@ require 'test/unit'
 
 # Test of Columnize module
 class TestColumnizeArray < Test::Unit::TestCase
-
   # Ruby 1.8 form of require_relative
-  TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), 
-                            '..', 'lib')
+  TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
+  ENV['COLUMNS'] = '80'
   require File.join(TOP_SRC_DIR, 'columnize.rb')
 
   # test columnize
-  def test_basic
+  def test_arrange_array
+    data = (1..80).to_a
+    expect = "[ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,\n" +
+             " 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,\n" +
+             " 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,\n" +
+             " 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80]"
+    assert_equal(expect, data.columnize(:arrange_array => true), "columnize_opts -> arrange_array")
+  end
 
-    a = (1..80).to_a
-    a.columnize_opts = {:arrange_array => true}
-    expect = <<EOF
-[ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
- 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
- 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
- 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
-]
-EOF
-    self.assert_equal(expect, a.columnize, "arrange_arrary => true (1..80)")
+  def test_displaywidth
+    expect = "1  5   9\n" +
+             "2  6  10\n" +
+             "3  7\n" +
+             "4  8"
+    data = (1..10).to_a
+    assert_equal(expect, data.columnize(:displaywidth => 10), "displaywidth")
+  end
 
-    expect = <<EOF
-1  5   9
-2  6  10
-3  7
-4  8
-EOF
-    test_str = "(1..10).to_a.columnize(:displaywidth=>10)"
-    self.assert_equal(expect, eval(test_str), test_str)
-
-    expect = <<EOF
-[01, 02,
- 03, 04,
- 05, 06,
- 07, 08,
- 09, 10,
-]
-EOF
-    test_str = "(1..10).to_a.columnize(:arrange_array=>true,:colfmt=>'%02d',:displaywidth=>10)"
-    self.assert_equal(expect, eval(test_str), test_str)
-
+  def test_colfmt
+    expect = "[01, 02,\n" +
+             " 03, 04,\n" +
+             " 05, 06,\n" +
+             " 07, 08,\n" +
+             " 09, 10]"
+    data = (1..10).to_a
+    assert_equal(expect, data.columnize(:arrange_array => true, :colfmt => '%02d', :displaywidth => 10), "arrange_array, colfmt, displaywidth")
   end
 end
