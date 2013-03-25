@@ -10,58 +10,82 @@ Setup
 -----
 
     $ irb
-    >> a = (1..10).to_a
-    => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     >> require 'columnize'
     => true
-    >> include Columnize
-    => Object
-    >> g = %w(bibrons golden madascar leopard mourning suras tokay)
-    => ["bibrons", "golden", "madascar", "leopard", "mourning", "suras", "tokay"]
 
 With numeric data
 -----------------
 
-    columnize(a) 
-    => "1  2  3  4  5  6  7  8  9  10\n"
-    >> puts Columnize::columnize(a, :arrange_array => true, :displaywidth => 10)
-    [1,  2
-     3,  4
-     5,  6
-     7,  8
-     9, 10
-    ]
+    >> a = (1..10).to_a
+    => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    >> a.columnize
+    => "1  2  3  4  5  6  7  8  9  10"
+
+    >> puts a.columnize :arrange_array => true, :displaywidth => 10
+    [1, 2, 3,
+     4, 5, 6,
+     7, 8, 9,
+     10]
     => nil
-    >> puts Columnize::columnize(a, :arrange_array => true, :displaywidth => 20)
-    [1, 2, 3,  4,  5,  6
-     7, 8, 9, 10
-    ]
+
+    >> puts a.columnize :arrange_array => true, :displaywidth => 20
+    [1, 2, 3,  4, 5,  6,
+     7, 8, 9, 10]
+    => nil
 
 With String data
 ----------------
 
-    >> puts columnize g, :displaywidth => 15
+    >> g = %w(bibrons golden madascar leopard mourning suras tokay)
+    => ["bibrons", "golden", "madascar", "leopard", "mourning", "suras", "tokay"]
+
+    >> puts g.columnize :displaywidth => 15
     bibrons   suras
     golden    tokay
     madascar
-    leopard 
+    leopard
     mourning
     => nil
 
-    >> puts columnize g, {:displaywidth => 19, :colsep => ' | '}
+    >> puts g.columnize :displaywidth => 19, :colsep => ' | '
     bibrons  | suras
     golden   | tokay
     madascar
-    leopard 
+    leopard
     mourning
     => nil
 
-    >> puts columnize g, {:displaywidth => 18, :colsep => ' | ', :ljust=>false}
-
+    >> puts g.columnize :displaywidth => 18, :colsep => ' | ', :ljust => false
     bibrons  | mourning
-    golden   | suras   
-    madascar | tokay   
-    leopard 
+    golden   | suras
+    madascar | tokay
+    leopard
+    => nil
+
+Using Columnize.columnize
+-------------------------
+
+    >> Columnize.columnize(a)
+    => "1  2  3  4  5  6  7  8  9  10"
+
+    >> puts Columnize.columnize(a, :displaywidth => 10)
+    1  5   9
+    2  6  10
+    3  7
+    4  8
+    => nil
+
+    >> Columnize.columnize(g)
+    => "bibrons  golden  madascar  leopard  mourning  suras  tokay"
+
+    >> puts Columnize.columnize(g, :displaywidth => 19, :colsep => ' | ')
+    bibrons  | mourning
+    golden   | suras
+    madascar | tokay
+    leopard
+    => nil
+
 
 Credits
 -------
@@ -71,9 +95,9 @@ This is adapted from a method of the same name from Python's cmd module.
 Other stuff
 -----------
 
-Author:   Rocky Bernstein <rockyb@rubyforge.org>
+Authors:   Rocky Bernstein <rockyb@rubyforge.org> and [Martin Davis](https://github.com/waslogic)
 
-License:  Copyright (c) 2011 Rocky Bernstein
+License:   Copyright (c) 2011 Rocky Bernstein
 
 Warranty
 --------
