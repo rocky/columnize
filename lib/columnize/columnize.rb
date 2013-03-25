@@ -61,24 +61,42 @@ module Columnize
       list = @list.map &@stringify
       cell_widths = list.map(&@term_adjuster).map(&:size)
       # default is 1 atom per row (just in case any atom > @displaywidth)
-      rcw = [rows_and_cols(list, 1)[0], [cell_widths.max]]
+      rcw = [min_rows_and_cols(list, 1)[0], [cell_widths.max]]
       return rcw if rcw[1][0] > @displaywidth
 
-      # TODO: explain why
-      sizes, ri, ci = (1..list.length).to_a, 1, 0
-      sizes, ri, ci = sizes.reverse, 0, 1 unless @arrange_vertical
+      # For horizontal arrangement, we want to *maximize* the number
+      # of columns. Thus the candidate number of rows (+sizes+) starts
+      # at the minumum number of rows, 1, and increases.
 
+      # For vertical arrangement, we want to *minimize* the number of
+      # rows. So here the candidate number of columns (+sizes+) starts
+      # at the maximum number of columns, list.length, and
+      # decreases. Also the roles of columns and rows are reversed
+      # from horizontal arrangement.
+
+      # The below sets up the order of the lengths to try, +sizes+. It
+      # also sets up the row and column permutation to use, [0,1] or
+      # [1,0], which are stored in +ri+, +ci+ in accessing the values
+      # passed back by min_rows_and_cols().
+      sizes, ri, ci = 
+        if @arrange_vertical
+          [(1..list.length).to_a, 1, 0]
+        else
+          [(1..list.length).to_a.reverse, 0, 1]
+        end
+
+      # Loop from most compact arrangement to least compact, stopping
+      # at the first successful packing.
       sizes.each do |size|
-        colwidths = rows_and_cols(cell_widths, size)[ci].map(&:max)
+        colwidths = min_rows_and_cols(cell_widths, size)[ci].map(&:max)
         totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
-        rcw = [rows_and_cols(list, size)[ri], colwidths] and break if totwidth <= @displaywidth
+        rcw = [min_rows_and_cols(list, size)[ri], colwidths] and break if totwidth <= @displaywidth
       end
       rcw
     end
 
-    # TODO: find a better, more descriptive name for this function
-    def rows_and_cols(list, ncols)
-      # given list.size and ncols, calculate minimum number of rows needed. this is very cool.
+    # Given list.size and ncols, calculate minimum number of rows needed. This is very cool.
+    def min_rows_and_cols(list, ncols)
       nrows = (list.size + ncols - 1) / ncols
       rows = (0...nrows).map {|r| list[r*ncols, ncols] }
       cols = rows[0].zip(*rows[1..-1]).map(&:compact)

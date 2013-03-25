@@ -25,7 +25,7 @@ module Columnize
     require File.join %W(#{ROOT_DIR} columnize #{submod})
   end
 
-  # Add +columnize_opts+ instance variable to classes that mix in this module. The type should be a kind of hash as above.
+  # Add +columnize_opts+ instance variable to classes that mix in this module. The type should be a kind of hash in file +columnize/opts+.
   attr_accessor :columnize_opts
 
   #  Columnize.columize([args]) => String

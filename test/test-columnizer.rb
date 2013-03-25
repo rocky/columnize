@@ -92,8 +92,8 @@ class TestColumnizer < Test::Unit::TestCase
   # NOTE: compute_rows_and_colwidths tested in test-compute_rows_and_colwidths.rb
 
   # ROWS_AND_COLS
-  def test_rows_and_cols
-    rows,cols = Columnize::Columnizer.new.rows_and_cols((1..9).to_a, 3)
+  def test_min_rows_and_cols
+    rows,cols = Columnize::Columnizer.new.min_rows_and_cols((1..9).to_a, 3)
     assert_equal [[1,2,3],[4,5,6],[7,8,9]], rows, 'rows'
     assert_equal [[1,4,7],[2,5,8],[3,6,9]], cols, 'cols'
   end
