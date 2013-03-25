@@ -78,7 +78,7 @@ module Columnize
       # also sets up the row and column permutation to use, [0,1] or
       # [1,0], which are stored in +ri+, +ci+ in accessing the values
       # passed back by min_rows_and_cols().
-      sizes, ri, ci = 
+      sizes, ri, ci =
         if @arrange_vertical
           [(1..list.length).to_a, 1, 0]
         else
