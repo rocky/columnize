@@ -90,8 +90,8 @@ module Columnize
         end
 
       # Loop from most compact arrangement to least compact, stopping
-      # at the first successful packing.  The below code is tricky but
-      # very cool.
+      # at the first successful packing.  The below code is tricky,
+      # but very cool.
       sizes.each do |size|
         colwidths = arrange_rows_and_cols(cell_widths, size)[ci].map(&:max)
         totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
@@ -100,17 +100,17 @@ module Columnize
       rcw
     end
 
-    # Given list.size and ncols, arrange the one-dimensional array
-    # into two 2-dimensional lists of lists. One list is organized by
-    # rows and the other list organized by columns.
+    # Given +list+ and +ncols+, arrange the one-dimensional array into two
+    # 2-dimensional lists of lists. One list is organized by rows and
+    # the other list organized by columns.
     #
-    # It turns out in either horizontal or vertical arrangement we
+    # It turns out in either horizontal or vertical arrangement, we
     # will need to make use of in both lists.
     #
-    # Here is an example of the output this routine produces.
+    # Here is an example:
     # arrange_row_and_cols((1..5).to_a, 2) =>
     #   [
-    #    [[1,2], [3,4], [5]]
+    #    [[1,2], [3,4], [5]],
     #    [[1,3,5], [2,4]]
     #   ]
     def arrange_rows_and_cols(list, ncols)
