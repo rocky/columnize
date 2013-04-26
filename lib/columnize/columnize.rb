@@ -62,11 +62,11 @@ module Columnize
       cell_widths = list.map(&@term_adjuster).map(&:size)
 
       # Set default rcw: one atom per row
-      cell_widths_max = cell_widths.max
-      rcw = [arrange_rows_and_cols(list, 1)[0], [cell_widths_max]]
+      cell_width_max = cell_widths.max
+      result = [arrange_rows_and_cols(list, 1)[0], [cell_width_max]]
 
       # If any atom > @displaywidth, stop and use one atom per row.
-      return rcw if cell_widths_max > @displaywidth
+      return result if cell_width_max > @displaywidth
 
       # For horizontal arrangement, we want to *maximize* the number
       # of columns. Thus the candidate number of rows (+sizes+) starts
@@ -95,9 +95,9 @@ module Columnize
       sizes.each do |size|
         colwidths = arrange_rows_and_cols(cell_widths, size)[ci].map(&:max)
         totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
-        rcw = [arrange_rows_and_cols(list, size)[ri], colwidths] and break if totwidth <= @displaywidth
+        result = [arrange_rows_and_cols(list, size)[ri], colwidths] and break if totwidth <= @displaywidth
       end
-      rcw
+      result
     end
 
     # Given +list+ and +ncols+, arrange the one-dimensional array into two
