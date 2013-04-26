@@ -91,11 +91,14 @@ class TestColumnizer < Test::Unit::TestCase
 
   # NOTE: compute_rows_and_colwidths tested in test-compute_rows_and_colwidths.rb
 
-  # ROWS_AND_COLS
-  def test_min_rows_and_cols
-    rows,cols = Columnize::Columnizer.new.min_rows_and_cols((1..9).to_a, 3)
-    assert_equal [[1,2,3],[4,5,6],[7,8,9]], rows, 'rows'
-    assert_equal [[1,4,7],[2,5,8],[3,6,9]], cols, 'cols'
+  # arrange_rows_and_cols
+  def test_arrange_rows_and_cols
+    rows,cols = Columnize::Columnizer.new.arrange_rows_and_cols((1..9).to_a, 3)
+    assert_equal [[1,2,3],[4,5,6],[7,8,9]], rows, 'rows for (1..9), 3'
+    assert_equal [[1,4,7],[2,5,8],[3,6,9]], cols, 'cols for (1..9), 3'
+    rows,cols = Columnize::Columnizer.new.arrange_rows_and_cols((1..5).to_a, 2)
+    assert_equal [[1,2],[3,4],[5]], rows, 'rows for (1..5, 2)'
+    assert_equal [[1,3,5],[2,4]],   cols, 'cols for (1..5, 2)'
   end
 
   def test_set_attrs_from_opts

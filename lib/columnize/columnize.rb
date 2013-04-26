@@ -61,7 +61,7 @@ module Columnize
       list = @list.map &@stringify
       cell_widths = list.map(&@term_adjuster).map(&:size)
       # default is 1 atom per row (just in case any atom > @displaywidth)
-      rcw = [min_rows_and_cols(list, 1)[0], [cell_widths.max]]
+      rcw = [arrange_rows_and_cols(list, 1)[0], [cell_widths.max]]
       return rcw if rcw[1][0] > @displaywidth
 
       # For horizontal arrangement, we want to *maximize* the number
@@ -77,7 +77,7 @@ module Columnize
       # The below sets up the order of the lengths to try, +sizes+. It
       # also sets up the row and column permutation to use, [0,1] or
       # [1,0], which are stored in +ri+, +ci+ in accessing the values
-      # passed back by min_rows_and_cols().
+      # passed back by arrange_rows_and_cols().
       sizes, ri, ci =
         if @arrange_vertical
           [(1..list.length).to_a, 1, 0]
@@ -88,15 +88,21 @@ module Columnize
       # Loop from most compact arrangement to least compact, stopping
       # at the first successful packing.
       sizes.each do |size|
-        colwidths = min_rows_and_cols(cell_widths, size)[ci].map(&:max)
+        colwidths = arrange_rows_and_cols(cell_widths, size)[ci].map(&:max)
         totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
-        rcw = [min_rows_and_cols(list, size)[ri], colwidths] and break if totwidth <= @displaywidth
+        rcw = [arrange_rows_and_cols(list, size)[ri], colwidths] and break if totwidth <= @displaywidth
       end
       rcw
     end
 
-    # Given list.size and ncols, calculate minimum number of rows needed. This is very cool.
-    def min_rows_and_cols(list, ncols)
+    # Given list.size and ncols, arrange the one-dimensional array
+    # into two 2-dimensional lists of lists. One list is in row-major order,
+    # the other list is in column-major order.
+    # For example for (1..5).to_a and 2 columns, we return:
+    #  [[1,2], [3,4], [5],
+    #   [1,3,5], [2,4]]
+    # This is very cool.
+    def arrange_rows_and_cols(list, ncols)
       nrows = (list.size + ncols - 1) / ncols
       rows = (0...nrows).map {|r| list[r*ncols, ncols] }
       cols = rows[0].zip(*rows[1..-1]).map(&:compact)
