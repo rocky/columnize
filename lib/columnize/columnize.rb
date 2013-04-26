@@ -60,9 +60,13 @@ module Columnize
     def compute_rows_and_colwidths
       list = @list.map &@stringify
       cell_widths = list.map(&@term_adjuster).map(&:size)
-      # default is 1 atom per row (just in case any atom > @displaywidth)
-      rcw = [arrange_rows_and_cols(list, 1)[0], [cell_widths.max]]
-      return rcw if rcw[1][0] > @displaywidth
+
+      # Set default rcw: one atom per row
+      cell_widths_max = cell_widths.max
+      rcw = [arrange_rows_and_cols(list, 1)[0], [cell_widths_max]]
+
+      # If any atom > @displaywidth, stop and use one atom per row.
+      return rcw if cell_widths_max > @displaywidth
 
       # For horizontal arrangement, we want to *maximize* the number
       # of columns. Thus the candidate number of rows (+sizes+) starts
@@ -76,8 +80,8 @@ module Columnize
 
       # The below sets up the order of the lengths to try, +sizes+. It
       # also sets up the row and column permutation to use, [0,1] or
-      # [1,0], which are stored in +ri+, +ci+ in accessing the values
-      # passed back by arrange_rows_and_cols().
+      # [1,0], which are stored in +ri+, +ci+ in accessing the tuple
+      # values passed back by arrange_rows_and_cols().
       sizes, ri, ci =
         if @arrange_vertical
           [(1..list.length).to_a, 1, 0]
@@ -86,7 +90,8 @@ module Columnize
         end
 
       # Loop from most compact arrangement to least compact, stopping
-      # at the first successful packing.
+      # at the first successful packing.  The below code is tricky but
+      # very cool.
       sizes.each do |size|
         colwidths = arrange_rows_and_cols(cell_widths, size)[ci].map(&:max)
         totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
@@ -96,12 +101,18 @@ module Columnize
     end
 
     # Given list.size and ncols, arrange the one-dimensional array
-    # into two 2-dimensional lists of lists. One list is in row-major order,
-    # the other list is in column-major order.
-    # For example for (1..5).to_a and 2 columns, we return:
-    #  [[1,2], [3,4], [5],
-    #   [1,3,5], [2,4]]
-    # This is very cool.
+    # into two 2-dimensional lists of lists. One list is organized by
+    # rows and the other list organized by columns.
+    #
+    # It turns out in either horizontal or vertical arrangement we
+    # will need to make use of in both lists.
+    #
+    # Here is an example of the output this routine produces.
+    # arrange_row_and_cols((1..5).to_a, 2) =>
+    #   [
+    #    [[1,2], [3,4], [5]]
+    #    [[1,3,5], [2,4]]
+    #   ]
     def arrange_rows_and_cols(list, ncols)
       nrows = (list.size + ncols - 1) / ncols
       rows = (0...nrows).map {|r| list[r*ncols, ncols] }
