@@ -38,4 +38,11 @@ class TestColumnizeArray < Test::Unit::TestCase
     data = (1..10).to_a
     assert_equal(expect, data.columnize(:arrange_array => true, :colfmt => '%02d', :displaywidth => 10), "arrange_array, colfmt, displaywidth")
   end
+
+  def test_backwards_compatiblity
+    foo = []
+    data = (1..11).to_a
+    expect = " 1   2  3\n 4   5  6\n 7   8  9\n10  11"
+    assert_equal expect, foo.columnize(data, :displaywidth => 10, :arrange_vertical => false)
+  end
 end

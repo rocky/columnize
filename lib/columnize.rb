@@ -80,7 +80,9 @@ module Columnize
     base.columnize_opts = DEFAULT_OPTS.dup
   end
 
-  def columnize(opts={})
+  def columnize(*args)
+    return Columnize.columnize(*args) if args.length > 1
+    opts = args.empty? ? {} : args.pop
     @columnize_opts ||= self.class.columnize_opts.dup
     @columnizer ||= Columnizer.new(self, @columnize_opts)
     # make sure that any changes to list or opts get passed to columnizer
