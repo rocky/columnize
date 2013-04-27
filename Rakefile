@@ -4,7 +4,7 @@ require 'rubygems'
 require 'fileutils'
 
 ROOT_DIR = File.dirname(__FILE__)
-Gemspec_filename = 'columnize-trepanning.gemspec'
+Gemspec_filename = 'columnize.gemspec'
 require File.join %W(#{ROOT_DIR} lib columnize version)
 
 def gemspec
@@ -36,7 +36,7 @@ Rake::TestTask.new(:test) do |t|
   t.pattern = 'test/test-*.rb'
   t.verbose = true
 end
-task :test => :lib 
+task :test => :lib
 
 desc "same as test"
 task :check => :test
@@ -98,5 +98,5 @@ task :rm_tilde_backups do
 end
 
 desc 'Remove built files'
-task :clean => [:clobber_package, :clobber_rdoc, :rm_patch_residue, 
+task :clean => [:clobber_package, :clobber_rdoc, :rm_patch_residue,
                 :rm_tilde_backups]
