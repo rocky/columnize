@@ -95,7 +95,8 @@ module Columnize
       sizes.each do |size|
         colwidths = arrange_rows_and_cols(cell_widths, size)[ci].map(&:max)
         totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
-        result = [arrange_rows_and_cols(list, size)[ri], colwidths] and break if totwidth <= @displaywidth
+        result = [arrange_rows_and_cols(list, size)[ri], colwidths]
+        break if totwidth <= @displaywidth
       end
       result
     end
@@ -104,8 +105,8 @@ module Columnize
     # 2-dimensional lists of lists. One list is organized by rows and
     # the other list organized by columns.
     #
-    # It turns out in either horizontal or vertical arrangement, we
-    # will need to make use of in both lists.
+    # In either horizontal or vertical arrangement, we will need to
+    # make use of in both lists.
     #
     # Here is an example:
     # arrange_row_and_cols((1..5).to_a, 2) =>
