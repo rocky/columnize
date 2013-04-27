@@ -96,16 +96,14 @@ module Columnize
           nrows = (list.size + size - 1) / size
           colwidths = arrange_rows(cell_widths, size, nrows).map(&:max)
           totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
-          result = [arrange_columns(list, size, nrows), colwidths]
-          break if totwidth <= @displaywidth
+          return [arrange_columns(list, size, nrows), colwidths] if totwidth <= @displaywidth
         end
       else
         list.length.downto(1).each do |size|
           nrows = (list.size + size - 1) / size
           colwidths = arrange_columns(cell_widths, size, nrows).map(&:max)
           totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
-          result = [arrange_rows(list, size, nrows), colwidths]
-          break if totwidth <= @displaywidth
+          return [arrange_rows(list, size, nrows), colwidths] if totwidth <= @displaywidth
         end
       end
       result
