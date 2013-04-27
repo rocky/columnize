@@ -89,7 +89,7 @@ class TestColumnizer < Test::Unit::TestCase
     assert_equal ">1  2  3<", c.columnize
   end
 
-  # NOTE: compute_rows_and_colwidths tested in test-compute_rows_and_colwidths.rb
+  # NOTE: min_rows_and_colwidths tested in test-min_rows_and_colwidths.rb
 
   # arrange_rows_and_cols
   def test_arrange_rows_and_cols

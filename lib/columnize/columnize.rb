@@ -41,7 +41,7 @@ module Columnize
     def columnize
       return @short_circuit if @short_circuit
 
-      rows, colwidths = compute_rows_and_colwidths
+      rows, colwidths = min_rows_and_colwidths
       ncols = colwidths.length
       justify = lambda {|t, c|
           @ljust ? t.ljust(colwidths[c]) : t.rjust(colwidths[c])
@@ -59,7 +59,7 @@ module Columnize
 
     # TODO: make this a method, rather than a function (?)
     # compute the smallest number of rows and the max widths for each column
-    def compute_rows_and_colwidths
+    def min_rows_and_colwidths
       list = @list.map &@stringify
       cell_widths = list.map(&@term_adjuster).map(&:size)
 
