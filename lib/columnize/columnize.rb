@@ -119,7 +119,7 @@ module Columnize
     # information.
     #
     # Here is an example:
-    # arrange_row((1..5).to_a, 2) =>
+    # arrange_row((1..5).to_a, 2, 3) =>
     #    [[1,2], [3,4], [5]],
     def arrange_rows(list, ncols, nrows)
       (0...nrows).map {|r| list[r*ncols, ncols] }.compact
@@ -133,7 +133,7 @@ module Columnize
     # information.
     #
     # Here is an example:
-    # arrange_row_and_cols((1..5).to_a, 2) =>
+    # arrange_row_and_cols((1..5).to_a, 2, 3) =>
     #    [[1,3,5], [2,4]]
     def arrange_columns(list, ncols, nrows)
       (0...ncols).map do |i|
