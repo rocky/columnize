@@ -97,12 +97,10 @@ Other stuff
 
 Authors:   Rocky Bernstein <rockyb@rubyforge.org> and [Martin Davis](https://github.com/waslogic)
 
-License:   Copyright (c) 2011 Rocky Bernstein
+License:   Copyright (c) 2011,2013 Rocky Bernstein
 
 Warranty
 --------
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+You can redistribute it and/or modify it under either the terms of the GPL
+version 2 or the conditions listed in COPYING

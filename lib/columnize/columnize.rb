@@ -43,7 +43,9 @@ module Columnize
 
       rows, colwidths = compute_rows_and_colwidths
       ncols = colwidths.length
-      justify = lambda {|t, c| @ljust ? t.ljust(colwidths[c]) : t.rjust(colwidths[c]) }
+      justify = lambda {|t, c|
+          @ljust ? t.ljust(colwidths[c]) : t.rjust(colwidths[c])
+      }
       textify = lambda do |row|
         row.map!.with_index(&justify) unless ncols == 1 && @ljust
         "#{@line_prefix}#{row.join(@colsep)}#{@line_suffix}"
@@ -61,9 +63,9 @@ module Columnize
       list = @list.map &@stringify
       cell_widths = list.map(&@term_adjuster).map(&:size)
 
-      # Set default rcw: one atom per row
+      # Set default arrangement: one atom per row
       cell_width_max = cell_widths.max
-      result = [arrange_rows_and_cols(list, 1)[0], [cell_width_max]]
+      result = [arrange_rows(list, 1, list.size), [cell_width_max]]
 
       # If any atom > @displaywidth, stop and use one atom per row.
       return result if cell_width_max > @displaywidth
@@ -82,43 +84,64 @@ module Columnize
       # also sets up the row and column permutation to use, [0,1] or
       # [1,0], which are stored in +ri+, +ci+ in accessing the tuple
       # values passed back by arrange_rows_and_cols().
-      sizes, ri, ci =
-        if @arrange_vertical
-          [(1..list.length).to_a, 1, 0]
-        else
-          [(1..list.length).to_a.reverse, 0, 1]
-        end
 
       # Loop from most compact arrangement to least compact, stopping
       # at the first successful packing.  The below code is tricky,
       # but very cool.
-      sizes.each do |size|
-        colwidths = arrange_rows_and_cols(cell_widths, size)[ci].map(&:max)
-        totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
-        result = [arrange_rows_and_cols(list, size)[ri], colwidths]
-        break if totwidth <= @displaywidth
+      #
+      # FIXME: In the below code could be DRY'd. (The duplication got
+      # introduced when I revised the code - rocky)
+      if @arrange_vertical
+        (1..list.length).each do |size|
+          nrows = (list.size + size - 1) / size
+          colwidths = arrange_rows(cell_widths, size, nrows).map(&:max)
+          totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
+          result = [arrange_columns(list, size, nrows), colwidths]
+          break if totwidth <= @displaywidth
+        end
+      else
+        list.length.downto(1).each do |size|
+          nrows = (list.size + size - 1) / size
+          colwidths = arrange_columns(cell_widths, size, nrows).map(&:max)
+          totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
+          result = [arrange_rows(list, size, nrows), colwidths]
+          break if totwidth <= @displaywidth
+        end
       end
       result
     end
 
-    # Given +list+ and +ncols+, arrange the one-dimensional array into two
-    # 2-dimensional lists of lists. One list is organized by rows and
-    # the other list organized by columns.
+    # Given +list+, +ncols+, +nrows+, arrange the one-dimensional
+    # array into a 2-dimensional lists of lists organized by rows.
     #
     # In either horizontal or vertical arrangement, we will need to
-    # make use of in both lists.
+    # access this for the list data or for the width
+    # information.
+    #
+    # Here is an example:
+    # arrange_row((1..5).to_a, 2) =>
+    #    [[1,2], [3,4], [5]],
+    def arrange_rows(list, ncols, nrows)
+      (0...nrows).map {|r| list[r*ncols, ncols] }.compact
+    end
+
+    # Given +list+, +ncols+, +nrows+, arrange the one-dimensional
+    # array into a 2-dimensional lists of lists organized by columns.
+    #
+    # In either horizontal or vertical arrangement, we will need to
+    # access this for the list data or for the width
+    # information.
     #
     # Here is an example:
     # arrange_row_and_cols((1..5).to_a, 2) =>
-    #   [
-    #    [[1,2], [3,4], [5]],
     #    [[1,3,5], [2,4]]
-    #   ]
-    def arrange_rows_and_cols(list, ncols)
-      nrows = (list.size + ncols - 1) / ncols
-      rows = (0...nrows).map {|r| list[r*ncols, ncols] }
-      cols = rows[0].zip(*rows[1..-1]).map(&:compact)
-      [rows, cols]
+    def arrange_columns(list, ncols, nrows)
+      (0...ncols).map do |i|
+        (0..nrows-1).inject([]) do |row, j|
+          k = i + (j * ncols)
+          k < list.length ? row << list[k] : row
+        end
+      end
     end
 
     def set_attrs_from_opts
@@ -131,4 +154,11 @@ module Columnize
       @term_adjuster = @opts[:term_adjust] ? lambda {|c| c.gsub(/\e\[.*?m/, '') } : lambda {|c| c }
     end
   end
+end
+
+# Demo
+if __FILE__ == $0
+  Columnize::DEFAULT_OPTS = {:line_prefix => '', :displaywidth => 80}
+  puts Columnize::Columnizer.new.arrange_rows((1..5).to_a, 2, 3).inspect
+  puts Columnize::Columnizer.new.arrange_columns((1..5).to_a, 2, 3).inspect
 end
