@@ -93,16 +93,16 @@ class TestColumnizer < Test::Unit::TestCase
 
   # arrange_rows_and_cols
   def test_arrange_rows_and_cols
-    rows = Columnize::Columnizer.new.arrange_rows((1..9).to_a, 3, 3)
+    rows = Columnize::Columnizer.new.arrange_by_row((1..9).to_a, 3, 3)
     assert_equal [[1,2,3],[4,5,6],[7,8,9]], rows, 'rows for (1..9), 3, 3'
 
-    cols = Columnize::Columnizer.new.arrange_columns((1..9).to_a, 3, 3)
+    cols = Columnize::Columnizer.new.arrange_by_column((1..9).to_a, 3, 3)
     assert_equal [[1,4,7],[2,5,8],[3,6,9]], cols, 'cols for (1..9), 3, 3'
 
-    rows = Columnize::Columnizer.new.arrange_rows((1..5).to_a, 2, 6)
+    rows = Columnize::Columnizer.new.arrange_by_row((1..5).to_a, 3, 2)
     assert_equal [[1,2],[3,4],[5]], rows, 'rows for (1..5, 2, 3)'
 
-    cols = Columnize::Columnizer.new.arrange_columns((1..5).to_a, 2, 6)
+    cols = Columnize::Columnizer.new.arrange_by_column((1..5).to_a, 3, 2)
     assert_equal [[1,3,5],[2,4]],   cols, 'cols for (1..5, 2, 3)'
   end
 

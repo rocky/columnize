@@ -65,7 +65,7 @@ module Columnize
 
       # Set default arrangement: one atom per row
       cell_width_max = cell_widths.max
-      result = [arrange_rows(list, 1, list.size), [cell_width_max]]
+      result = [arrange_by_row(list, list.size, 1), [cell_width_max]]
 
       # If any atom > @displaywidth, stop and use one atom per row.
       return result if cell_width_max > @displaywidth
@@ -80,11 +80,6 @@ module Columnize
       # decreases. Also the roles of columns and rows are reversed
       # from horizontal arrangement.
 
-      # The below sets up the order of the lengths to try, +sizes+. It
-      # also sets up the row and column permutation to use, [0,1] or
-      # [1,0], which are stored in +ri+, +ci+ in accessing the tuple
-      # values passed back by arrange_rows_and_cols().
-
       # Loop from most compact arrangement to least compact, stopping
       # at the first successful packing.  The below code is tricky,
       # but very cool.
@@ -93,17 +88,19 @@ module Columnize
       # introduced when I revised the code - rocky)
       if @arrange_vertical
         (1..list.length).each do |size|
-          nrows = (list.size + size - 1) / size
-          colwidths = arrange_rows(cell_widths, size, nrows).map(&:max)
+          other_size = (list.size + size - 1) / size
+          colwidths = arrange_by_row(cell_widths, other_size, size).map(&:max)
           totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
-          return [arrange_columns(list, size, nrows), colwidths] if totwidth <= @displaywidth
+          return [arrange_by_column(list, other_size, size), colwidths] if
+            totwidth <= @displaywidth
         end
       else
         list.length.downto(1).each do |size|
-          nrows = (list.size + size - 1) / size
-          colwidths = arrange_columns(cell_widths, size, nrows).map(&:max)
+          other_size = (list.size + size - 1) / size
+          colwidths = arrange_by_column(cell_widths, other_size, size).map(&:max)
           totwidth = colwidths.inject(&:+) + ((colwidths.length-1) * @colsep.length)
-          return [arrange_rows(list, size, nrows), colwidths] if totwidth <= @displaywidth
+          return [arrange_by_row(list, other_size, size), colwidths] if
+            totwidth <= @displaywidth
         end
       end
       result
@@ -117,9 +114,9 @@ module Columnize
     # information.
     #
     # Here is an example:
-    # arrange_row((1..5).to_a, 2, 3) =>
+    # arrange_by_row((1..5).to_a, 3, 2) =>
     #    [[1,2], [3,4], [5]],
-    def arrange_rows(list, ncols, nrows)
+    def arrange_by_row(list, nrows, ncols)
       (0...nrows).map {|r| list[r*ncols, ncols] }.compact
     end
 
@@ -131,9 +128,9 @@ module Columnize
     # information.
     #
     # Here is an example:
-    # arrange_row_and_cols((1..5).to_a, 2, 3) =>
+    # arrange_by_column((1..5).to_a, 2, 3) =>
     #    [[1,3,5], [2,4]]
-    def arrange_columns(list, ncols, nrows)
+    def arrange_by_column(list, nrows, ncols)
       (0...ncols).map do |i|
         (0..nrows-1).inject([]) do |row, j|
           k = i + (j * ncols)
@@ -157,6 +154,6 @@ end
 # Demo
 if __FILE__ == $0
   Columnize::DEFAULT_OPTS = {:line_prefix => '', :displaywidth => 80}
-  puts Columnize::Columnizer.new.arrange_rows((1..5).to_a, 2, 3).inspect
-  puts Columnize::Columnizer.new.arrange_columns((1..5).to_a, 2, 3).inspect
+  puts Columnize::Columnizer.new.arrange_by_row((1..5).to_a, 2, 3).inspect
+  puts Columnize::Columnizer.new.arrange_by_column((1..5).to_a, 2, 3).inspect
 end
