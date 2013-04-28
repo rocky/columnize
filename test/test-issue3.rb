@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'test/unit'
 
-# Test of Columnize module
+# Test of Columnize module for github issue #3
 class TestIssue3 < Test::Unit::TestCase
   @@TOP_SRC_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
   require File.join(@@TOP_SRC_DIR, 'columnize.rb')
