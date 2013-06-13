@@ -33,7 +33,7 @@ require 'rake/testtask'
 desc "Test everything."
 Rake::TestTask.new(:test) do |t|
   t.libs << './lib'
-  t.pattern = 'test/test-*.rb'
+  t.test_files = FileList['test/test-*.rb']
   t.verbose = true
 end
 task :test => :lib
