@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rocky/columnize.png)](https://travis-ci.org/rocky/columnize)
+
 Columnize - Format an Array as a Column-aligned String
 ============================================================================
 
