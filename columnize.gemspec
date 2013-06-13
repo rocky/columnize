@@ -1,9 +1,9 @@
 # -*- Ruby -*-
 # -*- encoding: utf-8 -*-
 require 'rake'
-require 'rubygems' unless 
+require 'rubygems' unless
   Object.const_defined?(:Gem)
-require File.dirname(__FILE__) + "/lib/columnize/version" unless 
+require File.dirname(__FILE__) + "/lib/columnize/version" unless
   Object.const_defined?(:'Columnize')
 
 Gem::Specification.new do |spec|
@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description  = '
 In showing a long lists, sometimes one would prefer to see the value
 arranged aligned in columns. Some examples include listing methods
-of an object or debugger commands. 
+of an object or debugger commands.
 See Examples in the rdoc documentation for examples.
 '
   spec.email        = 'rockyb@rubyforge.net'
@@ -33,4 +33,5 @@ See Examples in the rdoc documentation for examples.
   spec.rdoc_options += %w(--main README)
   spec.rdoc_options += ['--title', "Columnize #{Columnize::VERSION} Documentation"]
 
+  spec.add_development_dependency 'rdoc'
 end
