@@ -1,8 +1,5 @@
 # -*- Ruby -*-
 # -*- encoding: utf-8 -*-
-require 'rake'
-require 'rubygems' unless
-  Object.const_defined?(:Gem)
 require File.dirname(__FILE__) + "/lib/columnize/version" unless
   Object.const_defined?(:'Columnize')
 
@@ -34,5 +31,5 @@ See Examples in the rdoc documentation for examples.
   spec.rdoc_options += ['--title', "Columnize #{Columnize::VERSION} Documentation"]
 
   spec.add_development_dependency 'rdoc'
-  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rake', '~> 10.1.0'
 end
