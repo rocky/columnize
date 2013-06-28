@@ -7,7 +7,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     json (1.8.0)
-    rake (10.0.4)
+    rake (10.1.0)
     rdoc (4.0.1)
       json (~> 1.4)
 
@@ -16,5 +16,5 @@ PLATFORMS
 
 DEPENDENCIES
   columnize!
-  rake
+  rake (~> 10.1.0)
   rdoc
