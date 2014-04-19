@@ -41,6 +41,9 @@ task :test => :lib
 desc "same as test"
 task :check => :test
 
+desc "same as test"
+task :columnize => :test
+
 desc 'Create a GNU-style ChangeLog via git2cl'
 task :ChangeLog do
   system('git log --pretty --numstat --summary | git2cl > ChangeLog')
