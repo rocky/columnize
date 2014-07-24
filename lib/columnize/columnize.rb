@@ -60,7 +60,7 @@ module Columnize
     # TODO: make this a method, rather than a function (?)
     # compute the smallest number of rows and the max widths for each column
     def min_rows_and_colwidths
-      list = @list.map &@stringify
+      list = @list.map(&@stringify)
       cell_widths = list.map(&@term_adjuster).map(&:size)
 
       # Set default arrangement: one atom per row
