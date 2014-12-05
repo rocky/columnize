@@ -1,3 +1,7 @@
+0.9.0 Dec 5, 2014  - Early gecko
+
+- Remove ruby warnings when $VERBOSE=true and in Ruby 2.0 and 2.1
+
 0.8.9 Apr 19, 2014
 - Add columnize method to Array class and a place to set its default options
 - Add option :colfmt to allow a format specifier to use (e.g. '%02d') in stringifying
