@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/rocky/columnize.png)](https://travis-ci.org/rocky/columnize)
+[![Build Status](https://travis-ci.org/rocky/columnize.png)](https://travis-ci.org/rocky/columnize) [![Gem Version](https://badge.fury.io/rb/columnize.svg)](http://badge.fury.io/rb/columnize)
 
 Columnize - Format an Array as a Column-aligned String
 ============================================================================
