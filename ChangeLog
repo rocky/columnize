@@ -1,3 +1,510 @@
+2014-12-05  rocky <rockyb@rubyforge.org>
+
+	* Gemfile.lock, lib/columnize/version.rb: 1st attempt to fix travis
+
+2014-12-05  rocky <rockyb@rubyforge.org>
+
+	* NEWS, lib/columnize/version.rb: Get ready for release 0.9.0 -
+	fixes issue #12
+
+2014-12-05  rocky <rockyb@rubyforge.org>
+
+	* : commit f1d011404b88cbd998296437c07dcb12ec78e3bc Author: rocky
+	<rockyb@rubyforge.org> Date:   Fri Dec 5 17:43:31 2014 -0500
+
+2014-07-24  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #11 from ma2shita/fixed-syntax Fixed the Array#map parameter syntax
+
+2014-04-19  rocky <rockyb@rubyforge.org>
+
+	* .travis.yml: Don't know how get travis to deal with rubinius - so
+	leave off for now. I've tested it independently
+
+2014-04-19  rocky <rockyb@rubyforge.org>
+
+	* : commit a23d6772234207e789bb21b99a5e2942599389cc Author: rocky
+	<rockyb@rubyforge.org> Date:   Sat Apr 19 10:33:24 2014 -0400
+
+2013-06-28  R. Bernstein <rockyb@rubyforge.org>
+
+	* : Merge pull request #9 from deivid-rodriguez/fix_travis Fix travis build. rb: sorry for the delay
+
+2013-06-25  David Rodríguez de Dios <deivid.rodriguez@gmail.com>
+
+	* Gemfile.lock, columnize.gemspec: Try to fix travis builds
+
+2013-06-14  rocky <rockyb@rubyforge.org>
+
+	* README.md: Try a coderwall endorse
+
+2013-06-13  rocky <rockyb@rubyforge.org>
+
+	* .travis.yml: I have a soft sport for rubinius
+
+2013-06-13  R. Bernstein <rockyb@rubyforge.org>
+
+	* : Merge pull request #8 from deivid-rodriguez/travis-build Travis build
+
+2013-06-13  David Rodríguez de Dios <deivid.rodriguez@gmail.com>
+
+	* Gemfile.lock: Add rake to gemspec
+
+2013-06-13  David Rodríguez de Dios <deivid.rodriguez@gmail.com>
+
+	* columnize.gemspec: Add rake to gemspec
+
+2013-06-13  David Rodríguez de Dios <deivid.rodriguez@gmail.com>
+
+	* .travis.yml, Gemfile, Gemfile.lock, columnize.gemspec: Try fix
+	travis for 1.8.7 and 2.0.0
+
+2013-06-13  rocky <rockyb@rubyforge.org>
+
+	* README.md: Add travis status indicator
+
+2013-06-13  rocky <rockyb@rubyforge.org>
+
+	* .travis.yml: Don't try with 1.8.7 until I know how to get a later
+	rdoc version in there
+
+2013-06-13  rocky <rockyb@rubyforge.org>
+
+	* .travis.yml: Specify rdoc version
+
+2013-06-13  rocky <rockyb@rubyforge.org>
+
+	* .travis.yml, Rakefile: Try travis again
+
+2013-04-29  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize/version.rb: 0.8.9 in advance of 0.9.0 in advance of
+	1.0.0
+
+2013-04-28  rocky <rockyb@rubyforge.org>
+
+	* test/test-compute_rows_and_colwidths.rb, test/test-issue3.rb,
+	test/test-min_rows_and_colwidths.rb: DRY min_rows_and_colwidths
+	tests.
+
+2013-04-28  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize/columnize.rb, test/test-columnizer.rb: arrange_rows
+	-> arrange_by_row; arrange_columns -> arrange_by_column
+
+2013-04-27  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize/columnize.rb: Small code tweak.
+
+2013-04-27  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize/columnize.rb, test/test-columnizer.rb,
+	test/test-compute_rows_and_colwidths.rb: compute_rows_and_colwidths
+	-> min_rows_and_colwidths
+
+2013-04-27  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize/columnize.rb: Doc arg parameter omission
+
+2013-04-27  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize.rb, test/test-columnize-array.rb: Backwards
+	compatibility from Martin Davis. Thanks, Martin!
+
+2013-04-27  rocky <rockyb@rubyforge.org>
+
+	* COPYING, README.md, lib/columnize/columnize.rb,
+	test/test-columnizer.rb: Split out arrange_rows and arrange_columns.
+	Try to make COPYING consistent.
+
+2013-04-27  R. Bernstein <rockyb@rubyforge.org>
+
+	* : Merge pull request #7 from deivid-rodriguez/master Hmm. Thought i had fixed that when I sent the instructions. Must not
+	have pushed it.  Well, okay. Done now
+
+2013-04-27  David Rodríguez de Dios <deivid.rodriguez@gmail.com>
+
+	* Rakefile: Correct error preventing gem to be built
+
+2013-04-26  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize/version.rb: Go back version just a tad. We'll make
+	1.0.0 on release
+
+2013-04-26  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize/columnize.rb: Small variable name change.
+
+2013-04-26  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize/columnize.rb, test/test-columnize-array.rb: 
+	test-columnize-array.rb: you gotta set the displaywidth!
+	columnize.rb: more doc tweaking.
+
+2013-04-26  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize/columnize.rb: Attempt to decompress cool but cryptic
+	code.
+
+2013-04-25  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize/columnize.rb, test/test-columnizer.rb: Better
+	name/comment for rows and columns routine and a better test for it.
+
+2013-03-25  R. Bernstein <rockyb@rubyforge.org>
+
+	* : Merge pull request #5 from waslogic/master patches applied, ready to roll
+
+2013-03-24  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize.rb, lib/columnize/columnize.rb,
+	test/test-columnizer.rb: Some small doc changes and but mostly add
+	in Martin's explanation in email.  Signed-off-by: rocky <rockyb@rubyforge.org> Signed-off-by: waslogic
+	<waslogic@gmail.com>
+
+2013-03-24  rocky <rockyb@rubyforge.org>
+
+	* test/test-columnize-array.rb, test/test-columnize.rb,
+	test/test-compute_rows_and_colwidths.rb: Make sure this works when
+	environment COLUMNS starts out not 80 Signed-off-by: rocky <rockyb@rubyforge.org> Signed-off-by: waslogic
+	<waslogic@gmail.com>
+
+2013-03-21  waslogic <waslogic@gmail.com>
+
+	* README.md: updated readmed so examples reflect new output
+
+2013-03-21  waslogic <waslogic@gmail.com>
+
+	* lib/columnize/columnize.rb, lib/columnize/opts.rb,
+	test/test-columnize-array.rb, test/test-columnize.rb,
+	test/test-columnizer.rb, test/test-hashparm.rb, test/test-issue3.rb: 
+	changed the default behavior such that prefixes no longer have to
+	include an explicit newline; also, array_suffix replaces the final
+	line_suffix in order to eliminate extra commas, etc in arrange_array
+	mode
+
+2013-03-21  waslogic <waslogic@gmail.com>
+
+	* README.md: putting authors on one line
+
+2013-03-21  waslogic <waslogic@gmail.com>
+
+	* README.md: fixing link in authors
+
+2013-03-21  waslogic <waslogic@gmail.com>
+
+	* README.md: updated README.md to show use with new mixin and
+	singleton methods
+
+2013-03-20  waslogic <waslogic@gmail.com>
+
+	* lib/columnize/version.rb: set version to 1.0.0
+
+2013-03-20  waslogic <waslogic@gmail.com>
+
+	* lib/columnize.rb: updated the demo code to work
+
+2013-03-20  waslogic <waslogic@gmail.com>
+
+	* lib/columnize.rb, lib/columnize/columnize.rb,
+	lib/columnize/opts.rb, test/test-hashparm.rb: all tests passing.
+	mixxin for array working (basic, but sane)
+
+2013-03-20  waslogic <waslogic@gmail.com>
+
+	* lib/columnize.rb, lib/columnize/opts.rb,
+	test/test-columnize-array.rb: have to commit with tests failing
+	because I need to go; this is the start of the new include structure
+
+2013-03-20  waslogic <waslogic@gmail.com>
+
+	* lib/columnize/columnize.rb, test/test-columnizer.rb: now using the
+	passed in opts hash as an interface for the class which allows a
+	single instance to more easily be reused; next up, freezing the
+	@opts hash to make sure that the interface is obeyed rather than
+	abused
+
+2013-03-19  waslogic <waslogic@gmail.com>
+
+	* lib/columnize/columnize.rb, test/test-columnizer.rb: added some
+	convenience methods for setting list and opts, also, for updating
+	opts
+
+2013-03-19  waslogic <waslogic@gmail.com>
+
+	* lib/columnize/columnize.rb, lib/columnize/opts.rb,
+	test/test-columnize.rb, test/test-columnizer.rb,
+	test/test-compute_rows_and_colwidths.rb, test/test-hashparm.rb,
+	test/test-rows_and_cols.rb: added a test file for columnizer to
+	explictly test the class; moved some tests out of other files into
+	columnizer; renamed some options to better match each other
+
+2013-03-18  waslogic <waslogic@gmail.com>
+
+	* lib/columnize.rb, lib/columnize/columnize.rb,
+	lib/columnize/opts.rb: refactoring such that the module retains the
+	old interface, which it delegates to the new Columnizer class; once
+	I am happy with that class, I want to build an interface for
+	including the module into Array (and other Array-like objects)
+
+2013-03-18  waslogic <waslogic@gmail.com>
+
+	* lib/columnize.rb, lib/columnize/columnize.rb,
+	test/test-columnize.rb, test/test-rows_and_cols.rb: 
+	compartmentalizing things into a Columnizer object
+
+2013-03-18  waslogic <waslogic@gmail.com>
+
+	* lib/columnize.rb, lib/columnize/columnize.rb,
+	lib/columnize/opts.rb, test/test-columnize-array.rb,
+	test/test-columnize.rb, test/test-hashparm.rb: making a commit
+	before I completely refactor everything to use an internal class
+
+2013-03-18  waslogic <waslogic@gmail.com>
+
+	* lib/columnize.rb: oops, forgot to change the include statement to
+	reflect the name change
+
+2013-03-18  waslogic <waslogic@gmail.com>
+
+	* lib/columnize.rb, lib/columnize/columnize.rb,
+	lib/columnize/horizontal.rb, lib/columnize/opts.rb: making the base
+	columnize.rb file as basic as possible; also, started on the idea
+	that parse_columnize_opts should return self as list if self.class
+	has Columnize included; lastly, renamed horizontal.rb to
+	columnize.rb since there is no longer a horizontal and a vertical
+	function
+
+2013-03-14  waslogic <waslogic@gmail.com>
+
+	* lib/columnize/opts.rb: small refactors to opts.rb
+
+2013-03-13  waslogic <waslogic@gmail.com>
+
+	* lib/columnize.rb, lib/columnize/horizontal.rb,
+	lib/columnize/vertical.rb, test/test-rows_and_cols.rb: refactored
+	vertical out of existance.  this pleases me.
+
+2013-03-13  waslogic <waslogic@gmail.com>
+
+	* lib/columnize/horizontal.rb, lib/columnize/vertical.rb: starting
+	to understand the relationship between rows and columns better
+
+2013-03-13  waslogic <waslogic@gmail.com>
+
+	* lib/columnize/vertical.rb: still working on understanding
+	vertical.rb
+
+2013-03-12  waslogic <waslogic@gmail.com>
+
+	* AUTHORS, lib/columnize/vertical.rb, test/test-rows_and_cols.rb: 
+	started refactoring vertical.rb; it's going to be harder than
+	horizontal, possibly
+
+2013-03-12  waslogic <waslogic@gmail.com>
+
+	* lib/columnize/horizontal.rb, test/test-columnize-array.rb: 
+	refactoring horizontal: final pass for now.  quite happy with how it
+	turned out.  Also, broke apart tests in test-columnize-array.rb
+
+2013-03-12  waslogic <waslogic@gmail.com>
+
+	* lib/columnize/horizontal.rb, test/test-columnize.rb,
+	test/test-hashparm.rb, test/test-issue3.rb,
+	test/test-rows_and_cols.rb: refactoring horizontal.rb; updated logic
+	for compute_rows_cols_and_widths to be more succinct
+
+2013-03-12  waslogic <waslogic@gmail.com>
+
+	* lib/columnize/horizontal.rb, test/test-rows_and_cols.rb: 
+	refactoring horizontal; adding tests for compute_rows_cols_and_width
+
+2013-03-11  waslogic <waslogic@gmail.com>
+
+	* lib/columnize.rb, lib/columnize/horizontal.rb,
+	lib/columnize/opts.rb: first pass at a refactor; starting with
+	breaking down large methods into smaller
+
+2013-03-10  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize.rb, lib/columnize/opts.rb: A more clever
+	displaywidth default setting
+
+2013-03-09  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize.rb, lib/columnize/horizontal.rb,
+	lib/columnize/vertical.rb: Miscelleaneous small changes
+
+2013-03-09  rocky <rockyb@rubyforge.org>
+
+	* columnize.gemspec, lib/columnize.rb, lib/columnize/horizontal.rb,
+	lib/columnize/opts.rb, lib/columnize/vertical.rb: Break out
+	submodules for processign options, and columnizing in the horizontal
+	or vertical directions.
+
+2013-03-09  rocky <rockyb@rubyforge.org>
+
+	* Makefile, lib/columnize.rb: columnize.rb: some module function
+	text got bolixed. Makefile: allow specifying which rake
+
+2013-03-09  rocky <rockyb@rubyforge.org>
+
+	* THANKS, columnize.gemspec: Add THANKS. Why did it take me this
+	long to start doing it?
+
+2013-03-09  rocky <rockyb@rubyforge.org>
+
+	* NEWS, lib/columnize.rb, test/test-columnize-array.rb,
+	test/test-hashparm.rb: Add option :colfmt to allow a format
+	specifier to use (e.g. '%02d') in stringifying list items; Add
+	option linesuffix (default is "\n").  When using arrange_array each
+	line now has trailing ","
+
+2013-03-07  rocky <rockyb@rubyforge.org>
+
+	* NEWS, lib/columnize.rb, lib/columnize/version.rb,
+	test/test-columnize-array.rb, test/test-columnize.rb: Extend Array
+	for a columnize method and add a way to set the default columnize
+	options in that class
+
+2013-02-22  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize.rb: Remove relying on outer lexically scoped "ncols"
+
+2013-02-22  rocky <rockyb@rubyforge.org>
+
+	* Rakefile: Track the ever changing rake build system. This benefits
+	who?
+
+2013-02-22  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize.rb: Small change to move var define close to use and
+	make tracking "go" code easier
+
+2013-02-22  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize.rb: Some small comment fixes/improvements
+
+2011-12-17  rocky <rockyb@rubyforge.org>
+
+	* NEWS: Get ready for 0.3.6 release
+
+2011-12-17  rocky <rockyb@rubyforge.org>
+
+	* .gitignore, Makefile, Rakefile, columnize.gemspec, lib/Makefile,
+	lib/columnize/Makefile, lib/columnize/version.rb, lib/version.rb: 
+	Move lib/version.rb to lib/columnize/version.rb so version gem
+	(version.rb) doesn't conflict. Issue #4.
+
+2011-11-24  rocky <rockyb@rubyforge.org>
+
+	* NEWS, lib/version.rb: Get ready for 0.3.5 release.
+
+2011-11-24  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize.rb, test/test-issue3.rb: More tests where an item is
+	larger than the display width.
+
+2011-11-15  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize.rb, test/test-issue3.rb: Don't consider 0 columns.
+	Issue #3.
+
+2011-10-08  rocky <rockyb@rubyforge.org>
+
+	* README.md: Revise email address - we're not in Perl land.
+
+2011-10-08  rocky <rockyb@rubyforge.org>
+
+	* : commit 5d348a34bf1f9c4bbc6dd1141955e8a894bbd51f Author: rocky
+	<rockyb@rubyforge.org> Date:   Sat Oct 8 18:19:59 2011 -0400
+
+2011-08-08  r <rocky@gnu.org>
+
+	* Makefile, README.md, lib/columnize.rb: Small improvements.
+
+2011-08-07  rocky <rockyb@rubyforge.org>
+
+	* README.md: One more wafer-thin formatting change
+
+2011-08-07  rocky <rockyb@rubyforge.org>
+
+	* README, README.md, columnize.gemspec: Markdown README
+
+2011-08-07  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize.rb: array_prefix excludes lineprefix even on one
+	item
+
+2011-08-07  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize.rb: Use newer interface in inline coliumnize demo
+	code.
+
+2011-08-07  r <rocky@gnu.org>
+
+	* lib/columnize.rb: Use array_prefix and suffix on one-element
+	array. Tidy code.
+
+2011-08-06  r <rocky@gnu.org>
+
+	* lib/columnize.rb: Remove flaky logic in setting displaywidth.
+	Reduce difference to Perl version which also tends to shorten code.
+
+2011-07-05  rocky <rockyb@rubyforge.org>
+
+	* lib/columnize.rb, lib/version.rb: Bump version number and remove
+	some rdoc schmutz.
+
+2011-07-05  rocky <rockyb@rubyforge.org>
+
+	* : commit 2d1485338ab29fd68ed974a6d0080c43e627e0ff Author: rocky
+	<rockyb@rubyforge.org> Date:   Tue Jul 5 19:13:08 2011 -0400
+
+2011-07-05  rocky <rockyb@rubyforge.org>
+
+	* columnize.gemspec: Update columnize.gemspec to give a better
+	example.
+
+2011-07-05  rocky <rockyb@rubyforge.org>
+
+	* NEWS, README, README.md, columnize.gemspec, lib/columnize.rb,
+	lib/version.rb, test/test-hashparm.rb: Get ready for release: Go
+	over rdoc, NEWS, bump version number and add some more tests.
+
+2011-07-04  rocky <rockyb@rubyforge.org>
+
+	* columnize.gemspec, lib/columnize.rb, lib/version.rb,
+	test/test-hashparm.rb: Add arrange_array option.
+
+2011-07-03  rocky <rockyb@rubyforge.org>
+
+	* .gemspec, Rakefile, columnize.gemspec, lib/columnize.rb,
+	lib/version.rb: More rdoc hacking. .gemspec -> columnize.gemspec
+	which seems to be the norm now.
+
+2011-07-03  r <rocky@gnu.org>
+
+	* .gitignore, lib/columnize.rb: Work a little on RDoc documentation.
+
+2011-07-03  r <rocky@gnu.org>
+
+	* .gemspec, COPYING, NEWS, lib/columnize.rb, test/test-hashparm.rb: 
+	COPYING: GPL2 or Ruby now .gemspec: source is now on github, get
+	file list from git. Change License.  test-hashparm.rb: add hash
+	parsing test.  lib/columnize.rb: one more place we need adjust for
+	the term_adjust option.  NEWS: what's up.
+
+2011-07-01  r <rocky@gnu.org>
+
+	* lib/columnize.rb, lib/version.rb, test/test-columnize.rb: Add
+	option for dealing with terminal escape sequences. Start to change
+	license. Bump version.
+
+2011-06-11  rocky <rockyb@rubyforge.org>
+
+	* ChangeLog, NEWS, lib/version.rb: Get ready for 0.3.3 release.
+
 2011-06-09  rocky <rockyb@rubyforge.org>
 
 	* ChangeLog, NEWS, Rakefile: Get ready for new release.
@@ -67,8 +574,8 @@
 	* trunk/ChangeLog, trunk/Makefile, trunk/NEWS, trunk/README,
 	trunk/Rakefile, trunk/VERSION, trunk/lib/Makefile,
 	trunk/lib/columnize.rb, trunk/lib/version.rb: Add .gemspec, correct
-	description field and add a summary. Add Columnize::VERSION Simplify
-	Rakefile Add stub Makefiles
+	description field and add a summary.  Add Columnize::VERSION
+	Simplify Rakefile Add stub Makefiles
 
 2010-03-01  rockyb <rockyb>
 
@@ -189,10 +696,6 @@
 
 2009-01-01  rockyb <rockyb>
 
-	* trunk/NEWS, trunk/VERSION: Ooops 0.2 release done. Go for 0.2.1
-
-2009-01-01  rockyb <rockyb>
-
 	* trunk/ChangeLog: Get ready for release 0.2
 
 2009-01-01  rockyb <rockyb>
@@ -217,11 +720,6 @@
 2008-09-22  rockyb <rockyb>
 
 	* : Add tags directory for release
-
-2008-09-22  rockyb <rockyb>
-
-	* columnize/trunk/ChangeLog, columnize/trunk/NEWS: Add directory for
-	tagging releases. Other Administrivia.
 
 2008-09-22  rockyb <rockyb>
 
@@ -263,8 +761,8 @@
 	* trunk/ChangeLog, trunk/lib/columnize.rb,
 	trunk/test/test-columnize.rb: columnize.rb: Allow one to specify a
 	separator string. Remove restriction that all entries in the array
-	have to be a string. test-columnize.rb: more tests - invalid list,
-	empty list, with separator   string parameter.
+	have to be a string.  test-columnize.rb: more tests - invalid list,
+	  empty list, with separator string parameter.
 
 2007-12-09  rockyb <rockyb>
 
@@ -274,9 +772,4 @@
 
 	* : Property changes for Id lines and to make test-columnize.rb
 	executable.
-
-2007-12-09  rockyb <rockyb>
-
-	* Initial release of Columnize, a module to print an Array in
-	column-sorted order.
 
