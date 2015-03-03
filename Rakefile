@@ -4,6 +4,7 @@ require 'rubygems'
 require 'fileutils'
 
 ROOT_DIR = File.dirname(__FILE__)
+GEM_PROG = ENV['GEM_PROG'] || 'gem'
 Gemspec_filename = 'columnize.gemspec'
 require File.join %W(#{ROOT_DIR} lib columnize version)
 
@@ -16,7 +17,7 @@ desc "Build the gem"
 task :package=>:gem
 task :gem=>:gemspec do
   Dir.chdir(ROOT_DIR) do
-    sh "gem build columnize.gemspec"
+    sh "#{GEM_PROG} build columnize.gemspec"
     FileUtils.mkdir_p 'pkg'
     FileUtils.mv gemspec.file_name, 'pkg'
   end

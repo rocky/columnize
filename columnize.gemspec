@@ -30,6 +30,6 @@ See Examples in the rdoc documentation for examples.
   spec.rdoc_options += %w(--main README)
   spec.rdoc_options += ['--title', "Columnize #{Columnize::VERSION} Documentation"]
 
-  spec.add_development_dependency 'rdoc'
-  spec.add_development_dependency 'rake', '~> 10.1.0'
+  spec.add_development_dependency 'rdoc', '~> 0'
+  spec.add_development_dependency 'rake', '~> 10.1.0', '~> 10.1'
 end
