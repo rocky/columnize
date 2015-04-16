@@ -25,9 +25,9 @@ With numeric data
     => "1  2  3  4  5  6  7  8  9  10"
 
     >> puts a.columnize :arrange_array => true, :displaywidth => 10
-    [1, 2, 3,
-     4, 5, 6,
-     7, 8, 9,
+    [  1, 2, 3,
+       4, 5, 6,
+       7, 8, 9,
      10]
     => nil
 
@@ -51,18 +51,18 @@ With String data
     => nil
 
     >> puts g.columnize :displaywidth => 19, :colsep => ' | '
-    bibrons  | suras
-    golden   | tokay
-    madascar
-    leopard
-    mourning
-    => nil
-
-    >> puts g.columnize :displaywidth => 18, :colsep => ' | ', :ljust => false
     bibrons  | mourning
     golden   | suras
     madascar | tokay
     leopard
+    => nil
+
+    >> puts g.columnize :displaywidth => 18, :colsep => ' | ', :ljust => false
+     bibrons | suras
+      golden | tokay
+    madascar
+     leopard
+    mourning
     => nil
 
 Using Columnize.columnize
