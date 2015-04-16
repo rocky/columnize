@@ -11,9 +11,11 @@ aligned.
 Setup
 -----
 
+```ruby
     $ irb
     >> require 'columnize'
     => true
+```
 
 With numeric data
 -----------------
