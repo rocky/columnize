@@ -31,5 +31,6 @@ See Examples in the rdoc documentation for examples.
   spec.rdoc_options += ['--title', "Columnize #{Columnize::VERSION} Documentation"]
 
   spec.add_development_dependency 'rdoc', '~> 0'
-  spec.add_development_dependency 'rake', '~> 10.1.0', '~> 10.1'
+  spec.add_development_dependency 'rake', '>= 12.3.3'
+  spec.add_development_dependency 'test-unit', '>= 3.3.5'
 end
