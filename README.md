@@ -101,13 +101,6 @@ Credits
 
 This is adapted from a method of the same name from Python's cmd module.
 
-Other stuff
------------
-
-Authors:   Rocky Bernstein <rockyb@rubyforge.org> [![endorse](https://api.coderwall.com/rocky/endorsecount.png)](https://coderwall.com/rocky) and [Martin Davis](https://github.com/waslogic)
-
-License:   Copyright (c) 2011,2013, 2020 Rocky Bernstein
-
 Security contact information
 -----------------------------
 
@@ -118,3 +111,10 @@ Warranty
 
 You can redistribute it and/or modify it under either the terms of the GPL
 version 2 or the conditions listed in COPYING
+
+Other stuff
+-----------
+
+Authors:   Rocky Bernstein <rockyb@rubyforge.org> and [Martin Davis](https://github.com/waslogic)
+
+License:   Copyright (c) 2011,2013, 2020 Rocky Bernstein
