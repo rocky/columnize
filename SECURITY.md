@@ -9,4 +9,4 @@
 
 ## Reporting a Vulnerability
 
-We are using the [Tidelift security policy](https://tidelift.com/docs/security) which contains information on how to report vulnverabilites.
+We are using the [Tidelift security policy](https://tidelift.com/docs/security) which contains information on how to report vulnerabilites.
