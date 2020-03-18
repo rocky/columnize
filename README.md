@@ -106,7 +106,12 @@ Other stuff
 
 Authors:   Rocky Bernstein <rockyb@rubyforge.org> [![endorse](https://api.coderwall.com/rocky/endorsecount.png)](https://coderwall.com/rocky) and [Martin Davis](https://github.com/waslogic)
 
-License:   Copyright (c) 2011,2013 Rocky Bernstein
+License:   Copyright (c) 2011,2013, 2020 Rocky Bernstein
+
+Security contact information
+-----------------------------
+
+To report a security vulnerability, please use the [Tidelift security contact](https://tidelift.com/security). Tidelift will coordinate the fix and disclosure.
 
 Warranty
 --------
