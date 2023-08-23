@@ -1,0 +1,18 @@
+Update Changelog
+  rm Changelog && make Changelog
+Update NEWS (see Changelog)
+COL_VERSION=0.9.1
+change version number in lib/columnize/version.rb
+  VERSION = '0.9.1'
+rake test
+sudo rake install
+rake package (and look at package)
+echo git tag release-${COL_VERSION}
+  and then do it
+git push --tags
+
+Copy gem to another machine, install and test!
+
+gem push pkg/columnize-${COL_VERSION}.gem
+change version number in lib/columnize/version.rb
+  VERSION = '0.9.1.dev
